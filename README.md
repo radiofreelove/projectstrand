@@ -26,6 +26,7 @@ The process to fix that is split across courts and agencies that each explain on
 | `data/facts.yml` | Numbers that change, like fees, each tied to its source. |
 | `data/pages.yml`, `data/site.yml` | Page list and site settings. |
 | `static/` | CSS, JavaScript, and the favicon. No third-party code. |
+| `scripts/make_mark.py` | Draws the mark (the header logo and the favicon). |
 | `build.py` | Builds the site into `public/`. Fails if a page cites a source or fact that does not exist. |
 | `tests/` | Structure, contrast, reading level, browser, axe-core, freshness, and link checks. |
 | `docs/` | Vision, methodology, research memos, decisions, accessibility, privacy, and the audit log. |
@@ -67,7 +68,10 @@ Open an issue on GitHub and pick a template. Please do not include personal deta
 
 ## License
 
-Proposed, pending the maintainer's decision: code under the [MIT License](LICENSE) and written content under [CC BY 4.0](LICENSE-CONTENT.md). Third-party tools and fonts are listed in [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
+- **Writing** (the words on the site and in this repository's documents): [Creative Commons Attribution 4.0 International (CC BY 4.0)](LICENSE-CONTENT).
+- **Code** (build scripts, tests, CSS, JavaScript, and template markup): [MIT License](LICENSE).
+
+You can copy, share, and adapt the guide. Credit us like this: "The Strand Project (https://projectstrand.pages.dev), CC BY 4.0." [docs/REUSING.md](docs/REUSING.md) explains what each license covers, how to credit us, and what neither one covers. Third-party tools and fonts are listed in [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
 
 ## Not legal advice
 

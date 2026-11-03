@@ -2,6 +2,12 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.1-beta (2026-11-03)
+
+- A slightly updated mark: the strand is now two twisted fibers, white and green. It now prints correctly and follows Windows high contrast themes.
+- Licenses adopted: the writing is shared under CC BY 4.0 and the code under the MIT License. The About page explains how to reuse the guide and credit it.
+- Build tools updated: four GitHub Actions and MarkupSafe.
+
 ## 0.1.0-beta (2026-11-03)
 
 First beta, for private review.

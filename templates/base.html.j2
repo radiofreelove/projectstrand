@@ -85,7 +85,7 @@
         <li><a href="{{ repo_url }}" rel="noreferrer">How this site is made (source and audit trail)</a></li>
       </ul>
     </nav>
-    <p class="build-line">Version {{ site.version }}. Built from commit <code>{{ build_commit[:8] }}</code>. <a href="{{ base_path if page.slug == '404' else '' }}build-report.json">Build report</a>. Content license: CC BY 4.0 (proposed).</p>
+    <p class="build-line">Version {{ site.version }}. Built from commit <code>{{ build_commit[:8] }}</code>. <a href="{{ base_path if page.slug == '404' else '' }}build-report.json">Build report</a>. Writing: <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noreferrer">CC BY 4.0<span class="vh"> (outside site)</span></a>. Code: MIT. <a href="{{ page_url('about#license') }}">Reuse this guide</a>.</p>
   </div>
 </footer>
 

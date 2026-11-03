@@ -2,6 +2,14 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (later): updates merged, new mark, licenses adopted (0.1.1-beta)
+
+- Merged Dependabot's five update proposals after reading their release notes: actions/checkout 4 to 7 (#2), actions/setup-python 5 to 7 (#4), actions/upload-artifact 4 to 7 (#3), actions/download-artifact 4 to 8 (#5), and MarkupSafe 3.0.3 to 3.0.4 (#1). The breaking changes they list (Node 24 runners, new checkout rules for `pull_request_target`, digest checks on download) do not affect this workflow. Each new version had already run cleanly on its own pull request. The failed checks there came from the pull requests' older starting commit, before the browser and axe fixes.
+- #2 changes lines next to the ones #4 and #5 change, so it went last: Dependabot rebased it, and its checks passed on all five changes together. On `main` at `1b8f989`, build and fast checks, browser checks, axe-core, and the Cloudflare deploy passed. Runs for two in-between commits were cancelled by the workflow's concurrency rule, as designed.
+- New mark (ADR-0009): two twisted fibers, white and willamette green, drawn by `scripts/make_mark.py`. `tests/contrast.py` now also checks the mark's colors and the current-page underline against each header background. Green: 5.26:1 on the light theme's indigo, 9.25:1 on the dark theme's header, 10.37:1 on high contrast black. Gold: 7.09:1 or more.
+- Fixed: the mark disappeared in print (white on white) and in light Windows high contrast themes. Checked by screenshot in the light, dark, and high contrast themes, in print, and with forced colors emulated in Chromium (dark and light).
+- Licenses adopted (ADR-0008). `LICENSE` is now the plain MIT text; GitHub had labeled it "Other" because of a note added at the end. `LICENSE-CONTENT` holds the full CC BY 4.0 legal code. New: `docs/REUSING.md`, a licensing section in `CONTRIBUTING.md`, the license line in every footer, and "Reuse this guide" on the About page.
+
 ## 2026-11-03 (later): re-trigger after a silent push
 
 - Commit `962fb69` (font pin and table links) built and deployed on Cloudflare Pages; Cloudflare reported "Deployed successfully" on GitHub.
@@ -85,4 +93,4 @@ A dated record of research passes, checks, decisions, and releases. Newest first
 6. Confirm Utah Driver License Division's sex designation process and Utah Vital Records fees.
 7. Confirm the U.S. State Department's current sex marker page text.
 8. Check Washington's 2026 sections-affected table when published.
-9. Maintainer decisions: content and code licenses; independence check on the palette (ADR-0003); repository visibility.
+9. Maintainer decisions: independence check on the palette (ADR-0003) and repository visibility. Done: licenses (ADR-0008).

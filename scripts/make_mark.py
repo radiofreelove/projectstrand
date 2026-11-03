@@ -1,0 +1,168 @@
+"""Draw The Strand Project's mark: one strand made of two twisted fibers.
+
+    python3 scripts/make_mark.py          # rewrite the two files below
+    python3 scripts/make_mark.py --check  # exit 1 if they are out of date
+
+Writes:
+  templates/brand-mark.svg  the header mark. It uses the page's colors
+                            (currentColor and CSS classes), so it follows the
+                            reading themes and prints in black.
+  static/favicon.svg        the browser tab icon, with fixed colors.
+
+How the drawing works, so anyone can check it or change it:
+  1. The center line is the original strand: two curves from the bottom bead,
+     out to the right, and back to the top bead.
+  2. Two fibers wind around that line, like the two plies of a cord. Each one
+     sits SPREAD units to one side of the center, then crosses to the other
+     side. TWIST is the number of crossings, counting the two hidden under the
+     beads at the ends.
+  3. Where one fiber passes in front of the other, the fiber behind gets a
+     small gap on each side, so you can see which one is on top. The fiber in
+     front takes turns, as in a real twisted cord.
+The artwork is original to this project. See docs/decisions/ADR-0009-mark.md.
+"""
+import math
+import sys
+from bisect import bisect_left
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+HEADER_LINE = [((8, 34), (8, 25), (32, 27), (32, 18)), ((32, 18), (32, 9), (8, 15), (8, 6))]
+HEADER_BEADS = [(8, 6), (8, 34)]
+ICON_LINE = [((10, 33), (10, 24.5), (30, 26.5), (30, 18)), ((30, 18), (30, 9.5), (10, 15.5), (10, 7))]
+ICON_BEADS = [(10, 7), (10, 33)]
+
+TWIST = 4      # crossings along the strand
+SPREAD = 1.7   # how far each fiber sits from the center line
+FIBER = 2.8    # fiber width
+GAP = 0.5      # gap beside a fiber where the other one passes in front
+BEAD = 3.5     # bead radius
+STEP = 1.5     # distance between the points that define each fiber
+
+ICON_COLORS = {"bg": "#2E3192", "fiber1": "#FFFFFF", "fiber2": "#86C679", "bead": "#ECD263"}
+
+
+def _bezier(p0, p1, p2, p3, t):
+    u = 1 - t
+    return tuple(u**3 * a + 3 * u * u * t * b + 3 * u * t * t * c + t**3 * d
+                 for a, b, c, d in zip(p0, p1, p2, p3))
+
+
+def _center(curves, n=600):
+    pts = [_bezier(*c, i / n) for c in curves for i in range(n)] + [curves[-1][3]]
+    lengths = [0.0]
+    for a, b in zip(pts, pts[1:]):
+        lengths.append(lengths[-1] + math.dist(a, b))
+    return pts, lengths
+
+
+def _point(pts, lengths, s):
+    i = min(max(bisect_left(lengths, s), 1), len(lengths) - 1)
+    a, b = pts[i - 1], pts[i]
+    f = (s - lengths[i - 1]) / ((lengths[i] - lengths[i - 1]) or 1e-9)
+    x, y = a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f
+    j0, j1 = max(i - 3, 0), min(i + 3, len(pts) - 1)
+    tx, ty = pts[j1][0] - pts[j0][0], pts[j1][1] - pts[j0][1]
+    norm = math.hypot(tx, ty) or 1e-9
+    return x, y, -ty / norm, tx / norm  # position and the unit normal
+
+
+def _fiber(pts, lengths, side, s0, s1):
+    total = lengths[-1]
+    count = max(2, round((s1 - s0) / STEP))
+    out = []
+    for k in range(count + 1):
+        s = s0 + (s1 - s0) * k / count
+        x, y, nx, ny = _point(pts, lengths, s)
+        offset = side * SPREAD * math.sin(math.pi * TWIST * s / total)
+        out.append((x + nx * offset, y + ny * offset))
+    return out
+
+
+def _num(v):
+    text = f"{v:.1f}".rstrip("0").rstrip(".")
+    return "0" if text in ("-0", "") else text
+
+
+def _path(points):
+    """A smooth curve through the points (Catmull-Rom, written as Beziers)."""
+    d = [f"M{_num(points[0][0])} {_num(points[0][1])}"]
+    for i in range(len(points) - 1):
+        p0 = points[i - 1] if i else points[i]
+        p1, p2 = points[i], points[i + 1]
+        p3 = points[i + 2] if i + 2 < len(points) else p2
+        c1 = (p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6)
+        c2 = (p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6)
+        d.append("C" + " ".join(_num(v) for v in (*c1, *c2, *p2)))
+    return "".join(d)
+
+
+def pieces(curves):
+    """Split both fibers where they are furthest apart.
+
+    Returns {(fiber, role): path data}, where fiber is 1 or 2 and role is
+    "front" or "back". Piece i holds crossing i; fiber 1 is in front in the
+    even pieces and fiber 2 in the odd ones.
+    """
+    pts, lengths = _center(curves)
+    total = lengths[-1]
+    cuts = [0.0] + [(j + 0.5) * total / TWIST for j in range(TWIST)] + [total]
+    out = {(f, r): "" for f in (1, 2) for r in ("front", "back")}
+    for i in range(len(cuts) - 1):
+        front = 1 if i % 2 == 0 else 2
+        for fiber in (1, 2):
+            side = 1 if fiber == 1 else -1
+            role = "front" if fiber == front else "back"
+            out[(fiber, role)] += _path(_fiber(pts, lengths, side, cuts[i], cuts[i + 1]))
+    return out
+
+
+def header_svg():
+    p = pieces(HEADER_LINE)
+    beads = "".join(f'<circle cx="{x}" cy="{y}" r="{BEAD}" class="brand-dot"/>' for x, y in HEADER_BEADS)
+    return (
+        '{# Generated by scripts/make_mark.py. Edit that script, not this file. #}\n'
+        '<svg class="brand-mark" aria-hidden="true" focusable="false" viewBox="0 0 40 40" width="40" height="40">'
+        '<mask id="brand-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">'
+        '<rect width="40" height="40" fill="#fff"/>'
+        f'<path fill="none" stroke="#000" stroke-width="{_num(FIBER + 2 * GAP)}" d="{p[(1, "front")]}{p[(2, "front")]}"/>'
+        '</mask>'
+        f'<g fill="none" stroke-width="{_num(FIBER)}" stroke-linecap="round">'
+        f'<g class="brand-behind" mask="url(#brand-gaps)">'
+        f'<path stroke="currentColor" d="{p[(1, "back")]}"/><path class="brand-thread" d="{p[(2, "back")]}"/></g>'
+        f'<path stroke="currentColor" d="{p[(1, "front")]}"/><path class="brand-thread" d="{p[(2, "front")]}"/>'
+        f'</g>{beads}</svg>\n'
+    )
+
+
+def icon_svg():
+    p = pieces(ICON_LINE)
+    c = ICON_COLORS
+    beads = "".join(f'<circle cx="{x}" cy="{y}" r="{BEAD}" fill="{c["bead"]}"/>' for x, y in ICON_BEADS)
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">'
+        '<!-- The Strand Project. Generated by scripts/make_mark.py. -->'
+        f'<rect width="40" height="40" rx="8" fill="{c["bg"]}"/>'
+        f'<g fill="none" stroke-width="{_num(FIBER)}" stroke-linecap="round">'
+        f'<path stroke="{c["fiber1"]}" d="{p[(1, "back")]}"/><path stroke="{c["fiber2"]}" d="{p[(2, "back")]}"/>'
+        f'<path stroke="{c["bg"]}" stroke-width="{_num(FIBER + 2 * GAP)}" stroke-linecap="butt" d="{p[(1, "front")]}{p[(2, "front")]}"/>'
+        f'<path stroke="{c["fiber1"]}" d="{p[(1, "front")]}"/><path stroke="{c["fiber2"]}" d="{p[(2, "front")]}"/>'
+        f'</g>{beads}</svg>\n'
+    )
+
+
+def main():
+    targets = {ROOT / "templates" / "brand-mark.svg": header_svg(), ROOT / "static" / "favicon.svg": icon_svg()}
+    stale = [p for p, text in targets.items() if not p.exists() or p.read_text() != text]
+    if "--check" in sys.argv:
+        for p in stale:
+            print(f"Out of date: {p.relative_to(ROOT)}. Run python3 scripts/make_mark.py")
+        sys.exit(1 if stale else 0)
+    for p, text in targets.items():
+        p.write_text(text)
+        print(f"Wrote {p.relative_to(ROOT)} ({len(text)} bytes)")
+
+
+if __name__ == "__main__":
+    main()

@@ -8,6 +8,7 @@ Targets:
   body text pairs   7.0:1  (WCAG AAA, our goal for all reading text)
   large-text pairs  4.5:1  (AAA for large bold text, used for callout titles)
   UI borders        3.0:1  (WCAG 1.4.11 non-text contrast)
+  logo colors       3.0:1  (not required for a decorative mark; we check it anyway)
 """
 from __future__ import annotations
 
@@ -29,7 +30,11 @@ TEXT_PAIRS = [
     ("link", "badge-bg"), ("text", "badge-bg"), ("text", "code-bg"),
 ]
 LARGE_PAIRS = [("watch-title", "watch-bg"), ("watch-title", "badge-bg")]
-UI_PAIRS = [("border", "bg"), ("border", "surface"), ("focus-ring", "bg"), ("focus-ring", "surface")]
+UI_PAIRS = [("border", "bg"), ("border", "surface"), ("focus-ring", "bg"), ("focus-ring", "surface"),
+            ("nav-current", "header-bg")]
+# The logo is decorative, so WCAG sets no minimum. We hold its colors to the
+# 3:1 used for graphics anyway, so the mark stays visible in every theme.
+GRAPHIC_PAIRS = [("header-text", "header-bg"), ("brand-thread", "header-bg"), ("nav-current", "header-bg")]
 
 
 def luminance(hex_color: str) -> float:
@@ -75,7 +80,8 @@ def main() -> int:
     themes = {"light": light, "dark": dark, "high contrast": {**light, **contrast}}
     for name, t in themes.items():
         print(f"\n== {name} ==")
-        for pairs, target, kind in ((TEXT_PAIRS, 7.0, "text"), (LARGE_PAIRS, 4.5, "large text"), (UI_PAIRS, 3.0, "UI")):
+        for pairs, target, kind in ((TEXT_PAIRS, 7.0, "text"), (LARGE_PAIRS, 4.5, "large text"), (UI_PAIRS, 3.0, "UI"),
+                                    (GRAPHIC_PAIRS, 3.0, "logo")):
             for fg, bg in pairs:
                 if fg not in t or bg not in t:
                     print(f"  missing token for {fg} on {bg}")

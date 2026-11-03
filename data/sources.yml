@@ -1,0 +1,748 @@
+# Every source the site or its research log relies on.
+#
+# status:
+#   verified    We opened and read it on the "checked" date.
+#   secondary   We opened it, but it is not an official government source.
+#               The site labels it "Not official".
+#   unverified  We could not open it. Anything we say from it is labeled
+#               "Not confirmed" on the site.
+#   linked      A navigation link (a form, a directory). We do not rely on it
+#               for any fact.
+# official: false for non-government organizations.
+# docs_only: true when only the research log uses it.
+
+# ---------------------------------------------------------------- Oregon
+- id: or-ors-33
+  title: "ORS chapter 33 (2025 edition): sections 33.410, 33.420, 33.460"
+  short: "ORS chapter 33"
+  publisher: Oregon State Legislature
+  url: https://www.oregonlegislature.gov/bills_laws/ors/ors033.html
+  kind: statute
+  jurisdiction: OR
+  date: "2025 edition"
+  checked: 2026-11-03
+  status: verified
+  notes: "Name change (33.410), notice and ACP sealing (33.420), legal change of sex (33.460). The chapter notes point to 2026 amendments in 2026 Oregon Laws chapters 52 and 88, so read with those."
+
+- id: or-2026-ch52
+  title: "Oregon Laws 2026, chapter 52 (House Bill 4088)"
+  short: "2026 Oregon Laws ch. 52"
+  publisher: Oregon State Legislature
+  url: https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2026orLaw0052.pdf
+  kind: session-law
+  jurisdiction: OR
+  date: "Effective March 31, 2026; sections 11 and 12 operative July 1, 2026"
+  checked: 2026-11-03
+  status: verified
+  notes: "Section 12 adds ORS 33.460(4): legal change of sex cases, including combined name and sex cases, are confidential. Section 11 removes the old seal-on-request rule in 33.420(4). Section 17 applies the change to filings on or after July 1, 2026, and, on the applicant's motion, to earlier filings."
+
+- id: or-2026-ch88
+  title: "Oregon Laws 2026, chapter 88 (Senate Bill 1557)"
+  short: "2026 Oregon Laws ch. 88"
+  publisher: Oregon State Legislature
+  url: https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2026orLaw0088.pdf
+  kind: session-law
+  jurisdiction: OR
+  date: "2026"
+  checked: 2026-11-03
+  status: verified
+  docs_only: true
+  notes: "Checked because the ORS chapter 33 notes cite it. It changes contempt rules only. It does not affect name or sex changes."
+
+- id: or-ojd-adult-packet
+  title: "Name and Sex Change Packet (Adult)"
+  short: "Oregon court forms packet, July 2026"
+  link_text: "Oregon adult name and sex change forms (PDF)"
+  publisher: Oregon Judicial Department
+  url: "https://www.courts.oregon.gov/forms/Documents/Name%20and%20Sex%20Change%20Packet%20(Adult).pdf"
+  kind: court-form
+  jurisdiction: OR
+  date: "Forms dated July 2026"
+  checked: 2026-11-03
+  status: verified
+  notes: "Instructions, petition, and judgment. Petition options: male, female, nonbinary. Says sex change records are confidential and the court does not send your judgment to other agencies."
+
+- id: or-ojd-minor-packet
+  title: "Name/Sex Change Packet (Minor)"
+  short: "Oregon minor forms packet"
+  link_text: "Oregon name and sex change forms for a minor (PDF)"
+  publisher: Oregon Judicial Department
+  url: "https://www.courts.oregon.gov/forms/Documents/Name-Sex%20Change-PACKET-Minor.pdf"
+  kind: court-form
+  jurisdiction: OR
+  date: "Current packet on the OJD site"
+  checked: 2026-11-03
+  status: linked
+  notes: "Linked for parents and guardians. We have not reviewed every page of this packet."
+
+- id: or-ojd-forms
+  title: "Name and Sex Change forms"
+  short: "Oregon court forms page"
+  link_text: "Oregon court name and sex change forms page"
+  publisher: Oregon Judicial Department
+  url: https://www.courts.oregon.gov/programs/family/forms/Pages/name-sex-change.aspx
+  kind: court-page
+  jurisdiction: OR
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: or-ojd-fees
+  title: "Circuit Court Fee Schedule, effective January 1, 2026"
+  short: "Oregon court fee schedule, 2026"
+  publisher: Oregon Judicial Department
+  url: https://www.courts.oregon.gov/Documents/2026_CircuitFeeSchedule_public_eff-2026-01-01.pdf
+  kind: court-page
+  jurisdiction: OR
+  date: "Effective January 1, 2026"
+  checked: 2026-11-03
+  status: verified
+  notes: "Change of name or change of sex: $124 (ORS 21.145). Certified copy: $5, plus 25 cents per page for paper. Fee waiver or deferral application: no fee (ORS 21.682)."
+
+- id: or-ojd-fee-waiver
+  title: "Fee waiver and deferral forms"
+  short: "Oregon fee waiver forms"
+  link_text: "Oregon fee waiver and deferral forms"
+  publisher: Oregon Judicial Department
+  url: https://www.courts.oregon.gov/forms/Pages/fee-waiver.aspx
+  kind: court-page
+  jurisdiction: OR
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: or-ojd-guide-file
+  title: "Guide & File: free online court form interviews"
+  short: "Oregon Guide & File"
+  link_text: "Oregon Guide & File (free online interview)"
+  publisher: Oregon Judicial Department
+  url: https://www.courts.oregon.gov/services/online/Pages/iforms.aspx
+  kind: court-page
+  jurisdiction: OR
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "Free. Includes a name or legal sex change interview. Answers must be in English. The tool was down for maintenance when we checked."
+
+- id: or-ojd-self-help
+  title: "Oregon courts self-help"
+  short: "Oregon court self-help"
+  link_text: "Oregon courts self-help"
+  publisher: Oregon Judicial Department
+  url: https://www.courts.oregon.gov/help/Pages/default.aspx
+  kind: court-page
+  jurisdiction: OR
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: or-ojd-courts
+  title: "Oregon circuit court locations"
+  short: "Oregon court locations"
+  link_text: "Find your Oregon circuit court"
+  publisher: Oregon Judicial Department
+  url: https://www.courts.oregon.gov/courts/Pages/default.aspx
+  kind: court-page
+  jurisdiction: OR
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: or-oha-gender
+  title: "Change Birth Record to Support Gender Identity"
+  short: "Oregon Vital Records, gender identity page"
+  link_text: "Oregon Vital Records: change a birth record to support gender identity"
+  publisher: "Oregon Health Authority, Vital Records"
+  url: https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Pages/ChangeBirthSupportGenderIdentity.aspx
+  kind: agency-page
+  jurisdiction: OR
+  date: "Live page; form OHA 2673 rev. 03/26"
+  checked: 2026-11-03
+  status: verified
+  notes: "Notarized application, no court order. Name and sex can each be changed once this way. M, F, or X. $35 amendment fee. A sex change leaves no footnote and removes existing footnotes."
+
+- id: or-oha-2673
+  title: "Application to Change the Name and/or Sex on a Record of Live Birth to Support Gender Identity (OHA 2673)"
+  short: "Oregon form OHA 2673"
+  link_text: "Form OHA 2673 in English (PDF)"
+  publisher: "Oregon Health Authority, Vital Records"
+  url: "https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Document%20Forms/OHA2673FormEnglish.pdf"
+  kind: agency-form
+  jurisdiction: OR
+  date: "Linked from the OHA page"
+  checked: 2026-11-03
+  status: linked
+
+- id: or-oha-2673-es
+  title: "Solicitud OHAS 2673 (Spanish)"
+  short: "Oregon form OHAS 2673 (Spanish)"
+  link_text: "Form OHAS 2673 in Spanish (PDF)"
+  publisher: "Oregon Health Authority, Vital Records"
+  url: "https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Document%20Forms/OHA2673FormSpanish.pdf"
+  kind: agency-form
+  jurisdiction: OR
+  date: "Linked from the OHA page"
+  checked: 2026-11-03
+  status: linked
+
+- id: or-oha-court-order
+  title: "Change a Birth Record (with a court order)"
+  short: "Oregon Vital Records, court order page"
+  link_text: "Oregon Vital Records: change a birth record with a court order"
+  publisher: "Oregon Health Authority, Vital Records"
+  url: https://oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/CHANGEVITALRECORDS/Pages/CourtOrderChangeSex.aspx
+  kind: agency-page
+  jurisdiction: OR
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "Certified court order plus $35 amendment fee. Accepts orders from other states. A court-ordered name change footnote shows the prior name unless the order is sealed."
+
+- id: or-dmv-gender
+  title: "Change Your Gender Designation"
+  short: "Oregon DMV"
+  link_text: "Oregon DMV: change your gender designation"
+  publisher: Oregon Driver and Motor Vehicle Services
+  url: https://www.oregon.gov/odot/DMV/Pages/driverid/chg_gender_designation.aspx
+  kind: agency-page
+  jurisdiction: OR
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "Self-select M, F, or X. No gender documents. In person. Pay the replacement or renewal fee. Change your name with Social Security first. Says SSA stopped processing gender marker updates as of January 31, 2025."
+
+- id: or-lawhelp
+  title: "Oregon Law Help"
+  short: "Oregon Law Help"
+  link_text: "Oregon Law Help"
+  publisher: Oregon legal aid programs
+  url: https://oregonlawhelp.org/
+  kind: guide
+  jurisdiction: OR
+  date: "Live site"
+  checked: 2026-11-03
+  status: linked
+  official: false
+  notes: "Linked from the Oregon courts site."
+
+# ------------------------------------------------------------ Washington
+- id: wa-rcw-4-24-130
+  title: "RCW 4.24.130: Change of name"
+  short: "RCW 4.24.130"
+  publisher: Washington State Legislature
+  url: "https://lawfilesext.leg.wa.gov/Law/RCWPDF/RCW%20%20%204%20%20TITLE/RCW%20%20%204%20.%2024%20%20CHAPTER/RCW%20%20%204%20.%2024%20.130.pdf"
+  kind: statute
+  jurisdiction: WA
+  date: "Official copy certified July 12, 2024"
+  checked: 2026-11-03
+  status: verified
+  notes: "Public name change in district court. Court shall waive filing and recording fees on a hardship affidavit (subsection 4). Sealed name change in superior court for reasons including gender expression or identity (subsection 5)."
+
+- id: wa-sections-2025
+  title: "2025 RCW sections affected by session laws"
+  short: "2025 RCW sections affected"
+  publisher: Washington State Legislature, Code Reviser
+  url: "https://lawfilesext.leg.wa.gov/Law/CRO/SectionsAffected/2025%20RCW%20SL%20Sections%20Affected%20in%20Bill%20Order.pdf"
+  kind: legislature
+  jurisdiction: WA
+  date: "2025"
+  checked: 2026-11-03
+  status: verified
+  docs_only: true
+  notes: "No entry for RCW 4.24.130. We did not find a 2026 table."
+
+- id: wa-wlh-name
+  title: "Name Change Guide"
+  short: "WashingtonLawHelp name change guide"
+  link_text: "WashingtonLawHelp: name change guide and forms"
+  publisher: "WashingtonLawHelp.org (Northwest Justice Project)"
+  url: https://www.washingtonlawhelp.org/en/name-change-guide
+  kind: guide
+  jurisdiction: WA
+  date: "Reviewed May 8, 2025"
+  checked: 2026-11-03
+  status: secondary
+  official: false
+  notes: "Free legal aid guide with forms 410, 411, 412 (rev. 03/2025). No newspaper notice. Hearing required. Sealed superior court filing fee usually about $260."
+
+- id: wa-wlh-gender-order
+  title: "Get a court order that confirms your gender change"
+  short: "WashingtonLawHelp gender order guide"
+  link_text: "WashingtonLawHelp: court order that confirms your gender"
+  publisher: "WashingtonLawHelp.org (Northwest Justice Project)"
+  url: https://www.washingtonlawhelp.org/en/get-court-order-confirms-your-gender-change
+  kind: guide
+  jurisdiction: WA
+  date: "Reviewed July 18, 2025"
+  checked: 2026-11-03
+  status: secondary
+  official: false
+  notes: "Optional. Not needed for a Washington license or a Washington birth certificate."
+
+- id: wa-doh-sex
+  title: "Sex designation change on a birth certificate"
+  short: "Washington Department of Health"
+  link_text: "Washington DOH: change the sex designation on a birth certificate"
+  publisher: Washington State Department of Health
+  url: https://doh.wa.gov/licenses-permits-and-certificates/vital-records/sex-designation-change-birth-certificate
+  kind: agency-page
+  jurisdiction: WA
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "M, F, or X. Adult form notarized; minor form signed by parent or guardian and a licensed provider. A court order or a doctor's letter is not accepted. No fee to amend; $25 per certified copy."
+
+- id: wa-doh-422-143
+  title: "Sex Designation Change Request, adult (DOH 422-143)"
+  short: "Washington form DOH 422-143"
+  link_text: "Form DOH 422-143, adults (PDF)"
+  publisher: Washington State Department of Health
+  url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-143-SexDesignationChangeAdult.pdf
+  kind: agency-form
+  jurisdiction: WA
+  date: "Linked from the DOH page"
+  checked: 2026-11-03
+  status: linked
+
+- id: wa-doh-422-144
+  title: "Sex Designation Change Request, minor (DOH 422-144)"
+  short: "Washington form DOH 422-144"
+  link_text: "Form DOH 422-144, minors (PDF)"
+  publisher: Washington State Department of Health
+  url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-144-SexDesignationChangeMinor.pdf
+  kind: agency-form
+  jurisdiction: WA
+  date: "Linked from the DOH page"
+  checked: 2026-11-03
+  status: linked
+
+- id: wa-doh-422-126
+  title: "Legal Name Change Request (DOH 422-126)"
+  short: "Washington form DOH 422-126"
+  link_text: "Form DOH 422-126, name change on a birth certificate (PDF)"
+  publisher: Washington State Department of Health
+  url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-126-LegalNameChangeRequest.pdf
+  kind: agency-form
+  jurisdiction: WA
+  date: "Linked from the DOH site"
+  checked: 2026-11-03
+  status: linked
+
+- id: wa-dol-gender
+  title: "Change your gender designation"
+  short: "Washington DOL"
+  link_text: "Washington DOL: change your gender designation"
+  publisher: Washington State Department of Licensing
+  url: https://dol.wa.gov/driver-licenses-and-permits/update-driver-license-information/change-your-gender-designation
+  kind: agency-page
+  jurisdiction: WA
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "M, F, or X. In person or by mail (form 520043). Free if you only change the gender designation."
+
+- id: wa-courts-forms
+  title: "Washington Courts forms"
+  short: "Washington Courts forms"
+  link_text: "Washington Courts forms, including GR 34 fee waiver forms"
+  publisher: Washington State Administrative Office of the Courts
+  url: https://www.courts.wa.gov/forms/
+  kind: court-page
+  jurisdiction: WA
+  date: "Live site"
+  checked: 2026-11-03
+  status: verified
+  notes: "Forms pages list the CLEAR legal referral line, (888) 201-1014, and the GR 34 motion to waive civil fees."
+
+- id: wa-kitsap-fee
+  title: "Kitsap County District Court name change materials"
+  short: "Kitsap County District Court"
+  publisher: Kitsap County District Court
+  url: "https://www.kitsap.gov/dc/NameChangeDocuments/Name%20Changes%20A%20Judge%20Pro%20Tempore%20Primer.pdf"
+  kind: court-page
+  jurisdiction: WA
+  date: "Undated"
+  checked: 2026-11-03
+  status: unverified
+  notes: "Search results quoted a $287.50 fee. We did not open the document itself."
+
+# ------------------------------------------------------------------ Utah
+- id: ut-code-42-1
+  title: "Utah Code title 42, chapter 1: Change of Name (42-1-1 to 42-1-3)"
+  short: "Utah Code 42-1-1"
+  publisher: Utah State Legislature
+  url: https://le.utah.gov/xcode/Title42/C42_1800010118000101.pdf
+  kind: statute
+  jurisdiction: UT
+  date: "42-1-1 as amended by 2025 chapters 291 and 299"
+  checked: 2026-11-03
+  status: verified
+  notes: "File in the district court of the county where you live; one year as a resident of that county; offenders as defined in 64-13-1 may not file; disclose registry status. 42-1-2: proof in open court."
+
+- id: ut-code-26b-8-111
+  title: "Utah Code 26B-8-111: Birth certificate name or sex designation change"
+  short: "Utah Code 26B-8-111"
+  publisher: Utah State Legislature
+  url: https://le.utah.gov/xcode/Title26B/Chapter8/C26B-8-S111_2025050720250507.pdf
+  kind: statute
+  jurisdiction: UT
+  date: "Effective May 7, 2025"
+  checked: 2026-11-03
+  status: verified
+  notes: "Clear and convincing evidence of six things. Rules for minors. New certificate does not show which fields changed unless you ask, and the state also issues and keeps an amendment history."
+
+- id: ut-hb183-notice
+  title: "Notice: 2nd Substitute H.B. 183, Sex Designation Amendments, returned to Rules Committee (March 4, 2026)"
+  short: "Utah Senate notice, March 4, 2026"
+  publisher: Utah State Senate
+  url: https://pf.utleg.gov/public-web/sessions/2026GS/comreport/HB0183S02.pdf
+  kind: legislature
+  jurisdiction: UT
+  date: "March 4, 2026"
+  checked: 2026-11-03
+  status: verified
+
+- id: ut-hb183-legiscan
+  title: "Utah HB 183 (2026) bill status"
+  short: "LegiScan, HB 183"
+  publisher: LegiScan
+  url: https://legiscan.com/UT/bill/HB0183/2026
+  kind: secondary
+  jurisdiction: UT
+  date: "Status as of March 6, 2026"
+  checked: 2026-11-03
+  status: secondary
+  official: false
+  notes: "Bill tracker. Shows the bill filed in the House file for bills not passed. The official bill page did not load for us."
+
+- id: ut-courts-sex-change
+  title: "Petition for Name or Sex Change (Gender Marker Change)"
+  short: "Utah Courts name and sex change page"
+  link_text: "Utah Courts: name or sex change, step by step"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/case-categories/family/name-change/sex-change.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "Sex change cases are marked private: filed papers are not public, but the case history and public hearings are. Five steps. Forms 1158XX, 1730FA, 1731FA or MyPaperwork."
+
+- id: ut-courts-fees
+  title: "Fees"
+  short: "Utah Courts fees"
+  link_text: "Utah Courts fees"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/legal-help/procedures/fees.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Fees effective May 6, 2026"
+  checked: 2026-11-03
+  status: verified
+  notes: "$375 general civil filing fee (Utah Code 78A-2-301(1)(a)). Certified copy: $4 per document plus 50 cents per page."
+
+- id: ut-courts-waiver
+  title: "Fee waivers"
+  short: "Utah fee waivers"
+  link_text: "Utah Courts: ask for a fee waiver"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/legal-help/procedures/waiver.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-mypaperwork
+  title: "MyPaperwork"
+  short: "Utah MyPaperwork"
+  link_text: "Utah MyPaperwork (online forms that file for you)"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/services/mycase/mypaperwork.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-courts-legal-help
+  title: "Finding Legal Help"
+  short: "Utah Courts legal help"
+  link_text: "Utah Courts: finding legal help"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-assist.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-courts-self-help
+  title: "Self-Help Center"
+  short: "Utah Self-Help Center"
+  link_text: "Utah Courts Self-Help Center"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/services/contact.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-courts-directory
+  title: "Court directory"
+  short: "Utah court directory"
+  link_text: "Find your Utah district court"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/about/miscellaneous/directory.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-courts-nonpublic
+  title: "Non-public records"
+  short: "Utah non-public records"
+  link_text: "Utah Courts: non-public records"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/legal-help/procedures/filing/non-public.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-courts-pronouns
+  title: "Notice of Pronouns"
+  short: "Utah Notice of Pronouns"
+  link_text: "Utah Courts: tell the court your pronouns"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/legal-help/procedures/pro-se/pronouns.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-vital-902
+  title: "Amendment of a Record by Court Order (form 902)"
+  short: "Utah Vital Records form 902"
+  link_text: "Utah Vital Records form 902 (PDF)"
+  publisher: Utah Office of Vital Records and Statistics
+  url: https://vitalrecords.utah.gov/wp-content/uploads/902-Affidavit-to-Amend-by-Court-Order.pdf
+  kind: agency-form
+  jurisdiction: UT
+  date: "Linked from Utah Courts"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-vital
+  title: "Utah Vital Records and Statistics"
+  short: "Utah Vital Records"
+  link_text: "Utah Vital Records and Statistics"
+  publisher: Utah Department of Health and Human Services
+  url: https://vitalrecords.health.utah.gov/
+  kind: agency-page
+  jurisdiction: UT
+  date: "Live site"
+  checked: 2026-11-03
+  status: linked
+
+- id: ut-dld-name
+  title: "Name change (Driver License Division)"
+  short: "Utah Driver License Division"
+  link_text: "Utah Driver License Division: name change"
+  publisher: Utah Department of Public Safety, Driver License Division
+  url: https://dld.utah.gov/name-change/
+  kind: agency-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "Asks for legal documentation of the name change; accepts sealed court documents. Says nothing about changing the sex on a license."
+
+# --------------------------------------------------------------- Federal
+- id: us-eo-14168
+  title: "Executive Order 14168: Defending Women From Gender Ideology Extremism and Restoring Biological Truth to the Federal Government"
+  short: "Executive Order 14168"
+  publisher: The White House
+  url: https://www.whitehouse.gov/presidential-actions/2025/01/defending-women-from-gender-ideology-extremism-and-restoring-biological-truth-to-the-federal-government/
+  kind: executive-order
+  jurisdiction: US
+  date: "January 20, 2025"
+  checked: 2026-11-03
+  status: verified
+  notes: "Section 3(d) directs that passports, visas, and Global Entry cards reflect the holder's sex as the order defines it."
+
+- id: us-state-sex-marker
+  title: "Sex marker in passports"
+  short: "U.S. State Department"
+  link_text: "U.S. State Department: sex marker in passports"
+  publisher: U.S. Department of State
+  url: https://travel.state.gov/content/travel/en/passports/passport-help/sex-marker.html
+  kind: agency-page
+  jurisdiction: US
+  date: "Live page"
+  checked: 2026-11-03
+  status: unverified
+  notes: "The page blocked our tools. Search results said the department issues only M or F matching sex at birth, and that existing passports stay valid until they expire."
+
+- id: us-state-change
+  title: "Change or correct a passport"
+  short: "State Department, change or correct"
+  link_text: "U.S. State Department: change or correct a passport"
+  publisher: U.S. Department of State
+  url: https://travel.state.gov/content/travel/en/passports/have-passport/change-correct.html
+  kind: agency-page
+  jurisdiction: US
+  date: "Live page"
+  checked: 2026-11-03
+  status: linked
+
+- id: us-aclu-orr
+  title: "Orr v. Trump"
+  short: "ACLU, Orr v. Trump"
+  link_text: "ACLU: Orr v. Trump case page"
+  publisher: American Civil Liberties Union
+  url: https://www.aclu.org/cases/orr-v-trump
+  kind: secondary
+  jurisdiction: US
+  date: "Last update October 2, 2026"
+  checked: 2026-11-03
+  status: secondary
+  official: false
+  notes: "Anyone who applies for a new, corrected, replacement, or renewed passport is at risk of getting one with the sex assigned at birth. Discovery continues at least until spring 2027."
+
+- id: us-hrc-passport
+  title: "Travel and Passport Rights for Transgender People"
+  short: "Human Rights Campaign, April 2026"
+  link_text: "Human Rights Campaign: travel and passport rights"
+  publisher: Human Rights Campaign Foundation
+  url: https://www.hrc.org/resources/travel-passport-rights-for-transgender-people
+  kind: secondary
+  jurisdiction: US
+  date: "Reflects the law as of April 2026"
+  checked: 2026-11-03
+  status: secondary
+  official: false
+  notes: "New and renewed passports show sex assigned at birth regardless of name change or other documents. X eliminated. Advises talking to an attorney before answering a State Department request for early records."
+
+- id: us-ssa-name
+  title: "Change your name on your Social Security record"
+  short: "Social Security, change your name"
+  link_text: "Social Security: change your name"
+  publisher: U.S. Social Security Administration
+  url: https://www.ssa.gov/personal-record/change-name
+  kind: agency-page
+  jurisdiction: US
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "Update after you legally change your name, by requesting a replacement card. You may be able to start online."
+
+- id: us-ssa-sex-redirect
+  title: "Social Security 'change sex identification' page"
+  short: "Social Security, former sex marker page"
+  publisher: U.S. Social Security Administration
+  url: https://www.ssa.gov/personal-record/change-sex-identification
+  kind: agency-page
+  jurisdiction: US
+  date: "Checked November 3, 2026"
+  checked: 2026-11-03
+  status: verified
+  docs_only: true
+  notes: "Now redirects to the Social Security home page."
+
+- id: us-cdc-w2w
+  title: "Where to Write for Vital Records"
+  short: "CDC, Where to Write for Vital Records"
+  link_text: "CDC: find your birth state's vital records office"
+  publisher: "Centers for Disease Control and Prevention, National Center for Health Statistics"
+  url: https://www.cdc.gov/nchs/w2w/index.htm
+  kind: agency-page
+  jurisdiction: US
+  date: "Last reviewed August 15, 2022"
+  checked: 2026-11-03
+  status: verified
+
+- id: us-lambda-helpdesk
+  title: "Lambda Legal Help Desk"
+  short: "Lambda Legal Help Desk"
+  link_text: "Lambda Legal Help Desk"
+  publisher: Lambda Legal
+  url: https://lambdalegal.org/helpdesk/
+  kind: guide
+  jurisdiction: US
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  official: false
+  notes: "General information and referrals through an online form. Not legal advice. Not for emergencies."
+
+- id: us-translifeline
+  title: "Trans Lifeline Hotline"
+  short: "Trans Lifeline"
+  link_text: "Trans Lifeline hotline"
+  publisher: Trans Lifeline
+  url: https://www.translifeline.org/hotline
+  kind: guide
+  jurisdiction: US
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  official: false
+  notes: "(877) 565-8860. Peer support run by trans people. Weekdays 10 a.m. to 6 p.m. Pacific. Does not call police or emergency services unless the caller asks, with stated exceptions."
+
+# ----------------------------------------------------- Data and standards
+- id: data-usts-2022
+  title: "2022 U.S. Transgender Survey: Early Insights"
+  short: "U.S. Trans Survey 2022"
+  publisher: National Center for Transgender Equality
+  url: https://ustranssurvey.org/wp-content/uploads/2023/11/2022-USTS-Early-Insights-Report_FINAL.pdf
+  kind: data
+  jurisdiction: US
+  date: "February 2024"
+  checked: 2026-11-03
+  status: verified
+  official: false
+  notes: "Online survey, October 19 to December 5, 2022, in English and Spanish. 92,329 respondents age 16 and older (84,170 adults). Weighted, but not a random sample."
+
+- id: std-wcag22
+  title: "Web Content Accessibility Guidelines (WCAG) 2.2"
+  short: "WCAG 2.2"
+  link_text: "WCAG 2.2"
+  publisher: W3C
+  url: https://www.w3.org/TR/WCAG22/
+  kind: standard
+  jurisdiction: standards
+  date: "W3C Recommendation, December 12, 2024"
+  checked: 2026-11-03
+  status: verified
+  official: false
+
+- id: std-coga
+  title: "Making Content Usable for People with Cognitive and Learning Disabilities"
+  short: "W3C cognitive accessibility guidance"
+  link_text: "W3C: Making Content Usable for People with Cognitive and Learning Disabilities"
+  publisher: W3C
+  url: https://www.w3.org/TR/coga-usable/
+  kind: standard
+  jurisdiction: standards
+  date: "W3C Working Group Note, April 29, 2021"
+  checked: 2026-11-03
+  status: verified
+  official: false
+
+- id: brand-odhs
+  title: "Oregon Department of Human Services Brand Guidelines (DE2022)"
+  short: "ODHS brand guidelines"
+  publisher: Oregon Department of Human Services
+  url: https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/dhs2022.pdf
+  kind: standard
+  jurisdiction: OR
+  date: "July 2025"
+  checked: 2026-11-03
+  status: verified
+  docs_only: true
+  notes: "Color palette and tested contrast pairs only. The site does not use ODHS names, logos, or brandmarks and is not affiliated with ODHS."

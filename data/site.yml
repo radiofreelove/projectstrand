@@ -1,0 +1,18 @@
+# Site-wide settings. Edit here, not in templates.
+name: The Strand Project
+tagline: "Your name. Your marker. Your records. One clear path."
+mission: "Changing your name or gender marker should not take a lawyer, a law degree, or luck."
+mission_follow: "This free guide shows you how, step by step, in Oregon, Washington, and Utah."
+version: "0.1.0-beta"
+last_checked: 2026-11-03
+# Where the site and its source live. The build checks environment variables
+# first, so moving hosts needs no code change:
+#   site address: SITE_URL, then CI_PAGES_URL (GitLab), then public_url below,
+#                 then CF_PAGES_URL (Cloudflare's per-deployment address)
+#   source repo:  REPO_URL, then CI_PROJECT_URL (GitLab), then GitHub Actions
+#                 variables, then repo_url below
+public_url: "https://projectstrand.pages.dev/"
+repo_url: "https://github.com/radiofreelove/projectstrand"
+# Sources older than this many days get a warning in build-report.json.
+max_source_age_days: 120
+quick_exit_url: "https://www.weather.gov/"

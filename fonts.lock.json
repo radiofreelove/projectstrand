@@ -1,0 +1,12 @@
+{
+  "_about": "Font files fetched at build time by scripts/fetch_fonts.py. A null sha256 means the file has not been pinned yet: the first successful build with network access prints each file's sha256, and a maintainer copies it here. After that, any change in the downloaded file fails the build.",
+  "package": "@fontsource/atkinson-hyperlegible-next",
+  "version": "5",
+  "base_url": "https://cdn.jsdelivr.net/npm/",
+  "license": "SIL Open Font License 1.1",
+  "files": [
+    {"src": "files/atkinson-hyperlegible-next-latin-400-normal.woff2", "dest": "AtkinsonHyperlegibleNext-Regular.woff2", "sha256": null},
+    {"src": "files/atkinson-hyperlegible-next-latin-700-normal.woff2", "dest": "AtkinsonHyperlegibleNext-Bold.woff2", "sha256": null},
+    {"src": "LICENSE", "dest": "OFL.txt", "sha256": null}
+  ]
+}

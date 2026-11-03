@@ -1,0 +1,115 @@
+# Every page on the site. The build fails if a page is missing a field.
+# nav: position in the main menu (omit to leave it out of the menu).
+# checked: the date a person last checked this page against its sources.
+
+- slug: index
+  template: index.html.j2
+  title: "Change your name and gender marker: a plain guide"
+  nav_label: Home
+  nav: 1
+  description: "Free, plain-language steps for changing your legal name and gender marker in Oregon, Washington, and Utah, with links to every official form."
+  checked: 2026-11-03
+
+- slug: path
+  template: path.html.j2
+  title: "Find your path in 4 questions"
+  nav_label: Start here
+  nav: 2
+  description: "Answer 4 questions and get the steps that fit you: which court, which forms, and which records to update."
+  checked: 2026-11-03
+
+- slug: oregon
+  template: oregon.html.j2
+  title: "Oregon: change your name and legal sex"
+  nav_label: Oregon
+  nav: 3
+  description: "How Oregon name and legal sex changes work in 2026: forms, the $124 fee, confidentiality, birth records, and DMV."
+  checked: 2026-11-03
+
+- slug: washington
+  template: washington.html.j2
+  title: "Washington: change your name and gender marker"
+  nav_label: Washington
+  nav: 4
+  description: "How Washington name changes work, the sealed option for gender-related name changes, and how to update your birth certificate and license without a court order."
+  checked: 2026-11-03
+
+- slug: utah
+  template: utah.html.j2
+  title: "Utah: change your name and sex designation"
+  nav_label: Utah
+  nav: 5
+  description: "How Utah name and sex designation changes work in 2026: what you must prove, the $375 fee, privacy, and Vital Records."
+  checked: 2026-11-03
+
+- slug: federal
+  template: federal.html.j2
+  title: "Passports and Social Security in 2026"
+  nav_label: Federal
+  nav: 6
+  description: "What changed for passports and Social Security records in 2025 and 2026, and what to know before you apply."
+  checked: 2026-11-03
+
+- slug: after
+  template: after.html.j2
+  title: "After court: update your records in the right order"
+  nav_label: After court
+  nav: 7
+  description: "A printable checklist for updating Social Security, your license, your birth certificate, and everything else after a court order."
+  checked: 2026-11-03
+
+- slug: help
+  template: help.html.j2
+  title: "Get free or low-cost help"
+  nav_label: Get help
+  nav: 8
+  description: "Free and low-cost legal help, court self-help centers, and peer support in Oregon, Washington, and Utah."
+  checked: 2026-11-03
+
+- slug: compare
+  template: compare.html.j2
+  title: "Compare Oregon, Washington, and Utah"
+  description: "Side by side: courts, fees, hearings, privacy, birth certificates, and licenses in Oregon, Washington, and Utah."
+  checked: 2026-11-03
+
+- slug: why
+  template: why.html.j2
+  title: "Why this site exists"
+  description: "Most trans people do not have ID that matches who they are. Here is why, and what this project does about it."
+  checked: 2026-11-03
+
+- slug: glossary
+  template: glossary.html.j2
+  title: "Words to know"
+  description: "Plain definitions of the legal words you will see on court forms."
+  checked: 2026-11-03
+
+- slug: sources
+  template: sources.html.j2
+  title: "Every source we use"
+  description: "Every law, form, and official page this guide relies on, with the date we last checked it."
+  checked: 2026-11-03
+
+- slug: about
+  template: about.html.j2
+  title: "About The Strand Project"
+  description: "Who runs this guide, how we research it, and how to report a mistake."
+  checked: 2026-11-03
+
+- slug: accessibility
+  template: accessibility.html.j2
+  title: "Accessibility"
+  description: "How this site is built for people who are disabled, neurodivergent, or tired, and how to tell us when something does not work."
+  checked: 2026-11-03
+
+- slug: privacy
+  template: privacy.html.j2
+  title: "Privacy and safety"
+  description: "No cookies. No tracking. How the Leave quickly button works, and tips for browsing safely."
+  checked: 2026-11-03
+
+- slug: "404"
+  template: 404.html.j2
+  title: "Page not found"
+  description: "This page does not exist."
+  checked: 2026-11-03

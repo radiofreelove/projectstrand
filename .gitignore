@@ -1,0 +1,14 @@
+# Build output and caches
+public/
+.cache/
+__pycache__/
+*.pyc
+node_modules/
+
+# Fonts are downloaded at build time, never committed (see fonts.lock.json)
+static/fonts/*.woff2
+static/fonts/OFL.txt
+
+# Local scratch files
+*.log
+.DS_Store

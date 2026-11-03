@@ -1,0 +1,4 @@
+# Build dependencies, pinned to the versions the site was built and tested with.
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+PyYAML==6.0.3

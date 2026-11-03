@@ -1,0 +1,87 @@
+# Numbers and details that change. Pages pull these with fact("id"),
+# so one edit here updates every page. Each fact names its source ids.
+
+# ---------------------------------------------------------------- Oregon
+or_fee_petition:
+  value: "$124"
+  sources: [or-ojd-fees]
+  note: "Change of name or change of sex, ORS 21.145. One fee for a combined petition (our reading of the fee schedule)."
+or_fee_certified_copy:
+  value: "$5 per certified copy, plus 25 cents a page for paper copies"
+  sources: [or-ojd-fees]
+or_fee_waiver_application:
+  value: "no fee to apply"
+  sources: [or-ojd-fees]
+or_confidential_date:
+  value: "July 1, 2026"
+  sources: [or-2026-ch52]
+or_oha_amend_fee:
+  value: "$35"
+  sources: [or-oha-gender]
+or_oha_cert_fee:
+  value: "$25 per certificate ($30 for a full image certificate for births from 1903 to 2007)"
+  sources: [or-oha-gender]
+or_oha_expedite:
+  value: "$30 extra"
+  sources: [or-oha-gender]
+or_oha_mail:
+  value: "Oregon Vital Records, Amendments Unit, PO Box 14050, Portland, OR 97293"
+  sources: [or-oha-gender]
+or_oha_dropbox:
+  value: "800 NE Oregon Street, Portland, OR 97232 (drop box; no in-person help)"
+  sources: [or-oha-gender]
+or_oha_email:
+  value: "CHS.Amendments@oha.oregon.gov"
+  sources: [or-oha-gender]
+or_osb_lrs:
+  value: "503-684-3763 or 800-452-7636"
+  sources: [or-ojd-adult-packet]
+
+# ------------------------------------------------------------ Washington
+wa_fee_sealed:
+  value: "about $260"
+  sources: [wa-wlh-name]
+wa_fee_district_example:
+  value: "$287.50"
+  sources: [wa-kitsap-fee]
+wa_fee_cert_copy:
+  value: "about $5 each"
+  sources: [wa-wlh-name]
+wa_doh_cert_fee:
+  value: "$25 per certified copy"
+  sources: [wa-doh-sex]
+wa_doh_mail:
+  value: "Washington State Department of Health, PO Box 47814, Olympia, WA 98504-7814"
+  sources: [wa-doh-sex]
+wa_clear:
+  value: "1-888-201-1014"
+  sources: [wa-courts-forms]
+
+# ------------------------------------------------------------------ Utah
+ut_fee_petition:
+  value: "$375"
+  sources: [ut-courts-fees]
+  note: "General civil filing fee. Utah Courts links its fee page from the name and sex change page; we read the $375 general fee as the one that applies."
+ut_fee_cert_copy:
+  value: "$4 per document plus 50 cents per page"
+  sources: [ut-courts-fees]
+ut_vital_mail:
+  value: "Vital Records and Statistics, PO Box 141012, Salt Lake City, UT 84114-1012"
+  sources: [ut-courts-sex-change]
+ut_registry_mail:
+  value: "Offender Registration Program, Utah Bureau of Criminal Identification, 4315 South 2700 West, Taylorsville, UT 84129, or registry@utah.gov"
+  sources: [ut-courts-sex-change]
+
+# ------------------------------------------------------------ National
+translifeline_phone:
+  value: "(877) 565-8860"
+  sources: [us-translifeline]
+usts_name_none:
+  value: "48%"
+  sources: [data-usts-2022]
+usts_gender_none:
+  value: "59%"
+  sources: [data-usts-2022]
+usts_mistreated:
+  value: "22%"
+  sources: [data-usts-2022]

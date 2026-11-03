@@ -1,0 +1,76 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Federal records, every state</p>
+<h1>Passports and Social Security in 2026</h1>
+{{ m.lede("Two federal offices changed course in 2025. New and renewed U.S. passports now show the sex assigned at birth, and the X marker is gone. Social Security stopped changing sex markers. Name changes still go through at both.") }}
+{{ m.checked_line(page) }}
+
+{% call m.callout('why', 'Why it matters', 'fed-why') %}
+<ul>
+  <li>Applying for any new passport, even just to change your name, can replace a marker that matches you with the sex assigned at birth. {{ src('us-aclu-orr') }} {{ src('us-hrc-passport') }}</li>
+  <li>These are federal rules, so they are the same in Oregon, Washington, Utah, and everywhere else.</li>
+</ul>
+{% endcall %}
+
+{{ m.onthispage([
+  ('passports', 'Passports'),
+  ('before-you-apply', 'Before you apply for a passport'),
+  ('letters', 'If the State Department asks for early records'),
+  ('court-case', 'The court case'),
+  ('social-security', 'Social Security'),
+  ('still-works', 'What still works'),
+  ('help', 'Get help')
+]) }}
+
+<h2 id="passports">Passports</h2>
+<ul>
+  <li>On January 20, 2025, an executive order changed the rules. It said passports, visas, and Global Entry cards must show the holder's sex as the order defines it. {{ src('us-eo-14168') }}</li>
+  <li>New and renewed passports now show the sex assigned at birth, no matter your name change or other documents. The X marker, offered since 2022, was eliminated. {{ src('us-hrc-passport') }}</li>
+  <li>The ACLU says anyone who applies for a passport is at risk of getting one with the sex assigned at birth. That includes new, corrected, replacement, and renewed passports. {{ src('us-aclu-orr') }}</li>
+  <li>Search results quoted the State Department as saying passports issued before the change stay valid until they expire. We could not open the department's page to confirm it. {{ src('us-state-sex-marker') }}</li>
+</ul>
+
+<h2 id="before-you-apply">Before you apply for a passport</h2>
+{% call m.box('watch', 'Watch out') %}
+<p>If your current passport shows the marker you want, be careful. Any new application, even for a name change, may come back with the sex assigned at birth. {{ src('us-hrc-passport') }} {{ src('us-aclu-orr') }} Think about whether you need a new passport now, and talk to a lawyer if you are unsure. {{ m.badge('inference') }}</p>
+{% endcall %}
+<p>You can still change your name on a passport with a certified court order. But the Human Rights Campaign warns of a risk. Asking for a name change could lead the State Department to change your passport's sex marker to match your birth sex. That can happen even if you had a different marker before. {{ src('us-hrc-passport') }}</p>
+<p>The State Department explains which form to use for a name change. {{ ext('us-state-change') }}.</p>
+
+<h2 id="letters">If the State Department asks for early records</h2>
+<p>The Human Rights Campaign reports that some applicants got letters asking for "early public records" showing their name and sex at birth. Its advice: do not respond until you talk to an LGBTQ+-affirming attorney or legal organization. Until then, do not send court orders, medical records, or other documents about your transition. {{ src('us-hrc-passport') }}</p>
+<p>Free help: the {{ ext('us-lambda-helpdesk') }}.</p>
+
+<h2 id="court-case">The court case</h2>
+<ul>
+  <li>The ACLU sued over the passport policy in a case called Orr v. Trump. {{ src('us-aclu-orr') }}</li>
+  <li>A federal court blocked the policy in June 2025. In November 2025, the U.S. Supreme Court let the government enforce it while the case continues. {{ src('us-hrc-passport') }}</li>
+  <li>As of September 2026, the case is back in the trial court and in "discovery," the stage where each side gathers information. The ACLU expects that to last at least until spring 2027. {{ src('us-aclu-orr') }}</li>
+</ul>
+<p>Rules can change if the courts rule. We will update this page, but check the {{ ext('us-aclu-orr') }} for the latest.</p>
+
+<h2 id="social-security">Social Security</h2>
+<ul>
+  <li><strong>Name:</strong> after you legally change your name, update it by asking for a replacement Social Security card. You may be able to start online. {{ ext('us-ssa-name') }}. {{ src('us-ssa-name') }}</li>
+  <li><strong>Sex marker:</strong> Oregon's DMV reports that as of January 31, 2025, Social Security was directed to stop processing gender marker updates. The Human Rights Campaign reports the same. {{ src('or-dmv-gender') }} {{ src('us-hrc-passport') }}</li>
+  <li><strong>Why update your name first:</strong> some DMVs check your name against Social Security before they issue a card. Oregon's does. {{ src('or-dmv-gender') }}</li>
+</ul>
+{% call m.box('watch', 'Federal records talk to each other') %}
+<p>The Human Rights Campaign reports that the State Department may look at older federal records to decide sex at birth. That can happen even if your newer documents are updated. {{ src('us-hrc-passport') }}</p>
+{% endcall %}
+
+<h2 id="still-works">What still works</h2>
+<ul>
+  <li><strong>Oregon and Washington licenses</strong> still offer M, F, or X. Oregon's DMV says it has had no federal direction about markers on REAL ID cards and keeps offering all three. {{ src('or-dmv-gender') }} {{ src('wa-dol-gender') }}</li>
+  <li><strong>Oregon and Washington birth certificates</strong> still offer M, F, or X through a form. <a href="{{ page_url('oregon#birth-certificate') }}">Oregon</a>, <a href="{{ page_url('washington#birth-certificate') }}">Washington</a>.</li>
+  <li><strong>Court orders</strong> for name and sex changes still work in all three states. <a href="{{ page_url('compare') }}">Compare the states</a>.</li>
+</ul>
+
+<h2 id="help">Get help</h2>
+<ul>
+  <li>{{ ext('us-lambda-helpdesk') }}: general information and referrals through an online form. Not for emergencies.</li>
+  <li>{{ ext('us-hrc-passport') }}</li>
+  <li><a href="{{ page_url('help') }}">Legal help in Oregon, Washington, and Utah</a></li>
+</ul>
+{% endblock %}

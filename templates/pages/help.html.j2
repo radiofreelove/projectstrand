@@ -1,0 +1,48 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Get help</p>
+<h1>Free and low-cost help</h1>
+{{ m.lede("You do not need a lawyer for most name and gender marker changes. But it helps to have someone in your corner. That matters most if you have a court case going on, a criminal record, an immigration question, or a child involved.") }}
+{{ m.checked_line(page) }}
+
+{% call m.callout('watch', 'Need to talk to someone right now?', 'now') %}
+<ul>
+  <li><strong>In danger right now:</strong> call 911.</li>
+  <li><strong>Trans Lifeline:</strong> {{ m.copyable(fact('translifeline_phone'), 'Trans Lifeline phone number') }}. Peer support run by trans people, weekdays 10 a.m. to 6 p.m. Pacific. It does not call police or emergency services unless you ask, with limited exceptions it explains on its page. {{ src('us-translifeline') }}</li>
+  <li><strong>988 Suicide and Crisis Lifeline:</strong> call or text 988, any time.</li>
+</ul>
+{% endcall %}
+
+<h2 id="oregon">Oregon</h2>
+<ul>
+  <li>{{ ext('or-ojd-self-help') }}: court self-help resources. Court staff can explain steps but cannot give legal advice. {{ src('or-ojd-adult-packet') }}</li>
+  <li>{{ ext('or-ojd-guide-file') }}: free online interview that fills in your court forms.</li>
+  <li>Oregon State Bar referral service, to find a lawyer: {{ m.copyable(fact('or_osb_lrs'), 'phone numbers') }}. Ask about costs when you call.</li>
+  <li>{{ ext('or-lawhelp') }}: free legal information from Oregon legal aid programs.</li>
+</ul>
+
+<h2 id="washington">Washington</h2>
+<ul>
+  <li>CLEAR, the referral line Washington's courts list for finding a lawyer or a free or low-cost legal service program: {{ m.copyable(fact('wa_clear'), 'CLEAR phone number') }}. {{ src('wa-courts-forms') }}</li>
+  <li>{{ ext('wa-wlh-name') }}: free forms and instructions from a legal aid program.</li>
+  <li>Courthouse facilitators: your county may have one who can help you fill out paperwork. They cannot give legal advice. Ask your court. {{ src('wa-courts-forms') }}</li>
+</ul>
+
+<h2 id="utah">Utah</h2>
+<ul>
+  <li>{{ ext('ut-courts-self-help') }}</li>
+  <li>{{ ext('ut-mypaperwork') }}: fills in your forms and files them for you.</li>
+  <li>{{ ext('ut-courts-legal-help') }}</li>
+</ul>
+
+<h2 id="national">Anywhere</h2>
+<ul>
+  <li>{{ ext('us-lambda-helpdesk') }}: general information and referrals through an online form. It is not legal advice and not for emergencies. {{ src('us-lambda-helpdesk') }}</li>
+  <li>Born in another state? Find its birth certificate office: {{ ext('us-cdc-w2w') }}.</li>
+</ul>
+
+{% call m.callout('note', 'How we choose what to list', 'how-we-list') %}
+<p>We list court and government help, legal aid programs, and national groups whose own pages we read. We check each listing on the date shown at the top of this page. If a phone number or link is wrong, <a href="{{ issues_url }}" rel="noreferrer">tell us</a>.</p>
+{% endcall %}
+{% endblock %}

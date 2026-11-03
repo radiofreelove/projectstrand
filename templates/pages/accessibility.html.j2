@@ -1,0 +1,41 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Accessibility</p>
+<h1>Built for every kind of brain and body</h1>
+{{ m.lede("This guide is for people who may be tired, stressed, disabled, neurodivergent, or reading on a phone in a waiting room. We built it to be easy to read, easy to follow, and easy to come back to.") }}
+
+<h2 id="goal">Our goal</h2>
+<p>We aim to meet {{ ext('std-wcag22', 'WCAG 2.2') }} at level AA, with text contrast at the stricter AAA level of 7 to 1 wherever we can. We also follow the W3C's guidance for people with cognitive and learning disabilities. {{ src('std-wcag22') }} {{ src('std-coga') }}</p>
+
+<h2 id="features">What you can use</h2>
+<ul>
+  <li><strong>Reading settings</strong>, at the top of every page: larger text, dark mode, high contrast, more space between letters and lines, and a short version that hides the "Go deeper" sections.</li>
+  <li><strong>Steps you can check off</strong>, so you do not have to remember where you left off. They are saved only if you choose.</li>
+  <li><strong>The path finder</strong>, which shows only the steps that fit you.</li>
+  <li><strong>The same layout on every page</strong>: the big picture first, then why it matters, then the steps, then the details.</li>
+  <li><strong>Underlined links</strong> and a bright yellow highlight that shows where you are when you use a keyboard.</li>
+  <li><strong>Copy buttons</strong> for addresses, emails, and phone numbers.</li>
+  <li><strong>Print-friendly pages</strong> with a clean checklist and the full web address of every link.</li>
+  <li><strong>Works without JavaScript.</strong> The extras turn off, and the content stays.</li>
+  <li><strong>Respects your device:</strong> dark mode, high contrast, reduced motion, and text size settings.</li>
+</ul>
+
+<h2 id="testing">How we test</h2>
+<ul>
+  <li>Every build checks the contrast of every color pair in every theme, broken links, page structure, and reading level.</li>
+  <li>An automated accessibility checker, axe-core, runs on every page in the project's automated checks.</li>
+  <li>We test with a keyboard only, at 400 percent zoom, and on a small phone screen.</li>
+</ul>
+
+<h2 id="limits">Known limits</h2>
+<ul>
+  <li>This is a beta. We have not yet tested it with screen reader users or with neurodivergent and disabled trans people. We want to, and we want to pay them for their time.</li>
+  <li>Official forms we link to are PDFs from courts and agencies. Some may be hard to use with assistive technology. We cannot fix those, but the court self-help centers can help.</li>
+  <li>Oregon's online Guide &amp; File tool takes answers in English only. {{ src('or-ojd-guide-file') }}</li>
+  <li>The site is in English only for now. Translations need careful legal review, and they are on our list.</li>
+</ul>
+
+<h2 id="tell-us">Tell us what does not work</h2>
+<p>If anything here is hard to use, <a href="{{ issues_url }}" rel="noreferrer">tell us</a>. Say what you were trying to do and what got in the way. You do not need to share anything about yourself.</p>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Plain definitions</p>
+<h1>Words to know</h1>
+{{ m.lede("Court forms use words most people never need until now. Here is what they mean, in the order you are likely to see them.") }}
+
+<dl class="glossary">
+  <dt id="petition">Petition</dt>
+  <dd>The form that asks a court for something, like a new name. The person who files it is the <strong>petitioner</strong>.</dd>
+
+  <dt id="fee-waiver">Fee waiver and fee deferral</dt>
+  <dd>A waiver means you do not pay a court fee because you cannot afford it. A deferral, offered in Oregon, means you pay it later.</dd>
+
+  <dt id="circuit-court">Circuit court</dt>
+  <dd>Oregon's main trial court. Every county has one.</dd>
+
+  <dt id="district-court">District court</dt>
+  <dd>In Washington, a local court where you can file a public name change. In Utah, the main trial court, where name and sex changes are filed.</dd>
+
+  <dt id="superior-court">Superior court</dt>
+  <dd>Washington's main trial court. It hears sealed name changes.</dd>
+
+  <dt id="hearing">Hearing</dt>
+  <dd>A time when you go before a judge, in person or sometimes by video, and the judge may ask you questions.</dd>
+
+  <dt id="notice">Notice</dt>
+  <dd>Telling someone with a legal interest, like a child's other parent, that a case was filed.</dd>
+
+  <dt id="judgment">Judgment or order</dt>
+  <dd>The judge's signed decision. It is your proof of the change.</dd>
+
+  <dt id="notice-of-entry">Notice of Entry of Judgment</dt>
+  <dd>In Oregon, a notice the court sends when your judgment is entered in its records. The change is official at that point. {{ src('or-ojd-adult-packet') }}</dd>
+
+  <dt id="certified-copy">Certified copy</dt>
+  <dd>A copy of a court order or record with an official stamp or seal that shows it is a true copy. Most offices want this, not a photocopy.</dd>
+
+  <dt id="confidential">Confidential, sealed, and private</dt>
+  <dd>Each state uses its own word. In Oregon, a <strong>confidential</strong> case can be seen only by you, your lawyer, the court, and people a judge allows. In Washington, a <strong>sealed</strong> name change file has no public access. In Utah, a <strong>private</strong> case keeps your filed papers from the public, but the case history and hearings are public. {{ src('or-2026-ch52') }} {{ src('wa-rcw-4-24-130') }} {{ src('ut-courts-sex-change') }}</dd>
+
+  <dt id="acp">Address Confidentiality Program</dt>
+  <dd>An Oregon state program that keeps participants' addresses private. Certified participants can ask the court to seal a name change case. {{ src('or-ors-33') }}</dd>
+
+  <dt id="legal-sex">Legal sex, sex designation, gender marker</dt>
+  <dd>The M, F, or X on an ID or a record. Courts and agencies use different names for the same thing.</dd>
+
+  <dt id="x">X</dt>
+  <dd>A marker for people who are not exclusively male or female. Oregon's DMV says X stands for "not specified." Oregon birth records list X as nonbinary. Washington describes X as a gender that is not exclusively male or female. {{ src('or-dmv-gender') }} {{ src('or-oha-gender') }} {{ src('wa-doh-sex') }}</dd>
+
+  <dt id="attest">Attest</dt>
+  <dd>To state under oath that something is true. In Oregon, you attest that you have had treatment appropriate for you to affirm your gender identity.</dd>
+
+  <dt id="clear-and-convincing">Clear and convincing evidence</dt>
+  <dd>A high level of proof: more than "more likely than not," but less than "beyond a reasonable doubt." Utah requires it for a sex designation change.</dd>
+
+  <dt id="notary">Notary and notarized</dt>
+  <dd>A notary is an official who checks your ID and watches you sign. Their stamp shows you signed. Banks and shipping stores often have one.</dd>
+
+  <dt id="administrative">Administrative process</dt>
+  <dd>Changing a record by filling out an agency's form instead of going to court. Example: Oregon's birth certificate form OHA 2673.</dd>
+
+  <dt id="amendment">Amendment and amendment history</dt>
+  <dd>An amendment is a change to an official record. In Utah, an amendment history is a separate document that lists which parts of a birth certificate changed and when.</dd>
+
+  <dt id="vital-records">Vital records</dt>
+  <dd>The state office that keeps birth certificates. Only the office in the state where you were born can change yours.</dd>
+
+  <dt id="emancipated">Emancipated</dt>
+  <dd>A person under 18 whom a court has declared legally independent from their parents.</dd>
+
+  <dt id="gal">Guardian ad litem</dt>
+  <dd>A person the court appoints to look out for a child's interests in a case. In Utah, the court appoints one in sex designation cases for children 15 years and 6 months or older. {{ src('ut-code-26b-8-111') }}</dd>
+
+  <dt id="self-help">Self-help center and courthouse facilitator</dt>
+  <dd>Court programs that help people without lawyers with forms and steps. They cannot give legal advice.</dd>
+
+  <dt id="real-id">REAL ID</dt>
+  <dd>A license or ID card that meets federal security standards. Oregon offers M, F, or X on both REAL ID and standard cards.</dd>
+</dl>
+{% endblock %}

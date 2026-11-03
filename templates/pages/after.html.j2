@@ -1,0 +1,84 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">After court</p>
+<h1>Update your records in the right order</h1>
+{{ m.lede("The court does not tell anyone about your change. You do. Start with Social Security, then your license, then your birth certificate, then everything else. This page is a checklist you can print.") }}
+{{ m.checked_line(page) }}
+
+{% call m.callout('why', 'Why order matters', 'after-why') %}
+<p>Offices check each other. Oregon's DMV, for example, checks your name with Social Security, so it asks you to change your name there first. {{ src('or-dmv-gender') }}</p>
+{% endcall %}
+
+<div class="btn-row js-only">
+  <button type="button" class="btn" data-print>Print this checklist</button>
+</div>
+<p class="no-js-only">To print, use your browser's Print command.</p>
+<p>Your checkmarks stay on this page only while it is open, unless you turn on "Remember" in Reading settings.</p>
+
+<ol class="steps">
+{% call m.step(page.slug, 1, 'after-copies', 'Get certified copies of your court order') %}
+  <p>Many offices want a certified copy, not a photocopy. Each one has a fee. Ask your court how to order them.</p>
+  <ul>
+    <li>Oregon: {{ fact('or_fee_certified_copy') }}. {{ src('or-ojd-fees') }}</li>
+    <li>Washington: {{ fact('wa_fee_cert_copy') }}. WashingtonLawHelp suggests getting 7 or more. {{ src('wa-wlh-name') }}</li>
+    <li>Utah: {{ fact('ut_fee_cert_copy') }}. {{ src('ut-courts-fees') }}</li>
+  </ul>
+{% endcall %}
+{% call m.step(page.slug, 2, 'after-ssa', 'Social Security (name changes)') %}
+  <p>Ask for a replacement card with your new name. You may be able to start online. {{ ext('us-ssa-name') }}. {{ src('us-ssa-name') }}</p>
+  <p>Social Security is not changing sex markers right now. <a href="{{ page_url('federal#social-security') }}">Read why</a>.</p>
+{% endcall %}
+{% call m.step(page.slug, 3, 'after-license', 'Driver license or state ID') %}
+  <ul>
+    <li>Oregon: {{ ext('or-dmv-gender') }}. Choose M, F, or X. In person.</li>
+    <li>Washington: {{ ext('wa-dol-gender') }}. Choose M, F, or X. In person or by mail.</li>
+    <li>Utah: {{ ext('ut-dld-name') }}. Bring your court order. We could not confirm Utah's process for the sex on a license. {{ m.badge('unconfirmed') }}</li>
+  </ul>
+{% endcall %}
+{% call m.step(page.slug, 4, 'after-birth', 'Birth certificate') %}
+  <p>Only the state where you were born can change it.</p>
+  <ul>
+    <li><a href="{{ page_url('oregon#birth-certificate') }}">Born in Oregon</a>: a form or your court judgment.</li>
+    <li><a href="{{ page_url('washington#birth-certificate') }}">Born in Washington</a>: a form for the sex designation; your court order for the name.</li>
+    <li><a href="{{ page_url('utah#birth-certificate') }}">Born in Utah</a>: your court order and form 902.</li>
+    <li>Born somewhere else: {{ ext('us-cdc-w2w') }}.</li>
+  </ul>
+{% endcall %}
+{% call m.step(page.slug, 5, 'after-passport', 'Passport: read this first') %}
+  <p>Any new passport application can come back with the sex assigned at birth, even one for a name change. <a href="{{ page_url('federal#before-you-apply') }}">Read before you apply</a>. {{ src('us-hrc-passport') }}</p>
+{% endcall %}
+{% call m.step(page.slug, 6, 'after-everyone', 'Everyone else') %}
+  <p>Ask each place what it needs to update your name or sex in its records. {{ src('ut-courts-sex-change') }}</p>
+  <ul class="checklist">
+    {% for key, label in [
+      ('bank', 'Banks, credit cards, and loans'),
+      ('job', 'Your job and payroll'),
+      ('school', 'School or college'),
+      ('health', 'Doctors, pharmacy, and health insurance'),
+      ('benefits', 'Public benefits agencies'),
+      ('voter', 'Voter registration'),
+      ('tax', 'State and local tax agencies'),
+      ('mail', 'Post office'),
+      ('utilities', 'Phone, internet, and utilities'),
+      ('housing', 'Landlord or mortgage company'),
+      ('insurance', 'Car, renters, or life insurance'),
+      ('vehicle', 'Vehicle title and registration'),
+      ('va', 'Veterans Affairs, if you are a veteran'),
+      ('library', 'Library card'),
+      ('legal', 'Your will, power of attorney, and health care directive')
+    ] %}
+    <li><label><input type="checkbox" class="js-only" data-check="{{ page.slug }}:other-{{ key }}"> {{ label }}</label></li>
+    {% endfor %}
+  </ul>
+{% endcall %}
+</ol>
+
+{% call m.callout('good', 'Make it easier on your future self', 'after-tips') %}
+<ul>
+  <li>Keep one folder, paper or digital, with your court order, receipts, and dates you sent things.</li>
+  <li>Write down who you talked to and what they said. Offices sometimes give different answers.</li>
+  <li>Do one or two places a day. This is a lot of tasks, and there is no prize for speed.</li>
+</ul>
+{% endcall %}
+{% endblock %}

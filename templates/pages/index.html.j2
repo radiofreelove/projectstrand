@@ -1,0 +1,64 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<h1>Change your name and gender marker. Here is how.</h1>
+{{ m.lede("You can ask a court to change your legal name. In Oregon, Washington, and Utah, you can change the sex on your state records too. The steps are spread across courts and offices that each explain only their own part. This guide puts the whole path in one place, in plain words, with a link to every official form.") }}
+
+{% call m.callout('why', 'Why it matters', 'why-it-matters') %}
+<ul>
+  <li>In the 2022 U.S. Trans Survey, {{ fact('usts_name_none') }} of people who had at least one ID said none of their IDs listed the name they wanted. {{ fact('usts_gender_none') }} said none listed the gender they wanted. {{ src('data-usts-2022') }}</li>
+  <li>{{ fact('usts_mistreated') }} said they had been harassed, assaulted, asked to leave, or denied service after showing an ID that did not match how they look.</li>
+  <li>Matching ID will not fix everything. It does remove one thing that can out you every time you show your ID.</li>
+</ul>
+<p><a href="{{ page_url('why') }}">Why this site exists</a></p>
+{% endcall %}
+
+<section class="big-start" aria-labelledby="start-h">
+  <h2 id="start-h">Start here: 4 questions, about 1 minute</h2>
+  <p>Tell us where you live, what you want to change, who it is for, and where you were born. You will see only the steps that fit you.</p>
+  <p><a class="btn" href="{{ page_url('path') }}">Find my path</a></p>
+</section>
+
+<h2 id="states">Or go straight to your state</h2>
+<ul class="cards">
+  <li class="card">
+    <h3><a href="{{ page_url('oregon') }}">Oregon</a></h3>
+    <p>One court petition for name, sex, or both: {{ fact('or_fee_petition') }}. Sex change cases are confidential. License and Oregon birth certificate: no court needed.</p>
+  </li>
+  <li class="card">
+    <h3><a href="{{ page_url('washington') }}">Washington</a></h3>
+    <p>Name change in court, with a sealed option for gender-related changes. License and Washington birth certificate: a form, no court.</p>
+  </li>
+  <li class="card">
+    <h3><a href="{{ page_url('utah') }}">Utah</a></h3>
+    <p>Court for both. A sex designation change needs strong proof of six things. Filing fee: {{ fact('ut_fee_petition') }}, or ask to waive it.</p>
+  </li>
+  <li class="card">
+    <h3><a href="{{ page_url('federal') }}">Passports and Social Security</a></h3>
+    <p>Both changed in 2025. Read this before you apply for any passport.</p>
+  </li>
+</ul>
+
+{% call m.callout('changed', 'What changed in 2026', 'changed-2026') %}
+<ul>
+  <li><strong>Oregon:</strong> since July 1, 2026, court cases for a legal change of sex, including name and sex together, are confidential by law. Earlier cases can be made confidential if you ask the court. {{ src('or-2026-ch52') }}</li>
+  <li><strong>Utah:</strong> a 2026 bill to change the rules for sex designation changes, H.B. 183, stalled in a Senate committee and is listed as not passed. {{ src('ut-hb183-notice') }} {{ src('ut-hb183-legiscan') }}</li>
+  <li><strong>Federal:</strong> new and renewed U.S. passports show the sex assigned at birth, and X is gone. The court case continues into 2027. {{ src('us-hrc-passport') }} {{ src('us-aclu-orr') }}</li>
+</ul>
+{% endcall %}
+
+<h2 id="how">How it works, in 3 parts</h2>
+<ol>
+  <li><strong>Court, sometimes.</strong> A judge signs an order that changes your legal name, sex, or both. Some records do not need one. <a href="{{ page_url('compare') }}">See which</a>.</li>
+  <li><strong>Records.</strong> You take that order, or a form, to each office: Social Security, the DMV, and the office that holds your birth certificate.</li>
+  <li><strong>Everything else.</strong> Banks, work, school, and doctors. <a href="{{ page_url('after') }}">Use the checklist</a>.</li>
+</ol>
+
+{% call m.callout('note', 'What this site is, and is not', 'what-this-is') %}
+<ul>
+  <li><strong>It is</strong> a free map of the official process, checked against the law and official pages, with the date we checked.</li>
+  <li><strong>It is not</strong> legal advice, and we will not tell you what to choose. <a href="{{ page_url('help') }}">Find free and low-cost help</a>.</li>
+  <li><strong>It does not track you.</strong> No cookies and no analytics. If you need to leave fast, use the Leave quickly button at the top, or press the Shift key 3 times.</li>
+</ul>
+{% endcall %}
+{% endblock %}

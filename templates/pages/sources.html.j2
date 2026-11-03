@@ -1,0 +1,36 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Show your work</p>
+<h1>Every source we use</h1>
+{{ m.lede("Every fact on this site comes from a source below. We read each one ourselves on the date shown. When a source is not an official government page, or when we could not open it, we say so.") }}
+
+<h2 id="labels">What the labels mean</h2>
+<dl class="glossary">
+  <dt>No label</dt>
+  <dd>An official law, court form, or government page that we opened and read.</dd>
+  <dt><span class="badge badge-secondary">Not official</span></dt>
+  <dd>We read it, but it comes from a legal aid group, an advocacy group, or a bill tracker, not the government. We use these when they explain something official sources do not.</dd>
+  <dt><span class="badge badge-unconfirmed">Not confirmed</span></dt>
+  <dd>We could not open the source or could not find the detail in an official source. Check it yourself before you rely on it.</dd>
+  <dt><span class="badge badge-inference">Our reading</span></dt>
+  <dd>Our interpretation of what a law or page means, where it does not say so directly. It is not legal advice.</dd>
+</dl>
+
+<p>Researchers and developers: this list is also available as <a href="sources.json">sources.json</a>, and the numbers that change, like fees, are in <a href="facts.json">facts.json</a>. Our research notes, with what we checked and what we could not confirm, are in the project's <a href="{{ repo_url }}" rel="noreferrer">source and audit trail</a>.</p>
+
+{% set groups = [('OR', 'Oregon'), ('WA', 'Washington'), ('UT', 'Utah'), ('US', 'Federal and national'), ('standards', 'Standards')] %}
+{% for code, label in groups %}
+<h2 id="src-{{ code|lower }}">{{ label }}</h2>
+<ul class="source-list">
+{% for s in sources_list if s.jurisdiction == code and not s.get('docs_only') %}
+  <li class="source-item" id="{{ s.id }}">
+    <h3><a href="{{ s.url }}" rel="noreferrer">{{ s.title }}</a>
+      {% if s.status == 'unverified' %}<span class="badge badge-unconfirmed">Not confirmed</span>{% elif s.status == 'secondary' %}<span class="badge badge-secondary">Not official</span>{% endif %}</h3>
+    <p class="source-meta">{{ s.publisher }}. {{ s.date }}. Checked {{ s.checked|human_date }}.{% if s.status == 'linked' %} Linked for convenience; we do not rely on it for facts.{% endif %}</p>
+    {% if s.get('notes') %}<p class="source-meta">{{ s.notes }}</p>{% endif %}
+  </li>
+{% endfor %}
+</ul>
+{% endfor %}
+{% endblock %}

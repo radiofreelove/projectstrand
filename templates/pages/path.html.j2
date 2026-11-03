@@ -1,0 +1,255 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block head %}<script src="{{ asset('js/path.js') }}" defer></script>{% endblock %}
+{% block main %}
+<p class="kicker">Start here</p>
+<h1>Find your path in 4 questions</h1>
+{{ m.lede("Answer 4 questions. You will see only the steps that fit you, in order, with links to the official forms. Your answers stay on this page. They are not sent anywhere or saved.") }}
+
+<div class="callout callout-note no-js-only">
+  <p class="callout-title"><strong>This tool needs JavaScript, which is off or blocked.</strong></p>
+  <p>Everything it shows is also on these pages:</p>
+  <ul>
+    <li><a href="{{ page_url('oregon') }}">Oregon</a>, <a href="{{ page_url('washington') }}">Washington</a>, <a href="{{ page_url('utah') }}">Utah</a></li>
+    <li><a href="{{ page_url('federal') }}">Passports and Social Security</a></li>
+    <li><a href="{{ page_url('after') }}">After court: the checklist</a></li>
+    <li><a href="{{ page_url('compare') }}">Compare the three states</a></li>
+  </ul>
+</div>
+
+<form id="path-form" class="path-form js-only" novalidate>
+  <fieldset id="q-live">
+    <legend>1. Where do you live?</legend>
+    <label><input type="radio" name="live" value="or"> Oregon</label>
+    <label><input type="radio" name="live" value="wa"> Washington</label>
+    <label><input type="radio" name="live" value="ut"> Utah</label>
+    <label><input type="radio" name="live" value="other"> Somewhere else</label>
+  </fieldset>
+
+  <fieldset id="q-change">
+    <legend>2. What do you want to change?</legend>
+    <label><input type="radio" name="change" value="name"> Name</label>
+    <label><input type="radio" name="change" value="marker"> Gender marker (legal sex)</label>
+    <label><input type="radio" name="change" value="both"> Both</label>
+  </fieldset>
+
+  <fieldset id="q-who">
+    <legend>3. Who is this for?</legend>
+    <label><input type="radio" name="who" value="adult"> Me, and I am 18 or older</label>
+    <label><input type="radio" name="who" value="parent"> My child. I am a parent or guardian.</label>
+    <label><input type="radio" name="who" value="minor"> Me, and I am under 18</label>
+  </fieldset>
+
+  <fieldset id="q-born">
+    <legend>4. Where were you (or your child) born?</legend>
+    <p class="hint">This decides which office changes the birth certificate.</p>
+    <label><input type="radio" name="born" value="or"> Oregon</label>
+    <label><input type="radio" name="born" value="wa"> Washington</label>
+    <label><input type="radio" name="born" value="ut"> Utah</label>
+    <label><input type="radio" name="born" value="other-us"> Another U.S. state or territory</label>
+    <label><input type="radio" name="born" value="outside"> Outside the United States</label>
+  </fieldset>
+
+  <div id="path-error" class="callout callout-watch" role="alert" hidden></div>
+
+  <div class="btn-row">
+    <button type="submit" class="btn">Show my steps</button>
+    <button type="reset" class="btn-secondary">Start over</button>
+  </div>
+</form>
+
+<section id="path-results" class="path-results" aria-labelledby="results-h" hidden>
+  <h2 id="results-h" tabindex="-1">Your steps</h2>
+  <p id="results-summary"></p>
+  <div id="results-body"></div>
+  <div class="btn-row">
+    <button type="button" class="btn" data-print>Print my steps</button>
+    <a class="btn-secondary" href="#path-form">Change my answers</a>
+  </div>
+</section>
+
+{#- ===== Result blocks. path.js picks blocks by answer and removes lines
+      marked with data-change or data-who that do not apply. ===== -#}
+<div hidden>
+
+<template id="t-court-or">
+  <div class="result-block">
+    <h3>Court in Oregon</h3>
+    <ul>
+      <li data-who="adult" data-change="name">File a name change petition at the circuit court in the county where you live. The fee is {{ fact('or_fee_petition') }}, or ask to waive it. Name-only cases are public. {{ src('or-ojd-adult-packet') }}</li>
+      <li data-who="adult" data-change="marker">You may not need court. Oregon's DMV and Oregon's birth certificate office do not require a court order. If another office asks for one, file for a legal sex change at any Oregon circuit court. These cases are confidential. {{ src('or-2026-ch52') }}</li>
+      <li data-who="adult" data-change="both">File one petition for both at any Oregon circuit court. The fee is {{ fact('or_fee_petition') }}, or ask to waive it. Cases that include a sex change are confidential. {{ src('or-2026-ch52') }}</li>
+      <li data-who="parent">As a parent or guardian, you file the minor forms. A name change goes to the county where your child lives. A sex change can go to any circuit court. For a name change, the other parent usually must get written notice. {{ src('or-ojd-adult-packet') }}</li>
+      <li data-who="minor">Under Oregon's forms, a parent, guardian, or legal representative files for someone under 18, unless you are emancipated. If your parents will not help, talk with a lawyer about your options. {{ src('or-ojd-adult-packet') }}</li>
+    </ul>
+    <p><a href="{{ page_url('oregon#steps') }}">Oregon court steps</a></p>
+  </div>
+</template>
+
+<template id="t-court-wa">
+  <div class="result-block">
+    <h3>Court in Washington</h3>
+    <ul>
+      <li data-change="name both">For a name change, choose a public case at any district court, or a sealed case at any superior court if the change relates to gender identity or expression. Every name change has a hearing. {{ src('wa-rcw-4-24-130') }} {{ src('wa-wlh-name') }}</li>
+      <li data-change="marker both">No court is needed to change the gender marker on a Washington license or a Washington birth certificate. A court order that confirms your gender is optional. It can help with other states or agencies. {{ src('wa-wlh-gender-order') }}</li>
+      <li data-who="parent">A parent or guardian can file a child's name change, sealed if the reason relates to the child's gender identity or expression. Parents get notice, and some courts ask for the child's consent at 13 or older. {{ src('wa-wlh-name') }}</li>
+      <li data-who="minor">Talk with a parent, guardian, or legal aid about a name change. For a Washington birth certificate, the form for minors needs a parent or guardian and a licensed provider. {{ src('wa-doh-sex') }}</li>
+    </ul>
+    <p><a href="{{ page_url('washington#steps') }}">Washington court steps</a></p>
+  </div>
+</template>
+
+<template id="t-court-ut">
+  <div class="result-block">
+    <h3>Court in Utah</h3>
+    <ul>
+      <li data-who="adult" data-change="name both">File in the district court for the county where you have lived for at least one year. There is a hearing. The fee is {{ fact('ut_fee_petition') }}, or ask to waive it. {{ src('ut-code-42-1') }}</li>
+      <li data-who="adult" data-change="marker both">For a sex designation change, the judge must find clear and convincing evidence of six things, including six months of living as yourself. Filed papers are private, but hearings are public. {{ src('ut-code-26b-8-111') }} {{ src('ut-courts-sex-change') }}</li>
+      <li data-who="parent minor" data-change="marker both">Utah does not allow a sex designation change for a child younger than 15 years and 6 months, or without permission from the parent or guardian with legal custody. The order does not take effect until 16. {{ src('ut-code-26b-8-111') }}</li>
+      <li data-who="parent minor" data-change="name">For a child's name change, start with the Utah Courts page. {{ ext('ut-courts-sex-change') }}.</li>
+    </ul>
+    <p><a href="{{ page_url('utah#steps') }}">Utah court steps</a></p>
+  </div>
+</template>
+
+<template id="t-court-other">
+  <div class="result-block">
+    <h3>Court where you live</h3>
+    <p>This guide covers Oregon, Washington, and Utah. Start with your state court's self-help pages or a legal aid group where you live. The federal steps below apply everywhere.</p>
+    <p>Lambda Legal's help desk can point you to resources: {{ ext('us-lambda-helpdesk') }}.</p>
+  </div>
+</template>
+
+<template id="t-birth-or">
+  <div class="result-block">
+    <h3>Birth certificate: Oregon</h3>
+    <ul>
+      <li>Use form OHA 2673, notarized, to change name, sex, or both. No court needed. Sex can be M, F, or X. Each can be changed this way once. {{ src('or-oha-gender') }}</li>
+      <li data-who="parent minor">For someone under 18, a parent or legal guardian applies.</li>
+      <li>Or send a certified copy of a court judgment instead. Oregon accepts court orders from other states too.</li>
+      <li>Cost: {{ fact('or_oha_amend_fee') }} plus {{ fact('or_oha_cert_fee') }}.</li>
+    </ul>
+    <p><a href="{{ page_url('oregon#birth-certificate') }}">Oregon birth certificate details</a></p>
+  </div>
+</template>
+
+<template id="t-birth-wa">
+  <div class="result-block">
+    <h3>Birth certificate: Washington</h3>
+    <ul>
+      <li data-change="marker both">Sex designation: use the Department of Health form, not a court order. M, F, or X. No fee to change it; {{ fact('wa_doh_cert_fee') }}. {{ src('wa-doh-sex') }}</li>
+      <li data-change="marker both" data-who="adult">Adults use DOH 422-143, signed in front of a notary.</li>
+      <li data-change="marker both" data-who="parent minor">Minors use DOH 422-144, signed by a parent or guardian and a licensed provider.</li>
+      <li data-change="name both">Name: send a certified court order with form DOH 422-126.</li>
+    </ul>
+    <p><a href="{{ page_url('washington#birth-certificate') }}">Washington birth certificate details</a></p>
+  </div>
+</template>
+
+<template id="t-birth-ut">
+  <div class="result-block">
+    <h3>Birth certificate: Utah</h3>
+    <ul>
+      <li>Utah changes a birth certificate with a court order. Send a certified copy, form 902, and the fee to Utah Vital Records. {{ src('ut-courts-sex-change') }}</li>
+      <li data-change="marker both">The new certificate does not show what changed unless you ask. Vital Records also issues and keeps an amendment history. {{ src('ut-code-26b-8-111') }}</li>
+    </ul>
+    <p><a href="{{ page_url('utah#birth-certificate') }}">Utah birth certificate details</a></p>
+  </div>
+</template>
+
+<template id="t-birth-other-us">
+  <div class="result-block">
+    <h3>Birth certificate: your birth state</h3>
+    <p>Only the state where you were born can change your birth certificate, and each state has its own rules. Some ask for a court order. Find your birth state's office: {{ ext('us-cdc-w2w') }}. {{ src('us-cdc-w2w') }}</p>
+  </div>
+</template>
+
+<template id="t-birth-outside">
+  <div class="result-block">
+    <h3>Birth certificate: born outside the U.S.</h3>
+    <p>A U.S. court or state office cannot change a birth certificate issued by another country. If you have U.S. immigration documents, talk with an immigration lawyer before you change other records. {{ m.badge('inference') }}</p>
+  </div>
+</template>
+
+<template id="t-id-or">
+  <div class="result-block">
+    <h3>Driver license or ID: Oregon</h3>
+    <ul>
+      <li data-change="marker both">Choose M, F, or X at the DMV. No proof of gender needed. Go in person and pay the renewal or replacement fee. {{ src('or-dmv-gender') }}</li>
+      <li data-change="name both">Change your name with Social Security first. The DMV checks your name with Social Security. {{ src('or-dmv-gender') }}</li>
+    </ul>
+  </div>
+</template>
+
+<template id="t-id-wa">
+  <div class="result-block">
+    <h3>Driver license or ID: Washington</h3>
+    <ul>
+      <li data-change="marker both">Choose M, F, or X. Change it in person or by mail with form 520043. Free if you only change the gender designation. {{ src('wa-dol-gender') }}</li>
+      <li data-change="name">Bring your certified court order to the Department of Licensing after you update Social Security.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="t-id-ut">
+  <div class="result-block">
+    <h3>Driver license or ID: Utah</h3>
+    <ul>
+      <li data-change="name both">Bring legal documentation of your name change. Sealed court documents are accepted. {{ src('ut-dld-name') }}</li>
+      <li data-change="marker both">We could not confirm how Utah changes the sex on a license. {{ m.badge('unconfirmed') }} Ask the Driver License Division before you go.</li>
+    </ul>
+  </div>
+</template>
+
+<template id="t-id-other">
+  <div class="result-block">
+    <h3>Driver license or ID</h3>
+    <p>Check your state's DMV. Many DMVs ask you to update your name with Social Security first. {{ m.badge('inference') }}</p>
+  </div>
+</template>
+
+<template id="t-federal">
+  <div class="result-block">
+    <h3>Social Security and passports</h3>
+    <ul>
+      <li data-change="name both">Social Security: after your name legally changes, ask for a replacement card with your new name. {{ src('us-ssa-name') }}</li>
+      <li data-change="marker both">Social Security is not changing sex markers right now. {{ src('or-dmv-gender') }}</li>
+      <li>Passports: new and renewed passports show the sex assigned at birth, and X is not offered. Read this before you apply for any passport, including a name change. {{ src('us-hrc-passport') }}</li>
+    </ul>
+    <p><a href="{{ page_url('federal') }}">Passports and Social Security in 2026</a></p>
+  </div>
+</template>
+
+<template id="t-help-or">
+  <div class="result-block">
+    <h3>Help in Oregon</h3>
+    <p>{{ ext('or-ojd-self-help') }}. Oregon State Bar referral service: {{ fact('or_osb_lrs') }}. <a href="{{ page_url('help') }}">More help</a></p>
+  </div>
+</template>
+<template id="t-help-wa">
+  <div class="result-block">
+    <h3>Help in Washington</h3>
+    <p>CLEAR legal aid line: {{ fact('wa_clear') }}. {{ ext('wa-wlh-name') }}. <a href="{{ page_url('help') }}">More help</a></p>
+  </div>
+</template>
+<template id="t-help-ut">
+  <div class="result-block">
+    <h3>Help in Utah</h3>
+    <p>{{ ext('ut-courts-self-help') }}. {{ ext('ut-mypaperwork') }}. <a href="{{ page_url('help') }}">More help</a></p>
+  </div>
+</template>
+<template id="t-help-other">
+  <div class="result-block">
+    <h3>Help</h3>
+    <p>{{ ext('us-lambda-helpdesk') }}. <a href="{{ page_url('help') }}">More help</a></p>
+  </div>
+</template>
+<template id="t-after">
+  <div class="result-block">
+    <h3>After that</h3>
+    <p>Update everything else in order: banks, work, school, doctors, and more. <a href="{{ page_url('after') }}">Open the after-court checklist</a>.</p>
+  </div>
+</template>
+
+</div>
+{% endblock %}

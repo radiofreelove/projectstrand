@@ -1,0 +1,75 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Side by side</p>
+<h1>Compare Oregon, Washington, and Utah</h1>
+{{ m.lede("The three states take very different paths. Oregon and Washington let you change state records with a form. Utah asks a judge to weigh evidence. This table shows the differences at a glance. Each state's page has the details and sources.") }}
+{{ m.checked_line(page) }}
+
+<div class="table-wrap">
+<table class="stack-table compare-table">
+  <caption>How the three states compare, as of {{ page.checked|human_date }}</caption>
+  <thead>
+    <tr><th scope="col">Topic</th><th scope="col">Oregon</th><th scope="col">Washington</th><th scope="col">Utah</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Court for a name change</th>
+      <td data-label="Oregon">Circuit court in your county {{ src('or-ojd-adult-packet') }}</td>
+      <td data-label="Washington">Any district court (public) or any superior court (sealed, for gender-related changes) {{ src('wa-rcw-4-24-130') }}</td>
+      <td data-label="Utah">District court in your county, after 1 year living there {{ src('ut-code-42-1') }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Court for a sex or gender change</th>
+      <td data-label="Oregon">Any circuit court. You swear you have had treatment appropriate for you. {{ src('or-ors-33') }}</td>
+      <td data-label="Washington">Optional court order that confirms your gender {{ src('wa-wlh-gender-order') }}</td>
+      <td data-label="Utah">District court. Clear and convincing evidence of six things. {{ src('ut-code-26b-8-111') }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Court filing fee</th>
+      <td data-label="Oregon">{{ fact('or_fee_petition') }} {{ src('or-ojd-fees') }}</td>
+      <td data-label="Washington">Varies. Sealed cases usually {{ fact('wa_fee_sealed') }}. {{ src('wa-wlh-name') }}</td>
+      <td data-label="Utah">{{ fact('ut_fee_petition') }} {{ src('ut-courts-fees') }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Fee waiver</th>
+      <td data-label="Oregon">Yes, and applying is free</td>
+      <td data-label="Washington">Yes. District court must waive fees on a hardship statement.</td>
+      <td data-label="Utah">Yes</td>
+    </tr>
+    <tr>
+      <th scope="row">Hearing</th>
+      <td data-label="Oregon">Only if the court asks</td>
+      <td data-label="Washington">Yes, for every name change</td>
+      <td data-label="Utah">Yes</td>
+    </tr>
+    <tr>
+      <th scope="row">Who can see the case</th>
+      <td data-label="Oregon">Sex change cases, including name and sex together, are confidential. Name-only cases are public. {{ src('or-2026-ch52') }}</td>
+      <td data-label="Washington">Sealed superior court cases: no public access. District court: public.</td>
+      <td data-label="Utah">Sex change papers are private. Case history and hearings are public. {{ src('ut-courts-sex-change') }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Birth certificate, if born there</th>
+      <td data-label="Oregon">Notarized form, no court. M, F, or X. {{ src('or-oha-gender') }}</td>
+      <td data-label="Washington">Form, no court. Court orders are not accepted for the sex designation. M, F, or X. {{ src('wa-doh-sex') }}</td>
+      <td data-label="Utah">Court order required</td>
+    </tr>
+    <tr>
+      <th scope="row">Driver license or ID</th>
+      <td data-label="Oregon">Choose M, F, or X in person {{ src('or-dmv-gender') }}</td>
+      <td data-label="Washington">Choose M, F, or X, in person or by mail {{ src('wa-dol-gender') }}</td>
+      <td data-label="Utah">Not confirmed {{ m.badge('unconfirmed') }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Under 18</th>
+      <td data-label="Oregon">Parent or guardian files. Notice to parents for name changes.</td>
+      <td data-label="Washington">Parent or guardian files. Some courts ask for the child's consent at 13 or older.</td>
+      <td data-label="Utah">No sex change before 15 years and 6 months. Takes effect at 16.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>Federal records work the same way in every state. <a href="{{ page_url('federal') }}">Passports and Social Security in 2026</a>.</p>
+{% endblock %}

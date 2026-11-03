@@ -1,0 +1,40 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">About</p>
+<h1>About The Strand Project</h1>
+{{ m.lede("The Strand Project is an independent, volunteer-run guide to changing your legal name and gender marker in Oregon, Washington, and Utah. It is not run by, or connected to, any court or government agency.") }}
+
+{% call m.callout('watch', 'Beta: read this first', 'beta') %}
+<ul>
+  <li>This is an early version. A lawyer licensed in each state has not reviewed it yet.</li>
+  <li>Laws and forms change. Every page shows the date we last checked it. Always use the official link before you file.</li>
+  <li>If something here does not match what an official office tells you, trust the office, and <a href="{{ issues_url }}" rel="noreferrer">tell us</a> so we can fix it.</li>
+</ul>
+{% endcall %}
+
+<h2 id="how-we-research">How we research</h2>
+<ol>
+  <li><strong>Official sources first.</strong> Laws, court forms, and agency pages come before anything else.</li>
+  <li><strong>We open and read every source.</strong> Search results and summaries are only leads.</li>
+  <li><strong>We check that it is current.</strong> For laws, we look for newer bills and effective dates, not just the printed code.</li>
+  <li><strong>We date everything.</strong> Each source shows when we read it. The build warns us when a source gets old.</li>
+  <li><strong>We label uncertainty.</strong> <span class="badge badge-unconfirmed">Not confirmed</span> and <span class="badge badge-inference">Our reading</span> mark anything we could not verify or had to interpret.</li>
+  <li><strong>Every change is recorded.</strong> The project's history shows who changed what, when, and why.</li>
+</ol>
+<p><a href="{{ page_url('sources') }}">See every source</a>.</p>
+
+<h2 id="report">Report a mistake</h2>
+<p>Open an issue in the project's tracker: <a href="{{ issues_url }}" rel="noreferrer">report a mistake</a>. You will need a free GitHub account. Please do not include personal details about your own case.</p>
+
+<h2 id="made">How this site is made</h2>
+<ul>
+  <li>Plain HTML pages built from templates by a short Python program. No tracking code and no outside services.</li>
+  <li>Sources and facts like fees live in data files, so one update fixes every page that uses them.</li>
+  <li>Every build checks for missing sources, broken links, color contrast, and reading level. <a href="build-report.json">See the latest build report</a>.</li>
+  <li>The research notes, decisions, and audit log are public: <a href="{{ repo_url }}" rel="noreferrer">source and audit trail</a>.</li>
+</ul>
+
+<h2 id="license">License</h2>
+<p>We plan to share the writing under the Creative Commons Attribution 4.0 license and the code under the MIT License. That way legal aid groups, schools, and people in other states can reuse it.</p>
+{% endblock %}

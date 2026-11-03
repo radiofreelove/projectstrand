@@ -1,0 +1,181 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Oregon</p>
+<h1>Change your name and legal sex in Oregon</h1>
+{{ m.lede("One court form can change your name, your legal sex, or both. Since July 1, 2026, any case that includes a sex change is confidential by law. Your Oregon driver license and Oregon birth certificate can change without going to court.") }}
+{{ m.checked_line(page) }}
+
+{% call m.callout('why', 'Why it matters', 'or-why') %}
+<ul>
+  <li>A court judgment is the strongest proof of a legal change. Social Security, banks, and other states may ask for one even when Oregon offices do not.</li>
+  <li>In Oregon you choose male, female, or nonbinary, and you swear to the facts yourself. The court form does not ask for a doctor's letter. {{ src('or-ojd-adult-packet') }}</li>
+</ul>
+{% endcall %}
+
+{{ m.onthispage([
+  ('do-i-need-court', 'Do you need court?'),
+  ('steps', 'Court steps for adults'),
+  ('cost', 'What it costs'),
+  ('privacy', 'Who can see your case'),
+  ('birth-certificate', 'Oregon birth certificate'),
+  ('license', 'Driver license or ID'),
+  ('minors', 'Changes for someone under 18'),
+  ('questions', 'Good questions'),
+  ('help', 'Get help in Oregon')
+]) }}
+
+<h2 id="do-i-need-court">Do you need court?</h2>
+<div class="table-wrap">
+<table class="stack-table">
+  <caption>Which Oregon changes need a court judgment</caption>
+  <thead><tr><th scope="col">What you want to change</th><th scope="col">Court needed?</th><th scope="col">Where to go</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Your legal name, everywhere</th><td data-label="Court needed?">Yes, in almost every case. Social Security updates your name only after you legally change it. {{ src('us-ssa-name') }}</td><td data-label="Where to go"><a href="#steps">Court steps below</a></td></tr>
+    <tr><th scope="row">The sex on your Oregon license or ID</th><td data-label="Court needed?">No. You choose M, F, or X. {{ src('or-dmv-gender') }}</td><td data-label="Where to go"><a href="#license">Oregon DMV</a></td></tr>
+    <tr><th scope="row">Name or sex on an Oregon birth certificate</th><td data-label="Court needed?">No. A notarized form works. {{ src('or-oha-gender') }}</td><td data-label="Where to go"><a href="#birth-certificate">Oregon Vital Records</a></td></tr>
+    <tr><th scope="row">A birth certificate from another state</th><td data-label="Court needed?">Depends on that state. Some ask for a court order.</td><td data-label="Where to go">{{ ext('us-cdc-w2w') }}</td></tr>
+    <tr><th scope="row">Passport or Social Security sex marker</th><td data-label="Court needed?">Right now these offices do not change sex markers, even with a court order.</td><td data-label="Where to go"><a href="{{ page_url('federal') }}">Federal records in 2026</a></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="steps">Court steps for adults</h2>
+<p>This is the same process for a name change, a legal sex change, or both. You can do it without a lawyer. {{ src('or-ojd-adult-packet') }}</p>
+<div class="btn-row js-only"><button type="button" class="btn-secondary" data-print>Print this checklist</button></div>
+<ol class="steps">
+{% call m.step(page.slug, 1, 'or-step-forms', 'Get the forms') %}
+  <p>Pick one:</p>
+  <ul>
+    <li>{{ ext('or-ojd-guide-file') }}: free questions online that fill in the forms for you. Answers must be in English. {{ src('or-ojd-guide-file') }}</li>
+    <li>{{ ext('or-ojd-adult-packet') }}: print and fill in by hand. It has a petition and a judgment form.</li>
+  </ul>
+  <p>All of Oregon's name and sex change forms, including the ones for minors, are on the {{ ext('or-ojd-forms') }}.</p>
+{% endcall %}
+{% call m.step(page.slug, 2, 'or-step-fill', 'Fill out the petition and judgment') %}
+  <ul>
+    <li>Check name, legal sex, or both. For sex, choose male, female, or nonbinary.</li>
+    <li>For a sex change, check the treatment box. It reads: "I have undergone surgical, hormonal, or other treatment appropriate to me for the purpose of affirming my gender identity." The law leaves what counts as appropriate to you. {{ src('or-ors-33') }}</li>
+    <li>Answer the "public interest" questions. The form asks about child support you owe, protective or restraining orders against you, probation or parole, and sex offender registration. The judge uses your answers to decide whether the change fits the public interest. A yes does not automatically mean the judge will say no. {{ m.badge('inference') }}</li>
+    <li>List names you have used before.</li>
+    <li>Sign it. You sign under penalty of perjury. The form has no notary section.</li>
+  </ul>
+{% endcall %}
+{% call m.step(page.slug, 3, 'or-step-file', 'File it at a circuit court') %}
+  <ul>
+    <li><strong>Name only:</strong> file in the circuit court for the county where you live.</li>
+    <li><strong>Sex, or name and sex together:</strong> file in any Oregon circuit court.</li>
+    <li>Pay {{ fact('or_fee_petition') }}, or ask the court to waive or defer the fee. {{ ext('or-ojd-fee-waiver') }}.</li>
+  </ul>
+  <p>{{ ext('or-ojd-courts') }}. Write the county name at the top of every form.</p>
+{% endcall %}
+{% call m.step(page.slug, 4, 'or-step-wait', 'Wait for the judge') %}
+  <p>You usually do not go to court. You only go if the court tells you to or sends you a hearing notice. {{ src('or-ojd-adult-packet') }}</p>
+{% endcall %}
+{% call m.step(page.slug, 5, 'or-step-judgment', 'Get your judgment and certified copies') %}
+  <p>The change is official once the judge's judgment is entered. The court mails you a Notice of Entry of Judgment. Call the court to get copies of the judgment.</p>
+  <p>Offices usually want a certified copy. Each one costs {{ fact('or_fee_certified_copy') }}. {{ src('or-ojd-fees') }}</p>
+{% endcall %}
+{% call m.step(page.slug, 6, 'or-step-update', 'Update your records yourself') %}
+  <p>The court does not send your judgment to anyone. You take it to each office. Start with Social Security if your name changed, then the DMV. {{ src('or-ojd-adult-packet') }}</p>
+  <p><a href="{{ page_url('after') }}">Use the after-court checklist</a>.</p>
+{% endcall %}
+</ol>
+
+{% call m.callout('cost', 'What it costs', 'cost') %}
+<ul>
+  <li><strong>Court filing fee:</strong> {{ fact('or_fee_petition') }} for a name change, a sex change, or both in one petition. {{ src('or-ojd-fees') }}</li>
+  <li><strong>Can't pay?</strong> Apply to waive or defer the fee. It costs {{ fact('or_fee_waiver_application') }}. {{ ext('or-ojd-fee-waiver') }}.</li>
+  <li><strong>Certified copies:</strong> {{ fact('or_fee_certified_copy') }}.</li>
+  <li><strong>Oregon birth certificate:</strong> {{ fact('or_oha_amend_fee') }} to change it, plus {{ fact('or_oha_cert_fee') }}.</li>
+  <li><strong>Driver license or ID:</strong> the usual renewal or replacement fee. {{ src('or-dmv-gender') }}</li>
+</ul>
+{% endcall %}
+
+<h2 id="privacy">Who can see your case {{ m.badge('changed') }}</h2>
+{% call m.callout('changed', 'New in 2026: sex change cases are confidential', 'or-confidential') %}
+<p>For cases filed on or after {{ fact('or_confidential_date') }}, a case asking for a legal change of sex is confidential. That includes cases that change name and sex together. {{ src('or-2026-ch52') }}</p>
+<ul>
+  <li><strong>Who can see it:</strong> you and your lawyer, the court, someone a judge allows for good cause, and people who must get notice in a minor's name change.</li>
+  <li><strong>Filed before July 1, 2026?</strong> You can ask the court to make your case confidential.</li>
+  <li><strong>Want it public?</strong> You can ask the court to make the case, or parts of it, public.</li>
+</ul>
+{% endcall %}
+<p><strong>Name-only cases are still public.</strong> A name change filed with a sex change is confidential. A name change filed alone is not. {{ src('or-2026-ch52') }}</p>
+<p>If you are a certified participant in Oregon's Address Confidentiality Program, you can ask the court to seal a name-only case. The court must seal it unless it finds good cause not to. The form has a box for this. {{ src('or-ors-33') }}</p>
+
+<h2 id="birth-certificate">Oregon birth certificate</h2>
+<p>This is for people born in Oregon. There are two ways to change it.</p>
+
+<h3 id="birth-form">Way 1: a notarized form, no court</h3>
+<ul>
+  <li>Use form OHA 2673: {{ ext('or-oha-2673') }} or {{ ext('or-oha-2673-es') }}.</li>
+  <li>Change your name, your sex, or both. Sex can be M, F, or X.</li>
+  <li>Each one can be changed this way only once. Later changes need a court order. {{ src('or-oha-gender') }}</li>
+  <li>Fill it in exactly as your current birth certificate reads. Sign it only in front of a notary.</li>
+  <li>Include a copy of your photo ID. If your ID name does not match your birth certificate, include proof of how your name changed.</li>
+  <li>Pay {{ fact('or_oha_amend_fee') }} plus {{ fact('or_oha_cert_fee') }}. Check or money order to "OHA/Vital Records." Faster processing is {{ fact('or_oha_expedite') }}.</li>
+  <li>Mail to {{ m.copyable(fact('or_oha_mail'), 'mailing address') }}. Or use the drop box at {{ fact('or_oha_dropbox') }}.</li>
+</ul>
+{% call m.box('good', 'What the new certificate shows') %}
+<p>If you change your sex, or your name and sex, nothing on the new certificate shows a change was made, and old footnotes are removed. If you change only your name this way, a footnote says the name was changed, but it does not show your old name. {{ src('or-oha-gender') }}</p>
+{% endcall %}
+{% call m.box('watch', 'Watch out') %}
+<p>Oregon Vital Records warns that some other agencies may want a court order before they accept the new name or sex. {{ src('or-oha-gender') }}</p>
+{% endcall %}
+
+<h3 id="birth-court">Way 2: use your court judgment</h3>
+<ul>
+  <li>Send a certified copy of your judgment and the {{ fact('or_oha_amend_fee') }} fee. Oregon accepts court orders from other states too. {{ src('or-oha-gender') }}</li>
+  <li>A court-ordered name change usually adds a footnote that shows your old name. If the court sealed the order, you can ask for a new certificate without that footnote. {{ src('or-oha-court-order') }}</li>
+</ul>
+{% call m.box('watch', 'An open question') %}
+<p>We do not know yet whether Oregon Vital Records treats the new confidential sex change cases like sealed orders for that footnote rule. {{ m.badge('unconfirmed') }} Ask before you send: {{ m.copyable(fact('or_oha_email'), 'email address') }}.</p>
+{% endcall %}
+
+<h2 id="license">Driver license or ID</h2>
+<ul>
+  <li>Choose M, F, or X. On Oregon cards, X means "not specified." This works for standard and REAL ID cards. {{ src('or-dmv-gender') }}</li>
+  <li>No proof of gender needed. Go in person, by appointment or walk-in, and bring your current card.</li>
+  <li>Pay the renewal or replacement fee.</li>
+  <li><strong>Changing your name too?</strong> Change it with Social Security first. The DMV checks your name with Social Security.</li>
+</ul>
+{% call m.box('watch', 'Watch out') %}
+<p>The DMV keeps a history of every card and name. It shares name, date of birth, and sex with some other systems. These include the Selective Service System and a state police database that federal agencies can use. {{ src('or-dmv-gender') }}</p>
+{% endcall %}
+
+<h2 id="minors">Changes for someone under 18</h2>
+<ul>
+  <li><strong>Who files:</strong> a parent, legal guardian, or legal representative, using the minor forms. {{ ext('or-ojd-minor-packet') }}. {{ src('or-ojd-adult-packet') }}</li>
+  <li><strong>Where:</strong> a minor's name change goes to the county where the child lives. A sex change can go to any circuit court.</li>
+  <li><strong>Notice:</strong> for a name change, the court requires written notice to the child's parents and legal guardians. A parent may not need notice if both are true: the child has not lived with that parent, and that parent has not paid or tried to pay support. {{ src('or-ors-33') }}</li>
+  <li><strong>Birth certificate:</strong> a parent or legal guardian can use the OHA 2673 form for a child born in Oregon. {{ src('or-oha-gender') }}</li>
+</ul>
+<p>Under 18 and your parents will not help? Talk with a lawyer. Oregon law lets a judge meet with a minor who applies for a name change, without parents in the room. A lawyer can tell you whether that path fits you. {{ src('or-ors-33') }} {{ m.badge('inference') }}</p>
+
+<h2 id="questions">Good questions</h2>
+{% call m.qa("Do I need a doctor's letter or proof of surgery?", 'q-doctor') %}
+<p>The court form does not ask for medical records. You check a box swearing that you have had treatment that is appropriate for you. The law says "surgical, hormonal or other treatment," so surgery is not required. {{ src('or-ors-33') }} {{ src('or-ojd-adult-packet') }}</p>
+{% endcall %}
+{% call m.qa("I don't live in Oregon. Can I file here?", 'q-out-of-state') %}
+<p>For a name change, the law says to file in the county where you live, so you need to live in Oregon. {{ src('or-ors-33') }}</p>
+<p>For a legal sex change, the law says "any circuit court in this state" may hear it. The part we read does not mention where you live. We have not found an official answer for people who live in another state. Talk with a lawyer before you rely on this. {{ m.badge('inference') }}</p>
+{% endcall %}
+{% call m.qa("What will the judge decide?", 'q-judge') %}
+<p>Oregon law says the court "shall" grant a name change unless it finds the change "is not consistent with the public interest." A sex change follows the same rule. {{ src('or-ors-33') }}</p>
+{% endcall %}
+{% call m.qa("I filed before July 1, 2026. Is my old case public?", 'q-old-case') %}
+<p>It may be. The 2026 law applies to cases filed on or after July 1, 2026. For earlier sex change cases, you can file a motion asking the court to make the case confidential. {{ src('or-2026-ch52') }}</p>
+{% endcall %}
+{% call m.qa("Will an Oregon judgment change my birth certificate from another state?", 'q-other-birth-state') %}
+<p>Not by itself. Each state's vital records office has its own rules. Some accept an out-of-state court order and some do not. Find your birth state's office with {{ ext('us-cdc-w2w') }}.</p>
+{% endcall %}
+
+<h2 id="help">Get help in Oregon</h2>
+<ul>
+  <li>{{ ext('or-ojd-self-help') }}: court staff can explain the process but cannot give legal advice.</li>
+  <li>Oregon State Bar referral service: {{ m.copyable(fact('or_osb_lrs'), 'phone numbers') }}. {{ src('or-ojd-adult-packet') }}</li>
+  <li>{{ ext('or-lawhelp') }}: free legal information from Oregon legal aid programs.</li>
+  <li><a href="{{ page_url('help') }}">More free and low-cost help</a></li>
+</ul>
+{% endblock %}

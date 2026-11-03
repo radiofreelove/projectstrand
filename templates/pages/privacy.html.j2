@@ -1,0 +1,35 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Privacy and safety</p>
+<h1>No cookies. No tracking. Here is exactly what happens.</h1>
+{{ m.lede("Looking up how to change your name or gender marker can feel risky. This site collects nothing about you, and it is built so your browser blocks it from talking to any other website.") }}
+
+<h2 id="collect">What we collect</h2>
+<ul>
+  <li><strong>Nothing.</strong> No cookies, no analytics, no ads, no social media buttons, no outside fonts or scripts.</li>
+  <li>Every page tells your browser to block connections to any site but this one. That rule is called a Content Security Policy.</li>
+  <li>Your path finder answers stay on the page. They are never sent or saved.</li>
+  <li>Cloudflare, which hosts this site, can see basic information about requests, like your IP address, as almost any web host can. We do not run Cloudflare's analytics or anyone else's, and we do not ask Cloudflare for visitor data. {{ m.badge('inference') }}</li>
+</ul>
+
+<h2 id="saved">What can be saved on your device</h2>
+<p>Only what you choose. If you turn on "Remember my settings and checklist on this device" in Reading settings, your settings and checkmarks are saved in your browser. Nothing is sent to us. Turn it off, or select "Forget everything saved on this device," to erase it.</p>
+
+<h2 id="links">When you open an official link</h2>
+<p>Your browser goes straight to that site. We ask your browser not to tell that site that you came from here. That setting is called a referrer policy. The official site's own privacy rules apply once you are there.</p>
+
+<h2 id="leave">Leave quickly</h2>
+<ul>
+  <li>Select <strong>Leave quickly</strong> at the top of any page, or press the <strong>Shift</strong> key 3 times. A weather website replaces this page.</li>
+  <li>This page is replaced in your history, but other pages you visited here may still be in your browser history.</li>
+  <li>It cannot erase anything. If someone checks your device, the safest steps are a private or incognito window and clearing your history when you are done.</li>
+</ul>
+
+<h2 id="tips">Safety tips</h2>
+<ul>
+  <li>On a shared device, use a private or incognito window.</li>
+  <li>Printed checklists and court papers can be found. Keep them somewhere safe.</li>
+  <li>Court filings in some cases are public. Each state page explains who can see your case.</li>
+</ul>
+{% endblock %}

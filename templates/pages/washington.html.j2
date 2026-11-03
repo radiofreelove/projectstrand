@@ -1,0 +1,128 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Washington</p>
+<h1>Change your name and gender marker in Washington</h1>
+{{ m.lede("Washington splits this into two jobs. Your name changes in court, and you can keep that case sealed if the change relates to your gender identity or expression. Your gender marker on a Washington license or Washington birth certificate changes with a form, no court needed.") }}
+{{ m.checked_line(page) }}
+
+{% call m.callout('why', 'Why it matters', 'wa-why') %}
+<ul>
+  <li>The sealed option means no public access to your name change filing, hearing, or order. {{ src('wa-rcw-4-24-130') }}</li>
+  <li>For a Washington birth certificate, the state will not accept a court order or a doctor's letter for a sex designation change. You use its form instead. {{ src('wa-doh-sex') }}</li>
+</ul>
+{% endcall %}
+
+{{ m.onthispage([
+  ('name', 'Change your name in court'),
+  ('steps', 'Court steps'),
+  ('cost', 'What it costs'),
+  ('marker', 'Change your gender marker'),
+  ('birth-certificate', 'Washington birth certificate'),
+  ('license', 'Driver license or ID'),
+  ('court-order-gender', 'A court order that confirms your gender'),
+  ('minors', 'Changes for someone under 18'),
+  ('questions', 'Good questions'),
+  ('help', 'Get help in Washington')
+]) }}
+
+<h2 id="name">Change your name in court</h2>
+<p>You pick one of two courts. {{ src('wa-rcw-4-24-130') }}</p>
+<div class="table-wrap">
+<table class="stack-table">
+  <caption>Washington's two ways to change a name</caption>
+  <thead><tr><th scope="col">Option</th><th scope="col">Public name change</th><th scope="col">Sealed name change</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Court</th><td data-label="Public name change">Any district court in Washington</td><td data-label="Sealed name change">Any superior court in Washington</td></tr>
+    <tr><th scope="row">Who can use it</th><td data-label="Public name change">Anyone</td><td data-label="Sealed name change">People whose name change relates to gender expression or identity. Also people with certain safety or immigration reasons.</td></tr>
+    <tr><th scope="row">Who can see it</th><td data-label="Public name change">The public</td><td data-label="Sealed name change">No public access to the filing, the hearing, or the order. The file opens only for you, your guardian or representative, or by court order for good cause.</td></tr>
+    <tr><th scope="row">Not available to</th><td data-label="Public name change">Some people under Department of Corrections supervision face extra steps</td><td data-label="Sealed name change">People under Department of Corrections jurisdiction, or people required to register as a sex offender</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="steps">Court steps</h2>
+<p>Washington's free legal aid guide has the forms and instructions for both options. {{ ext('wa-wlh-name') }}. {{ src('wa-wlh-name') }}</p>
+<div class="btn-row js-only"><button type="button" class="btn-secondary" data-print>Print this checklist</button></div>
+<ol class="steps">
+{% call m.step(page.slug, 1, 'wa-step-choose', 'Choose public or sealed') %}
+  <p>If your name change relates to your gender identity or expression, you can file in superior court and the case will be sealed. {{ src('wa-rcw-4-24-130') }}</p>
+{% endcall %}
+{% call m.step(page.slug, 2, 'wa-step-forms', 'Fill out the forms') %}
+  <p>Use the forms and step-by-step instructions in the WashingtonLawHelp name change guide. You do not need to put a notice in the newspaper. {{ src('wa-wlh-name') }}</p>
+{% endcall %}
+{% call m.step(page.slug, 3, 'wa-step-file', 'File and pay, or ask for a fee waiver') %}
+  <p>File at the court you chose. Fees vary by court. If you cannot pay, ask the court to waive the fees. {{ ext('wa-courts-forms') }}.</p>
+{% endcall %}
+{% call m.step(page.slug, 4, 'wa-step-hearing', 'Go to the hearing') %}
+  <p>Every name change in Washington has a hearing in front of a judge. The court gives you the date. {{ src('wa-wlh-name') }}</p>
+{% endcall %}
+{% call m.step(page.slug, 5, 'wa-step-copies', 'Get certified copies of the order') %}
+  <p>Certified copies cost {{ fact('wa_fee_cert_copy') }}. The guide suggests getting 7 or more. {{ src('wa-wlh-name') }}</p>
+{% endcall %}
+{% call m.step(page.slug, 6, 'wa-step-update', 'Update your records') %}
+  <p>Take a certified copy to Social Security and the Department of Licensing, then everyone else. If your order is sealed, the guide explains a special process for your license. {{ src('wa-wlh-name') }} <a href="{{ page_url('after') }}">Use the after-court checklist</a>.</p>
+{% endcall %}
+</ol>
+
+{% call m.callout('cost', 'What it costs', 'cost') %}
+<ul>
+  <li><strong>Sealed name change in superior court:</strong> usually {{ fact('wa_fee_sealed') }}. {{ src('wa-wlh-name') }}</li>
+  <li><strong>Public name change in district court:</strong> varies by county. One district court lists {{ fact('wa_fee_district_example') }}. {{ src('wa-kitsap-fee') }}</li>
+  <li><strong>Can't pay?</strong> In district court, the law says the court "shall waive all fees" if you sign a statement that you cannot pay because of financial hardship. In any court, you can ask with the GR 34 fee waiver forms. {{ src('wa-rcw-4-24-130') }} {{ src('wa-courts-forms') }}</li>
+  <li><strong>Birth certificate:</strong> no fee to change the sex designation; {{ fact('wa_doh_cert_fee') }}. {{ src('wa-doh-sex') }}</li>
+  <li><strong>License:</strong> free if you only change the gender designation. {{ src('wa-dol-gender') }}</li>
+</ul>
+{% endcall %}
+
+<h2 id="marker">Change your gender marker</h2>
+<p>In Washington, you do not need a court order to change the gender marker on a Washington license or a Washington birth certificate. {{ src('wa-wlh-gender-order') }}</p>
+
+<h3 id="birth-certificate">Washington birth certificate</h3>
+<p>This is for people born in Washington. {{ src('wa-doh-sex') }}</p>
+<ul>
+  <li>Choose M, F, or X. X means a gender that is not exclusively male or female.</li>
+  <li>Adults and emancipated minors use {{ ext('wa-doh-422-143') }}. Sign it in front of a notary.</li>
+  <li>A court order or a doctor's letter is not accepted for the sex designation. Use the form.</li>
+  <li>If your legal name is different from your birth certificate, add a certified court order and {{ ext('wa-doh-422-126') }}.</li>
+  <li>No fee to make the change. New certified copies are {{ fact('wa_doh_cert_fee') }}.</li>
+  <li>Send by mail or bring it in person by appointment. The department reported processing in about 3 business days, plus up to 2 weeks for mail.</li>
+</ul>
+
+<h3 id="license">Driver license or ID</h3>
+<ul>
+  <li>Choose M, F, or X. {{ src('wa-dol-gender') }}</li>
+  <li><strong>In person:</strong> make an appointment, bring your current card, and say which marker you want.</li>
+  <li><strong>By mail:</strong> send the Change of Gender Designation Request form (520043). The department then mails you a letter about getting your new card.</li>
+  <li>There is no online option for the gender change itself.</li>
+</ul>
+
+<h3 id="court-order-gender">A court order that confirms your gender</h3>
+<p>This is optional. You might want one if another state's birth certificate office or another agency asks for a court order. Washington does not need it for a Washington license or birth certificate. {{ ext('wa-wlh-gender-order') }}. {{ src('wa-wlh-gender-order') }}</p>
+
+<h2 id="minors">Changes for someone under 18</h2>
+<ul>
+  <li><strong>Name:</strong> a parent or guardian can ask for a child's name change. The law allows a sealed superior court case when the reason relates to the child's gender expression or identity. {{ src('wa-rcw-4-24-130') }}</li>
+  <li>Parents must get notice. Some courts also ask for the child's consent at age 13 or older. {{ src('wa-wlh-name') }}</li>
+  <li><strong>Birth certificate:</strong> use {{ ext('wa-doh-422-144') }}. A parent or guardian and a licensed provider sign it. {{ src('wa-doh-sex') }}</li>
+</ul>
+
+<h2 id="questions">Good questions</h2>
+{% call m.qa("Do I have to file in the county where I live?", 'q-county') %}
+<p>No. The law lets you file a public name change in any district court in the state. A sealed name change can go to any superior court in the state. {{ src('wa-rcw-4-24-130') }}</p>
+{% endcall %}
+{% call m.qa("Who can see a sealed name change?", 'q-sealed') %}
+<p>No one in the public. The file opens only if a judge orders it for good cause, or if you, your guardian, or your representative ask. {{ src('wa-rcw-4-24-130') }}</p>
+{% endcall %}
+{% call m.qa("Does Washington change the gender marker on a birth certificate from another state?", 'q-other-state') %}
+<p>No. Only the state where you were born can change your birth certificate. A Washington court order confirming your gender may help if that state asks for one. Find your birth state's office with {{ ext('us-cdc-w2w') }}.</p>
+{% endcall %}
+
+<h2 id="help">Get help in Washington</h2>
+<ul>
+  <li>CLEAR, the free legal aid referral line: {{ m.copyable(fact('wa_clear'), 'CLEAR phone number') }}. {{ src('wa-courts-forms') }}</li>
+  <li>{{ ext('wa-wlh-name') }}</li>
+  <li>Many counties have a courthouse facilitator who can help with paperwork but cannot give legal advice. Ask your court. {{ src('wa-courts-forms') }}</li>
+  <li><a href="{{ page_url('help') }}">More free and low-cost help</a></li>
+</ul>
+{% endblock %}

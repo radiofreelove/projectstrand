@@ -1,0 +1,83 @@
+{#- Reusable building blocks. Every page imports these. -#}
+
+{% macro lede(text) -%}
+<p class="lede"><span class="label">The big picture:</span> {{ text }}</p>
+{%- endmacro %}
+
+{#- kind: why | do | cost | time | watch | changed | good | note -#}
+{% macro callout(kind, title, id) -%}
+<section class="callout callout-{{ kind }}" id="{{ id }}" aria-labelledby="{{ id }}-t">
+  <h2 class="callout-title" id="{{ id }}-t">{{ title }}</h2>
+  {{ caller() }}
+</section>
+{%- endmacro %}
+
+{#- A smaller callout that sits inside a section, with an h3 title. -#}
+{% macro box(kind, title) -%}
+<div class="callout callout-{{ kind }} callout-small">
+  <p class="callout-title"><strong>{{ title }}</strong></p>
+  {{ caller() }}
+</div>
+{%- endmacro %}
+
+{% macro onthispage(items) -%}
+<nav class="toc" aria-label="On this page">
+  <p class="toc-title">On this page</p>
+  <ol>
+  {% for anchor, text in items %}
+    <li><a href="#{{ anchor }}">{{ text }}</a></li>
+  {% endfor %}
+  </ol>
+</nav>
+{%- endmacro %}
+
+{#- A numbered step with a "Done" checkbox. Checkbox state is only saved if
+    the reader turns on "Remember" in Reading settings. -#}
+{% macro step(slug, n, id, title) -%}
+<li class="step" id="{{ id }}">
+  <div class="step-head">
+    <h3 class="step-title"><span class="step-num">Step {{ n }}</span> {{ title }}</h3>
+    <label class="done js-only"><input type="checkbox" data-check="{{ slug }}:{{ id }}"> <span>Done</span><span class="vh"> with step {{ n }}: {{ title }}</span></label>
+  </div>
+  <div class="step-body">
+    {{ caller() }}
+  </div>
+</li>
+{%- endmacro %}
+
+{#- Progressive disclosure. Hidden entirely in "Short version" mode. -#}
+{% macro deeper(title, id) -%}
+<details class="deeper" id="{{ id }}">
+  <summary><span class="deeper-label">Go deeper:</span> {{ title }}</summary>
+  <div class="deeper-body">
+    {{ caller() }}
+  </div>
+</details>
+{%- endmacro %}
+
+{#- A question-and-answer pair, Vox style. -#}
+{% macro qa(question, id) -%}
+<details class="qa deeper" id="{{ id }}">
+  <summary>{{ question }}</summary>
+  <div class="deeper-body">
+    {{ caller() }}
+  </div>
+</details>
+{%- endmacro %}
+
+{% macro badge(kind) -%}
+{%- if kind == 'unconfirmed' -%}<span class="badge badge-unconfirmed">Not confirmed</span>
+{%- elif kind == 'inference' -%}<span class="badge badge-inference">Our reading</span>
+{%- elif kind == 'changed' -%}<span class="badge badge-changed">Changed in 2026</span>
+{%- elif kind == 'official' -%}<span class="badge badge-official">Official</span>
+{%- endif -%}
+{%- endmacro %}
+
+{#- Text the reader may need to copy: an address, a phone number, an email. -#}
+{% macro copyable(text, label) -%}
+<span class="copyable"><span class="copy-text">{{ text }}</span> <button type="button" class="copy-btn js-only" data-copy="{{ text }}" aria-label="Copy {{ label }}">Copy</button></span>
+{%- endmacro %}
+
+{% macro checked_line(page) -%}
+<p class="checked">Last checked against official sources: <time datetime="{{ page.checked }}">{{ page.checked|human_date }}</time>.</p>
+{%- endmacro %}

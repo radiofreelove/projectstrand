@@ -1,0 +1,57 @@
+{% extends "base.html.j2" %}
+{% import "macros.html.j2" as m %}
+{% block main %}
+<p class="kicker">Our purpose</p>
+<h1>Why this site exists</h1>
+{{ m.lede("Many trans people do not have ID that matches who they are. The path to fix that runs through courts and offices that each explain only their own step, in their own words, on their own websites. The Strand Project exists so you can see the whole path, follow it in order, and know which official form comes next.") }}
+
+<h2 id="numbers">The numbers</h2>
+<ul class="stats">
+  <li class="stat"><span class="stat-num">{{ fact('usts_name_none') }}</span> of people with at least one ID said none of their IDs listed the name they wanted.</li>
+  <li class="stat"><span class="stat-num">{{ fact('usts_gender_none') }}</span> said none of their IDs listed the gender they wanted.</li>
+  <li class="stat"><span class="stat-num">{{ fact('usts_mistreated') }}</span> of all people surveyed were harassed, assaulted, asked to leave, or denied service after showing an ID that did not match how they look.</li>
+</ul>
+<p>{{ src('data-usts-2022') }}</p>
+
+{% call m.box('note', 'About this survey') %}
+<ul>
+  <li><strong>Who:</strong> 92,329 transgender people age 16 and older, 84,170 of them adults, living in U.S. states, Washington, D.C., U.S. territories, and on U.S. military bases overseas.</li>
+  <li><strong>When and how:</strong> online, in English and Spanish, from October 19 to December 5, 2022. Published in February 2024 by the National Center for Transgender Equality.</li>
+  <li><strong>Limits:</strong> people chose to take it, so it is not a random sample. The results are weighted. They may still miss people who are offline or who did not hear about the survey. And no group of trans people is all the same.</li>
+</ul>
+{% endcall %}
+
+<h2 id="hard">What makes it hard</h2>
+<p>This is our view, from researching all three states for this guide.</p>
+<ul>
+  <li><strong>No one owns the whole path.</strong> Courts explain court. DMVs explain licenses. Vital records offices explain birth certificates. Almost no one explains the order.</li>
+  <li><strong>The rules moved fast.</strong> Oregon made sex change cases confidential in 2026. Federal passport and Social Security rules changed in 2025. A guide from two years ago can send you the wrong way.</li>
+  <li><strong>The language is built for lawyers.</strong> Words like "petition," "judgment," and "clear and convincing evidence" stop people before they start.</li>
+  <li><strong>Help is stretched thin.</strong> Legal aid and court self-help staff do important work, and many people still cannot get an appointment when they need one.</li>
+</ul>
+
+<h2 id="what-we-do">What we do about it</h2>
+<ol>
+  <li><strong>Plain words.</strong> Short sentences. Every legal word is explained, and the <a href="{{ page_url('glossary') }}">word list</a> has the rest.</li>
+  <li><strong>Every fact has a source and a date.</strong> Select "Source" next to any fact to open the official page. <a href="{{ page_url('sources') }}">See every source</a>.</li>
+  <li><strong>We say when we are not sure.</strong> Look for <span class="badge badge-unconfirmed">Not confirmed</span> and <span class="badge badge-inference">Our reading</span>.</li>
+  <li><strong>Free, with no accounts, ads, or tracking.</strong> <a href="{{ page_url('privacy') }}">How we protect your privacy</a>.</li>
+  <li><strong>Built for every kind of brain.</strong> Steps you can check off, a short version, larger text, and calmer colors. <a href="{{ page_url('accessibility') }}">Accessibility</a>.</li>
+  <li><strong>Open about how it is made.</strong> The research notes, decisions, and every change are kept in the project's public history. <a href="{{ repo_url }}" rel="noreferrer">See how this site is made</a>.</li>
+</ol>
+
+<h2 id="never">What we will never do</h2>
+<ul>
+  <li>Give legal advice or tell you what to choose.</li>
+  <li>Collect, sell, or share information about you.</li>
+  <li>Hide what we do not know.</li>
+</ul>
+
+<h2 id="who">Who this is for</h2>
+<p>Anyone who needs to change their legal name or gender marker in Oregon, Washington, or Utah. Also the parents, partners, friends, case workers, and advocates helping them.</p>
+
+<div class="btn-row">
+  <a class="btn" href="{{ page_url('path') }}">Find my path</a>
+  <a class="btn-secondary" href="{{ page_url('about') }}">About the project</a>
+</div>
+{% endblock %}

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" data-theme="auto" data-size="m">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
+<title>{{ page.title }} | {{ site.name }}</title>
+<meta name="description" content="{{ page.description }}">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+<link rel="stylesheet" href="{{ asset('css/site.css') }}">
+{% if fonts_available %}<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">{% endif %}
+<script src="{{ asset('js/prefs.js') }}"></script>
+<script src="{{ asset('js/site.js') }}" defer></script>
+{% block head %}{% endblock %}
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="exit-bar">
+  <div class="wrap exit-wrap">
+    <a class="exit-link" id="quick-exit" href="{{ site.quick_exit_url }}" rel="noreferrer">Leave quickly<span class="vh"> and open a weather website</span></a>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="{{ page_url('index') }}">
+      <svg class="brand-mark" aria-hidden="true" focusable="false" viewBox="0 0 40 40" width="40" height="40"><path d="M8 34c0-9 24-7 24-16S8 15 8 6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="8" cy="6" r="3.5" class="brand-dot"/><circle cx="8" cy="34" r="3.5" class="brand-dot"/></svg>
+      <span class="brand-name">{{ site.name }}</span>
+    </a>
+    <button class="settings-btn js-only" type="button" id="settings-open" aria-haspopup="dialog" aria-controls="settings">Reading settings</button>
+  </div>
+  <p class="mission wrap"><strong>{{ site.mission }}</strong> {{ site.mission_follow }}</p>
+  <nav class="site-nav" aria-label="Main">
+    <ul class="wrap">
+    {% for p in pages|selectattr('nav', 'defined')|sort(attribute='nav') %}
+      <li><a href="{{ page_url(p.slug) }}"{% if p.slug == page.slug %} aria-current="page"{% endif %}>{{ p.nav_label }}</a></li>
+    {% endfor %}
+    </ul>
+  </nav>
+</header>
+
+<div class="beta-bar" role="note" aria-label="Beta notice">
+  <p class="wrap"><strong>Beta.</strong> Checked {{ page.checked|human_date }}. Laws change, so use the official links before you file. <a href="{{ issues_url }}" rel="noreferrer">Report a mistake</a></p>
+</div>
+
+<main id="main" tabindex="-1">
+  <div class="wrap content">
+{% block main %}{% endblock %}
+
+{% if page.slug not in ['sources', '404'] and used_sources() %}
+    <section class="page-sources" aria-labelledby="page-sources-h">
+      <h2 id="page-sources-h">Sources for this page</h2>
+      <p>We read each of these on the date shown. <a href="{{ page_url('sources') }}">See every source and what each label means</a>.</p>
+      <ol>
+      {% for s in used_sources() %}
+        <li>
+          <a href="{{ s.url }}" rel="noreferrer">{{ s.title }}</a>, {{ s.publisher }}{% if s.get('date') %} ({{ s.date }}){% endif %}.
+          Checked {{ s.checked|human_date }}.
+          {% if s.status == 'unverified' %}<span class="badge badge-unconfirmed">Not confirmed</span>{% elif s.status == 'secondary' %}<span class="badge badge-secondary">Not official</span>{% endif %}
+        </li>
+      {% endfor %}
+      </ol>
+    </section>
+{% endif %}
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>Independent.</strong> The Strand Project is not run by, or connected to, any court or government agency.</p>
+    <p><strong>We explain the process. We are not your lawyer.</strong> For advice about your own situation, <a href="{{ page_url('help') }}">get free or low-cost legal help</a>.</p>
+    <p><strong>No cookies. No tracking.</strong> <a href="{{ page_url('privacy') }}">How we protect your privacy</a>.</p>
+    <nav aria-label="More pages">
+      <ul class="footer-links">
+        <li><a href="{{ page_url('why') }}">Why this site exists</a></li>
+        <li><a href="{{ page_url('compare') }}">Compare states</a></li>
+        <li><a href="{{ page_url('glossary') }}">Words to know</a></li>
+        <li><a href="{{ page_url('sources') }}">Every source</a></li>
+        <li><a href="{{ page_url('about') }}">About</a></li>
+        <li><a href="{{ page_url('accessibility') }}">Accessibility</a></li>
+        <li><a href="{{ page_url('privacy') }}">Privacy and safety</a></li>
+        <li><a href="{{ repo_url }}" rel="noreferrer">How this site is made (source and audit trail)</a></li>
+      </ul>
+    </nav>
+    <p class="build-line">Version {{ site.version }}. Built from commit <code>{{ build_commit[:8] }}</code>. <a href="{{ base_path if page.slug == '404' else '' }}build-report.json">Build report</a>. Content license: CC BY 4.0 (proposed).</p>
+  </div>
+</footer>
+
+<dialog id="settings" aria-labelledby="settings-title">
+  <div class="settings-inner">
+    <h2 id="settings-title">Reading settings</h2>
+    <p>Change how this site looks. Nothing leaves your device.</p>
+
+    <fieldset>
+      <legend>Text size</legend>
+      <label><input type="radio" name="size" value="m"> Standard</label>
+      <label><input type="radio" name="size" value="l"> Large</label>
+      <label><input type="radio" name="size" value="xl"> Extra large</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Colors</legend>
+      <label><input type="radio" name="theme" value="auto"> Match my device</label>
+      <label><input type="radio" name="theme" value="light"> Light</label>
+      <label><input type="radio" name="theme" value="dark"> Dark</label>
+      <label><input type="radio" name="theme" value="contrast"> High contrast</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Reading</legend>
+      <label><input type="checkbox" name="spacing" value="wide"> More space between letters, words, and lines</label>
+      {% if fonts_available %}<label><input type="checkbox" name="font" value="hyper"> Use Atkinson Hyperlegible, a font designed so letters are easy to tell apart</label>{% endif %}
+      <label><input type="checkbox" name="brief" value="on"> Short version: hide the "Go deeper" sections</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Memory</legend>
+      <label><input type="checkbox" name="remember" value="on"> Remember my settings and checklist on this device</label>
+      <p class="hint">Off unless you turn it on. If someone else uses this device, they could see what you saved.</p>
+      <button type="button" class="btn-secondary" id="forget-all">Forget everything saved on this device</button>
+      <p class="hint" id="forget-status" role="status"></p>
+    </fieldset>
+
+    <div class="dialog-actions">
+      <button type="button" class="btn" id="settings-close">Done</button>
+    </div>
+  </div>
+</dialog>
+<div class="vh" id="announcer" role="status" aria-live="polite"></div>
+</body>
+</html>

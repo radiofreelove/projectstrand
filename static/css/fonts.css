@@ -1,0 +1,16 @@
+/* Loaded only when the build finds the font files (see scripts/fetch_fonts.py).
+   Atkinson Hyperlegible Next: SIL Open Font License 1.1, Braille Institute. */
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("../fonts/AtkinsonHyperlegibleNext-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("../fonts/AtkinsonHyperlegibleNext-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

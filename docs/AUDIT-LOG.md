@@ -2,6 +2,14 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (later): first deployment to Cloudflare Pages
+
+- The maintainer connected the repository to Cloudflare Pages. The live site at `https://projectstrand.pages.dev` was built from commit `da56867`, with clean URLs and the optional font bundled. Its build report lists no warnings.
+- Second GitHub Actions run: build, fast checks, and browser checks passed. axe-core found no landmark problems and one remaining target-size finding on the Oregon page (one element, in each theme). The axe script did not print which element, so it now does.
+- Likely cause (inference): links that sit alone in the "Where to go" column of the Oregon table wrap into several line fragments. Those links are now single boxes with taller padding.
+- Pinned the font: version 5.3.0 of the Fontsource package, with SHA-256 values recorded from the first build with network access. A changed file now fails the build.
+- Dependabot opened five update proposals (four GitHub Actions and MarkupSafe). They are left for the maintainer to review.
+
 ## 2026-11-03 (later): first GitHub Actions run and fixes
 
 - First run of the "Checks" workflow on GitHub: build and fast checks passed. The browser job failed before running any test, because the Playwright Python package was not installed in the job's container. axe-core ran for the first time and reported 3 serious findings (one link target under 24px with crowded neighbors on the Oregon page, in each of the 3 themes) and 48 moderate findings (2 page elements outside landmarks on all 16 pages, in each theme).
@@ -59,7 +67,7 @@ A dated record of research passes, checks, decisions, and releases. Newest first
 
 1. Legal review by a lawyer licensed in each state (required before 1.0).
 2. Paid usability testing with trans, nonbinary, disabled, and neurodivergent people.
-3. Pin font hashes and the exact font version after the first build with network access (ADR-0007).
+3. Done: font version and hashes pinned (see the entry above).
 4. Review the first axe-core results and make the axe job blocking.
 5. Ask Oregon Vital Records how footnotes work after a confidential 2026 case.
 6. Confirm Utah Driver License Division's sex designation process and Utah Vital Records fees.

@@ -31,9 +31,9 @@ First-time setup in the Cloudflare dashboard ([Cloudflare Docs](https://develope
 
 After setup, leave Web Analytics off for this project (ADR-0002).
 
-## Pin the fonts
+## Update the fonts
 
-The first build with network access prints a SHA-256 for each font file in its log (GitHub Actions or Cloudflare). Copy each value into `fonts.lock.json`, and replace `"version": "5"` with the exact version jsDelivr served. Commit with an audit log entry.
+`fonts.lock.json` pins the font package version and each file's SHA-256. To update: change `version`, set each `sha256` to `null`, push, copy the new values from the build log, and push again with an audit log entry.
 
 ## Run checks by hand
 

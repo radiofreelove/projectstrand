@@ -173,6 +173,9 @@ a:hover { text-decoration-thickness: 0.18em; }
 /* Taller hit areas for links in the content, so every link target is at least
    24px tall (WCAG 2.5.8). Vertical padding on inline links does not move text. */
 main a { padding-top: 0.2em; padding-bottom: 0.2em; }
+/* A link that sits alone in a table cell is a standalone target, so make it one
+   simple box instead of several wrapped line fragments. */
+td[data-label="Where to go"] a { display: inline-block; padding-top: 0.35em; padding-bottom: 0.35em; }
 
 .wrap { max-width: 50rem; margin: 0 auto; padding: 0 1rem; }
 .content { padding-top: 1.25rem; padding-bottom: 3rem; }

@@ -16,5 +16,5 @@ Atkinson Hyperlegible Next, from the Braille Institute, is designed so similar l
 
 ## Consequences
 
-- Until hashes are pinned, the font is trusted on first use. This is recorded as an open item in the audit log.
+- The first download was trusted on first use. Since November 3, 2026, the version (5.3.0) and SHA-256 values are pinned, so any change fails the build.
 - The font is self-hosted, so readers' browsers never contact a font service.

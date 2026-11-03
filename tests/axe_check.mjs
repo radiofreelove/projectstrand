@@ -45,6 +45,12 @@ for (const theme of ["light", "dark", "contrast"]) {
       const level = v.impact || "unknown";
       if (level === "serious" || level === "critical") serious += 1;
       console.log(`${theme.padEnd(8)} ${file.padEnd(20)} ${level.padEnd(9)} ${v.id}: ${v.help} (${v.nodes.length} element(s))`);
+      if (level === "serious" || level === "critical") {
+        for (const n of v.nodes) {
+          const why = (n.failureSummary || "").split("\n").slice(1, 3).join(" ").trim();
+          console.log(`           at ${n.target.join(" ")}: ${why}`);
+        }
+      }
     }
     if (!result.violations.length) console.log(`${theme.padEnd(8)} ${file.padEnd(20)} ok`);
   }

@@ -23,5 +23,4 @@ The site holds no accounts and collects no data, so the main risks are:
 ## Known gaps
 
 - Python package hashes are not pinned yet.
-- Font hashes are trusted on first use until a maintainer pins them (see ADR-0007).
 - The `<meta>` copy of the policy cannot set `frame-ancestors`; that protection depends on the host sending `_headers`. Any new host must send equivalent headers.

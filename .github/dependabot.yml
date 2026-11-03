@@ -1,0 +1,12 @@
+# Monthly update proposals for build tools. Each one arrives as a pull request
+# that must pass the checks and the review checklist before merging.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: monthly

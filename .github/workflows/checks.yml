@@ -1,0 +1,92 @@
+# The Strand Project: checks on every push and pull request.
+#
+# Publishing happens in Cloudflare Pages, which builds the site itself with
+# scripts/cloudflare_build.sh (and runs the fast checks before deploying).
+# This workflow adds the checks Cloudflare cannot run: a real browser and axe-core.
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 15 * * 1"   # Mondays: freshness report and external link check
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and fast checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python3 -m pip install -r requirements.txt
+      - name: Fetch the optional font (exit 2 = no network, keep going)
+        run: python3 scripts/fetch_fonts.py || [ $? -eq 2 ]
+      - run: python3 build.py
+      - run: python3 tests/check_site.py
+      - run: python3 tests/contrast.py
+      - run: python3 tests/readability.py
+      - name: Clean-URL build, as Cloudflare serves it
+        run: |
+          CLEAN_URLS=1 python3 build.py
+          python3 tests/check_site.py
+          python3 build.py
+      - name: Source freshness (warning only)
+        run: python3 tests/freshness.py
+        continue-on-error: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public
+          path: public
+          retention-days: 7
+
+  browser:
+    name: Browser checks (Chromium)
+    needs: build
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright/python:v1.63.0-noble
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: public
+          path: public
+      - run: python3 tests/browser_checks.py
+
+  axe:
+    name: axe-core (warning only)
+    needs: build
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    container: mcr.microsoft.com/playwright:v1.63.0-noble
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: public
+          path: public
+      - run: npm install --no-save --no-audit --no-fund axe-core@4.10.2 playwright@1.63.0
+      - run: node tests/axe_check.mjs
+
+  external-links:
+    name: External links (scheduled, warning only)
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python3 -m pip install -r requirements.txt
+      - run: python3 tests/check_external_links.py

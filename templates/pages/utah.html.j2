@@ -84,7 +84,7 @@
 {% endcall %}
 {% call m.step(page.slug, 4, 'ut-step-vital', 'Send the order to Utah Vital Records') %}
   <p>Born in Utah? Send three things to Utah Vital Records: a certified copy of the signed order, {{ ext('ut-vital-902') }}, and the fee. {{ src('ut-courts-sex-change') }}</p>
-  <p>Mail to {{ m.copyable(fact('ut_vital_mail'), 'mailing address') }}. It can take several weeks.</p>
+  <p>It can take several weeks. Mailing address: {{ m.copyable(fact('ut_vital_mail'), 'mailing address') }}</p>
 {% endcall %}
 {% call m.step(page.slug, 5, 'ut-step-tell', 'Tell everyone else') %}
   <p>Social Security (required if your name changed), the Driver License Division, your passport, banks, work, school, and doctors. <a href="{{ page_url('after') }}">Use the after-court checklist</a>.</p>

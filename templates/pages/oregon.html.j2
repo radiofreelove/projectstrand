@@ -115,7 +115,7 @@
   <li>Fill it in exactly as your current birth certificate reads. Sign it only in front of a notary.</li>
   <li>Include a copy of your photo ID. If your ID name does not match your birth certificate, include proof of how your name changed.</li>
   <li>Pay {{ fact('or_oha_amend_fee') }} plus {{ fact('or_oha_cert_fee') }}. Check or money order to "OHA/Vital Records." Faster processing is {{ fact('or_oha_expedite') }}.</li>
-  <li>Mail to {{ m.copyable(fact('or_oha_mail'), 'mailing address') }}. Or use the drop box at {{ fact('or_oha_dropbox') }}.</li>
+  <li>Mail it, or use the drop box at {{ fact('or_oha_dropbox') }}. Mailing address: {{ m.copyable(fact('or_oha_mail'), 'mailing address') }}</li>
 </ul>
 {% call m.box('good', 'What the new certificate shows') %}
 <p>If you change your sex, or your name and sex, nothing on the new certificate shows a change was made, and old footnotes are removed. If you change only your name this way, a footnote says the name was changed, but it does not show your old name. {{ src('or-oha-gender') }}</p>
@@ -130,7 +130,7 @@
   <li>A court-ordered name change usually adds a footnote that shows your old name. If the court sealed the order, you can ask for a new certificate without that footnote. {{ src('or-oha-court-order') }}</li>
 </ul>
 {% call m.box('watch', 'An open question') %}
-<p>We do not know yet whether Oregon Vital Records treats the new confidential sex change cases like sealed orders for that footnote rule. {{ m.badge('unconfirmed') }} Ask before you send: {{ m.copyable(fact('or_oha_email'), 'email address') }}.</p>
+<p>We do not know yet whether Oregon Vital Records treats the new confidential sex change cases like sealed orders for that footnote rule. {{ m.badge('unconfirmed') }} Ask before you send. Email: {{ m.copyable(fact('or_oha_email'), 'email address') }}</p>
 {% endcall %}
 
 <h2 id="license">Driver license or ID</h2>
@@ -174,7 +174,7 @@
 <h2 id="help">Get help in Oregon</h2>
 <ul>
   <li>{{ ext('or-ojd-self-help') }}: court staff can explain the process but cannot give legal advice.</li>
-  <li>Oregon State Bar referral service: {{ m.copyable(fact('or_osb_lrs'), 'phone numbers') }}. {{ src('or-ojd-adult-packet') }}</li>
+  <li>Oregon State Bar referral service, to find a lawyer. {{ src('or-ojd-adult-packet') }} {{ m.copyable(fact('or_osb_lrs'), 'phone numbers') }}</li>
   <li>{{ ext('or-lawhelp') }}: free legal information from Oregon legal aid programs.</li>
   <li><a href="{{ page_url('help') }}">More free and low-cost help</a></li>
 </ul>

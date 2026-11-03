@@ -9,7 +9,7 @@
 {% call m.callout('watch', 'Need to talk to someone right now?', 'now') %}
 <ul>
   <li><strong>In danger right now:</strong> call 911.</li>
-  <li><strong>Trans Lifeline:</strong> {{ m.copyable(fact('translifeline_phone'), 'Trans Lifeline phone number') }}. Peer support run by trans people, weekdays 10 a.m. to 6 p.m. Pacific. It does not call police or emergency services unless you ask, with limited exceptions it explains on its page. {{ src('us-translifeline') }}</li>
+  <li><strong>Trans Lifeline:</strong> {{ m.copyable(fact('translifeline_phone'), 'Trans Lifeline phone number') }} Peer support run by trans people, weekdays 10 a.m. to 6 p.m. Pacific. It does not call police or emergency services unless you ask, with limited exceptions it explains on its page. {{ src('us-translifeline') }}</li>
   <li><strong>988 Suicide and Crisis Lifeline:</strong> call or text 988, any time.</li>
 </ul>
 {% endcall %}
@@ -18,13 +18,13 @@
 <ul>
   <li>{{ ext('or-ojd-self-help') }}: court self-help resources. Court staff can explain steps but cannot give legal advice. {{ src('or-ojd-adult-packet') }}</li>
   <li>{{ ext('or-ojd-guide-file') }}: free online interview that fills in your court forms.</li>
-  <li>Oregon State Bar referral service, to find a lawyer: {{ m.copyable(fact('or_osb_lrs'), 'phone numbers') }}. Ask about costs when you call.</li>
+  <li>Oregon State Bar referral service, to find a lawyer. Ask about costs when you call. {{ m.copyable(fact('or_osb_lrs'), 'phone numbers') }}</li>
   <li>{{ ext('or-lawhelp') }}: free legal information from Oregon legal aid programs.</li>
 </ul>
 
 <h2 id="washington">Washington</h2>
 <ul>
-  <li>CLEAR, the referral line Washington's courts list for finding a lawyer or a free or low-cost legal service program: {{ m.copyable(fact('wa_clear'), 'CLEAR phone number') }}. {{ src('wa-courts-forms') }}</li>
+  <li>CLEAR, the referral line Washington's courts list for finding a lawyer or a free or low-cost legal service program. {{ src('wa-courts-forms') }} {{ m.copyable(fact('wa_clear'), 'CLEAR phone number') }}</li>
   <li>{{ ext('wa-wlh-name') }}: free forms and instructions from a legal aid program.</li>
   <li>Courthouse facilitators: your county may have one who can help you fill out paperwork. They cannot give legal advice. Ask your court. {{ src('wa-courts-forms') }}</li>
 </ul>

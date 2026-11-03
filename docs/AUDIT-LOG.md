@@ -2,6 +2,13 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (later): third check run, Copy button fix
+
+- Third GitHub Actions run: build, fast checks, and browser checks passed. The pinned font files matched their checksums. axe-core, now naming the element, flagged the Copy button for the Oregon State Bar phone numbers: a source link right after it wrapped onto the next line, and that link's bounding box covered the button.
+- The earlier table-link change did not cause or fix this finding (inference: the table links were not the flagged element).
+- Fix: every Copy button now sits on its own row with its number, address, or email, after the sentence instead of inside it. Long emails can wrap so the row never forces sideways scrolling.
+- Added an overlap check to `tests/browser_checks.py` that mimics how axe-core measures covered targets. Run against the pushed version, it reproduced axe's finding on the Oregon page, plus the same pattern on the Washington page at phone width. After the fix it finds nothing at 1280px or 320px.
+
 ## 2026-11-03 (later): first deployment to Cloudflare Pages
 
 - The maintainer connected the repository to Cloudflare Pages. The live site at `https://projectstrand.pages.dev` was built from commit `da56867`, with clean URLs and the optional font bundled. Its build report lists no warnings.

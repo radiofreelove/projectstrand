@@ -30,6 +30,40 @@ SPACING_CSS = (
 )
 problems: list[str] = []
 
+OBSCURED_JS = """() => {
+  const isInline = e => getComputedStyle(e).display === 'inline';
+  const inText = e => {
+    if (!isInline(e)) return false;
+    let p = e.parentElement;
+    while (p && getComputedStyle(p).display.startsWith('inline')) p = p.parentElement;
+    const all = (p.textContent || '').replace(/\\s+/g, '');
+    let widgets = '';
+    p.querySelectorAll('a[href],button,input,summary,select').forEach(x => widgets += (x.textContent || ''));
+    return all.length > widgets.replace(/\\s+/g, '').length;
+  };
+  const visible = e => {
+    const r = e.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && !e.closest('dialog:not([open])') && !e.closest('[hidden]')
+      && !e.classList.contains('skip-link') && !(e.closest('details:not([open])') && !e.matches('summary'));
+  };
+  const targets = [...document.querySelectorAll('a[href],button,input,summary,select')].filter(visible);
+  const out = [];
+  targets.forEach(e => {
+    if (inText(e)) return;
+    const r = e.getBoundingClientRect();
+    targets.forEach(o => {
+      if (o === e || o.contains(e) || e.contains(o)) return;
+      const q = o.getBoundingClientRect();
+      const ix = Math.min(r.right, q.right) - Math.max(r.left, q.left);
+      const iy = Math.min(r.bottom, q.bottom) - Math.max(r.top, q.top);
+      if (ix > 0 && iy > 0 && r.height - iy < 24 && r.width - ix < 24) {
+        out.push(e.tagName + ' "' + (e.textContent || '').trim().slice(0, 30) + '" under ' + o.tagName + ' "' + (o.textContent || '').trim().slice(0, 30) + '"');
+      }
+    });
+  });
+  return out;
+}"""
+
 
 def fail(msg: str) -> None:
     problems.append(msg)
@@ -117,6 +151,14 @@ def main() -> int:
             }""")
             if small:
                 fail(f"{name}: targets under 24px: {small[:5]}")
+
+            # Obscured targets, the way axe-core's target-size rule sees them:
+            # a standalone control (not a link inside a sentence) fails when another
+            # target's bounding box covers it so that no 24 by 24 px area is left.
+            # A wrapped inline link's bounding box spans every line it touches.
+            obscured = page.evaluate(OBSCURED_JS)
+            if obscured:
+                fail(f"{name}: targets covered by a neighbor's box: {obscured[:3]}")
 
         # ---- Focus not hidden under the sticky Leave quickly bar (WCAG 2.4.11) ----
         print("- focus not obscured")

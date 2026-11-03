@@ -2,6 +2,11 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (later): re-trigger after a silent push
+
+- Commit `962fb69` (font pin and table links) built and deployed on Cloudflare Pages; Cloudflare reported "Deployed successfully" on GitHub.
+- Commit `540366f` (Copy button rows) reached GitHub's `main`, but the push returned a "cannot lock ref" error and no GitHub Actions run or Cloudflare build started for it. This commit exists to trigger both. Future pushes from this environment turn off Git's push negotiation, which was printing warnings on every push here (inference: the warnings and the missing run are related).
+
 ## 2026-11-03 (later): third check run, Copy button fix
 
 - Third GitHub Actions run: build, fast checks, and browser checks passed. The pinned font files matched their checksums. axe-core, now naming the element, flagged the Copy button for the Oregon State Bar phone numbers: a source link right after it wrapped onto the next line, and that link's bounding box covered the button.

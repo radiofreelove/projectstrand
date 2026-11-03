@@ -54,9 +54,13 @@ jobs:
     name: Browser checks (Chromium)
     needs: build
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright/python:v1.63.0-noble
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python3 -m pip install playwright==1.63.0
+      - run: python3 -m playwright install --with-deps chromium
       - uses: actions/download-artifact@v4
         with:
           name: public

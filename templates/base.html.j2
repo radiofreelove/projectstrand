@@ -18,11 +18,11 @@
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 
-<div class="exit-bar">
+<nav class="exit-bar" aria-label="Leave this site quickly">
   <div class="wrap exit-wrap">
     <a class="exit-link" id="quick-exit" href="{{ site.quick_exit_url }}" rel="noreferrer">Leave quickly<span class="vh"> and open a weather website</span></a>
   </div>
-</div>
+</nav>
 
 <header class="site-header">
   <div class="wrap header-row">
@@ -42,11 +42,10 @@
   </nav>
 </header>
 
-<div class="beta-bar" role="note" aria-label="Beta notice">
-  <p class="wrap"><strong>Beta.</strong> Checked {{ page.checked|human_date }}. Laws change, so use the official links before you file. <a href="{{ issues_url }}" rel="noreferrer">Report a mistake</a></p>
-</div>
-
 <main id="main" tabindex="-1">
+  <div class="beta-bar" role="note" aria-label="Beta notice">
+    <p class="wrap"><strong>Beta.</strong> Checked {{ page.checked|human_date }}. Laws change, so use the official links before you file. <a href="{{ issues_url }}" rel="noreferrer">Report a mistake</a></p>
+  </div>
   <div class="wrap content">
 {% block main %}{% endblock %}
 
@@ -66,6 +65,7 @@
     </section>
 {% endif %}
   </div>
+  <div class="vh" id="announcer" role="status" aria-live="polite"></div>
 </main>
 
 <footer class="site-footer">
@@ -129,6 +129,5 @@
     </div>
   </div>
 </dialog>
-<div class="vh" id="announcer" role="status" aria-live="polite"></div>
 </body>
 </html>

@@ -2,6 +2,12 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (later): first GitHub Actions run and fixes
+
+- First run of the "Checks" workflow on GitHub: build and fast checks passed. The browser job failed before running any test, because the Playwright Python package was not installed in the job's container. axe-core ran for the first time and reported 3 serious findings (one link target under 24px with crowded neighbors on the Oregon page, in each of the 3 themes) and 48 moderate findings (2 page elements outside landmarks on all 16 pages, in each theme).
+- Fixes: the Leave quickly bar is now a labeled navigation landmark; the beta notice and the status announcer moved inside the main landmark; links in the content get vertical padding so every link target is at least 24px tall; the browser job now installs Playwright and Chromium on a standard runner.
+- Local checks after the fixes: an approximation of axe's landmark and target-size rules finds 0 issues on all 16 pages at 1280px and 390px; structure, contrast, and browser checks pass in both link styles. axe-core itself reruns on the next push.
+
 ## 2026-11-03 (later): moved to GitHub and Cloudflare Pages
 
 - The GitLab project was renamed twice and then deleted by the maintainer before anything was pushed. No content ever lived on GitLab.

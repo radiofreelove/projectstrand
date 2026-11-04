@@ -2,6 +2,13 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (night): first Dependabot updates for the test tools
+
+- Waited for the Cloudflare deploy of `6e82cea` (the Dependabot fix) to finish before merging anything, so each change could be traced.
+- Merged #6: axe-core 4.10.2 to 4.14.0 in `test-tools/package.json`. All checks had passed on the pull request.
+- Playwright 1.63.0 to 1.64.1 in one commit (`test-tools/requirements.txt`, `test-tools/package.json`, and the axe job's container `mcr.microsoft.com/playwright:v1.64.1-noble`, which Playwright's Docker page lists). This replaces Dependabot's #7, #8, and #9, which could each change only one place and so failed `tests/check_versions.py`. Closed #8 as a duplicate of #7. `docs/OPERATIONS.md` now says Playwright updates are always one three-place commit.
+- Stasis merged the same versions the same day. ADR-0010 no longer names version numbers; they live only in `test-tools/`.
+
 ## 2026-11-03 (night): third review follow-up (0.1.4-beta)
 
 - A third review grepped both trees for residue (old project names, TODO and FIXME markers, old repository links, GitLab leftovers outside history) and found none. Confirmed.

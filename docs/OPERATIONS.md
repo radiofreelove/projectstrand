@@ -35,6 +35,10 @@ After setup, leave Web Analytics off for this project (ADR-0002).
 
 `fonts.lock.json` pins the font package version and each file's SHA-256. To update: change `version`, set each `sha256` to `null`, push, copy the new values from the build log, and push again with an audit log entry.
 
+## Update Playwright
+
+A Playwright update is always one commit that changes `test-tools/requirements.txt`, `test-tools/package.json`, and the axe job's container tag in `.github/workflows/checks.yml` together (`tests/check_versions.py` fails otherwise). Make that commit by hand, and close Dependabot's separate Playwright pull requests; Dependabot closes them on its own once the version is on `main`.
+
 ## Run checks by hand
 
 In GitHub, open Actions, select "Checks," and choose "Run workflow." This also runs the external link report.

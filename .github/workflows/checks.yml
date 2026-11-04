@@ -37,6 +37,7 @@ jobs:
       - run: python3 tests/contrast.py
       - run: python3 tests/readability.py
       - run: python3 tests/path_rules.py
+      - run: python3 tests/check_versions.py
       - name: Clean-URL build, as Cloudflare serves it
         run: |
           CLEAN_URLS=1 python3 build.py
@@ -60,7 +61,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
-      - run: python3 -m pip install playwright==1.63.0
+      - run: python3 -m pip install -r test-tools/requirements.txt
       - run: python3 -m playwright install --with-deps chromium
       - uses: actions/download-artifact@v8
         with:
@@ -80,7 +81,8 @@ jobs:
         with:
           name: public
           path: public
-      - run: npm install --no-save --no-audit --no-fund axe-core@4.10.2 playwright@1.63.0
+      - run: npm install --prefix test-tools --no-audit --no-fund --no-package-lock
+      - run: ln -s test-tools/node_modules node_modules   # so tests/axe_check.mjs can import them
       - run: node tests/axe_check.mjs
 
   external-links:

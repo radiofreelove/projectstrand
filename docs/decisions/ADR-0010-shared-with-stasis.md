@@ -24,6 +24,7 @@ Both projects follow these conventions. A change to one should be made in both, 
 | Tool pages | A tool page lists every source it uses. When the list is long, it starts closed behind a "Show all" toggle, because each result line links its own source (Strand's path finder, 24 sources). Stasis's check lists its 6 openly. |
 | Code of conduct | The same `CODE_OF_CONDUCT.md`, adapted to each site's readers. To report a problem, a person opens an issue that says only that they need to report one; the maintainer replies with a private way to talk. Nobody is asked to post contact details in public. |
 | Interactive tools | Each tool has a public note in plain words that lists every question and every rule: [PATH-LOGIC.md](../PATH-LOGIC.md) here, [checker-logic.md](https://github.com/radiofreelove/projectstasis/blob/main/docs/checker-logic.md) in Stasis. |
+| Test tools | Playwright 1.63.0 and axe-core 4.10.2, pinned in `test-tools/requirements.txt` and `test-tools/package.json`. Dependabot proposes monthly updates for GitHub Actions, pip, and npm. Each site's build itself needs nothing new. |
 | Hosting | Code on GitHub, site on Cloudflare Pages' free tier ([ADR-0004](ADR-0004-hosting.md)). The build reads no GitLab settings. |
 
 Differences kept on purpose:

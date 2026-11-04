@@ -2,6 +2,13 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (night): third review follow-up (0.1.4-beta)
+
+- A third review grepped both trees for residue (old project names, TODO and FIXME markers, old repository links, GitLab leftovers outside history) and found none. Confirmed.
+- Test tool versions: Playwright 1.63.0 and axe-core 4.10.2 were written inside workflow commands, where Dependabot cannot see them. They now live in `test-tools/requirements.txt` and `test-tools/package.json`, and Dependabot watches npm as well as pip and GitHub Actions. Stasis uses the same files and versions. Both files sit in `test-tools/`, not the root: Cloudflare Pages installs a root `package.json` on every deploy (Cloudflare build image docs, updated Oct. 26, 2026). The axe job links `test-tools/node_modules` to `node_modules` so `tests/axe_check.mjs` can import them.
+- Dependabot does not update the axe job's container tag (`mcr.microsoft.com/playwright:v1.63.0-noble`), which must match Playwright's version, and that job is warning-only, so a mismatch could quietly stop axe-core from running. New `tests/check_versions.py` fails the build job until all three match. Confirmed it fails on a mismatch and passes now.
+- Whether Dependabot proposes npm updates without a lockfile is not stated on GitHub's supported-ecosystems page (unverified). If no npm proposals appear by the next monthly run, that is the likely reason.
+
 ## 2026-11-03 (night): second review follow-up (0.1.3-beta)
 
 - A second outside review compared live headers and both repository roots. Each claim was checked against both repositories first.

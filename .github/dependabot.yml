@@ -10,3 +10,16 @@ updates:
     directory: /
     schedule:
       interval: monthly
+  # Test-only tools, kept in test-tools/ so Cloudflare Pages does not install
+  # them on every deploy.
+  - package-ecosystem: pip
+    directory: /test-tools
+    schedule:
+      interval: monthly
+  # A Playwright update must change test-tools/package.json,
+  # test-tools/requirements.txt, and the axe job's container tag together;
+  # tests/check_versions.py fails until all three match.
+  - package-ecosystem: npm
+    directory: /test-tools
+    schedule:
+      interval: monthly

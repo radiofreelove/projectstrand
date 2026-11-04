@@ -42,7 +42,10 @@ python3 build.py                  # writes public/
 python3 tests/check_site.py       # structure, links, labels, CSP safety
 python3 tests/contrast.py         # every color pair in every theme
 python3 tests/readability.py      # reading level and long sentences
-python3 tests/browser_checks.py   # needs Playwright and Chromium
+python3 tests/path_rules.py       # every path finder answer combination
+python3 tests/check_versions.py   # test tools pinned to one Playwright version
+pip install -r test-tools/requirements.txt && python3 -m playwright install chromium
+python3 tests/browser_checks.py   # real browser
 ```
 
 Open `public/index.html` in a browser, or run `python3 -m http.server -d public`.

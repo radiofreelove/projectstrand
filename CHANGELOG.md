@@ -2,6 +2,10 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.4-beta (2026-11-03)
+
+- Test tools only (nothing readers see changes): Playwright and axe-core versions now live in `test-tools/requirements.txt` and `test-tools/package.json`, the same versions as The Stasis Project, so Dependabot can propose updates. A new check keeps Playwright's version the same in all three places it appears.
+
 ## 0.1.3-beta (2026-11-03)
 
 - The path finder page still lists all 24 of its sources, but the list now starts closed behind "Show all 24 sources." Each step already links its own source.

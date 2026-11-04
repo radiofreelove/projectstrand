@@ -3,7 +3,7 @@
   "private": true,
   "description": "Test-only tools for The Strand Project's axe-core check (tests/axe_check.mjs). The site itself uses none of these. Same axe-core version as The Stasis Project. Dependabot proposes updates; tests/check_versions.py keeps Playwright in step with test-tools/requirements.txt and the workflow's container tag.",
   "devDependencies": {
-    "axe-core": "4.10.2",
+    "axe-core": "4.14.0",
     "playwright": "1.63.0"
   }
 }

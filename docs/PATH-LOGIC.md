@@ -56,7 +56,7 @@ All 4 must be answered. If any is missing, the tool lists the missing questions 
 | Utah | District court in the county where you lived at least a year; hearing; fee or waiver | Adult, name or both |
 | Utah | Sex designation: clear and convincing evidence of six things; papers private, hearings public | Adult, marker or both |
 | Utah | No sex designation change under 15 years and 6 months, or without the custodial parent's permission; takes effect at 16 | Parent or minor, marker or both |
-| Utah | For a child's name change, start with the Utah Courts page | Parent or minor, name or both |
+| Utah | Child's name change: district court in the county where the child has lived for a year; other parent consents or is served; hearing | Parent or minor, name or both |
 | Somewhere else | Use your state court's self-help pages or legal aid; Lambda Legal's help desk | Everyone |
 
 ### Social Security and passports (everyone)

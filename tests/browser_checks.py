@@ -225,12 +225,24 @@ def main() -> int:
         page.click("#settings-close")
         if page.evaluate("() => document.activeElement.id") != "settings-open":
             fail("settings: focus did not return to the settings button")
+        # Reading settings are saved automatically, as on The Stasis Project (ADR-0010).
         stored = page.evaluate("() => { try { return localStorage.getItem('strand:prefs'); } catch (e) { return 'error'; } }")
-        if stored:
-            fail("settings: saved to the device without 'Remember' turned on")
+        if not stored or '"dark"' not in stored:
+            fail("settings: reading settings were not saved on the device")
         page.goto(base + "oregon.html")
-        if page.evaluate("() => document.documentElement.dataset.theme") == "dark":
-            fail("settings: theme persisted without 'Remember' turned on")
+        if page.evaluate("() => document.documentElement.dataset.theme") != "dark":
+            fail("settings: theme did not carry over to the next page")
+        if page.evaluate("() => localStorage.getItem('strand:remember')"):
+            fail("settings: 'Remember' turned itself on")
+        # "Forget everything" erases saved settings and resets the page.
+        page.click("#settings-open")
+        page.click("#forget-all")
+        page.click("#settings-close")
+        left = page.evaluate("() => Object.keys(localStorage).filter(k => k.indexOf('strand:') === 0)")
+        if left:
+            fail(f"settings: 'Forget everything' left {left}")
+        if page.evaluate("() => document.documentElement.dataset.theme") != "auto":
+            fail("settings: 'Forget everything' did not reset the colors")
 
         # ---- Checklist ----
         print("- checklist")
@@ -239,6 +251,8 @@ def main() -> int:
         box.check()
         if "is-done" not in (page.get_attribute("#or-step-forms", "class") or ""):
             fail("checklist: step not marked done")
+        if page.evaluate("() => localStorage.getItem('strand:checks')"):
+            fail("checklist: checkmarks saved without 'Remember my checklist' turned on")
 
         # ---- Leave quickly ----
         print("- leave quickly")

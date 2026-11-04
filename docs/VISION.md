@@ -22,7 +22,7 @@ Each office explains only its own step. Court self-help pages are written for pe
 2. **Personalizes it.** Four questions (where you live, what you are changing, who it is for, where you were born) produce only the steps that apply.
 3. **Proves every fact.** Every fact links to the official source and shows the date we checked it.
 4. **Says what it does not know.** "Not confirmed" and "Our reading" labels mark every gap.
-5. **Protects the reader.** No tracking, a Leave quickly button, and nothing saved without consent.
+5. **Protects the reader.** No tracking, a Leave quickly button, and nothing about the reader's case saved without consent. Reading settings are saved on the device so they carry from page to page.
 6. **Works for every brain.** Smart Brevity structure, short sentences, checklists, a short version, and reading settings.
 
 ## Who it is for

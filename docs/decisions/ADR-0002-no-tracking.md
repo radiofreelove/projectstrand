@@ -13,6 +13,7 @@ Readers may be closeted, in unsafe homes, on shared devices, or worried about go
 - A Content Security Policy in every page blocks connections to any other origin (`connect-src 'none'`, everything else `'self'`).
 - `referrer` policy `no-referrer`, and `rel="noreferrer"` on every outside link, so official sites do not learn that a visitor came from here.
 - Reading settings and checklists are kept in memory only, unless the reader turns on "Remember." "Forget everything" erases all saved data.
+  - Update, 2026-11-03 ([ADR-0010](ADR-0010-shared-with-stasis.md)): the maintainer chose to save reading settings automatically, as The Stasis Project does. Checklist checkmarks still need "Remember." "Forget everything" still erases all saved data.
 - A Leave quickly button and a Shift-key-three-times shortcut replace the page with a weather site.
 - The path finder never sends or saves answers.
 

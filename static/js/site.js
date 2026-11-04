@@ -1,5 +1,6 @@
 /* The Strand Project: small enhancements. The site works without this file.
-   No network requests. Nothing is stored unless the reader turns on "Remember". */
+   No network requests. Reading settings are saved on this device. Checklist
+   checkmarks are saved only if the reader turns on "Remember". */
 (function () {
   "use strict";
   var root = document.documentElement;
@@ -36,8 +37,8 @@
   }
   function apply(prefs) {
     Object.keys(prefs).forEach(function (k) { root.setAttribute("data-" + k, prefs[k]); });
-    if (remembering()) store("set", KEYS.prefs, JSON.stringify(prefs));
   }
+  function savePrefs(prefs) { store("set", KEYS.prefs, JSON.stringify(prefs)); }
 
   var dialog = document.getElementById("settings");
   var opener = document.getElementById("settings-open");
@@ -79,15 +80,16 @@
         if (el.checked) {
           store("set", KEYS.remember, "on");
           saveChecks();
-          announce("Your settings will be remembered on this device.");
+          announce("Your checklist will be remembered on this device.");
         } else {
           store("remove", KEYS.remember);
-          store("remove", KEYS.prefs);
           store("remove", KEYS.checks);
-          announce("Nothing will be saved on this device.");
+          announce("Your checklist will not be saved on this device.");
         }
+        return;
       }
       apply(p);
+      savePrefs(p);
     });
     var forget = document.getElementById("forget-all");
     if (forget) {

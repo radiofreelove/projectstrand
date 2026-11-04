@@ -5,7 +5,9 @@ All notable changes to The Strand Project. Dates are when the change was publish
 ## 0.1.2-beta (2026-11-03)
 
 - The path finder now shows every Name step when you pick "Both": the Washington driver license step and the Utah step for a child's name change were missing for "Both." A new check tries all 180 answer combinations on every build.
+- The Utah step for a child's name change now gives the steps (court, consent or service, hearing) and links to Utah Courts' page for minors. It used to link to the adult page. The Utah page's section on minors now covers name changes too.
 - New public notes on how the path finder picks your steps, linked from the path finder page.
+- Reading settings are now saved on your device automatically, as on The Stasis Project, so they carry from page to page. Checklist checkmarks are still saved only if you turn on "Remember my checklist." "Forget everything" erases both.
 - The banner on every page now says this is an independent guide, and "Report a mistake" opens the About page first, which explains that reports and GitHub account names are public.
 - Links keep one color after you visit them, as on The Stasis Project.
 - License files renamed to match The Stasis Project: `LICENSE` is CC BY 4.0 for the writing, `LICENSE-CODE` is MIT for the code. The licenses did not change.

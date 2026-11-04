@@ -428,6 +428,19 @@
   status: verified
   notes: "Sex change cases are marked private: filed papers are not public, but the case history and public hearings are. Five steps. Forms 1158XX, 1730FA, 1731FA or MyPaperwork."
 
+- id: ut-courts-minor-change
+  title: "Name or Sex Designation Change - Minor"
+  short: "Utah Courts page for minors"
+  link_text: "Utah Courts: name or sex change for a minor"
+  publisher: Utah State Courts
+  url: https://www.utcourts.gov/en/self-help/case-categories/family/name-change/juvenile/instruct.html
+  kind: court-page
+  jurisdiction: UT
+  date: "Live page"
+  checked: 2026-11-03
+  status: verified
+  notes: "For anyone under 18. File in the district court in the county where the minor has lived for the past year. The other parent signs a consent form (1721FA), or is served under Rule 4 if they do not agree. A hearing is scheduled and you must attend. Sex change cases for minors are private, including hearings; the page does not say whether name-only cases are. Does not say who files."
+
 - id: ut-courts-fees
   title: "Fees"
   short: "Utah Courts fees"

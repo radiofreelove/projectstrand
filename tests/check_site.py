@@ -10,6 +10,9 @@ Fails (exit 1) on:
 - inline scripts, inline styles, or on* handlers (the Content Security Policy blocks them)
 - external links without rel="noreferrer"
 - unclosed or mismatched tags
+- a Content Security Policy meta tag that differs from public/_headers, or
+  security headers that differ from the set shared with The Stasis Project
+  (docs/decisions/ADR-0010-shared-with-stasis.md)
 """
 from __future__ import annotations
 
@@ -24,6 +27,22 @@ VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "met
 # do not treat a missing one as fatal.
 OPTIONAL_END = {"li", "p", "dt", "dd", "tr", "td", "th", "option", "thead", "tbody"}
 
+# The same headers The Stasis Project sends (ADR-0010). Change both projects
+# together, or record the difference there.
+SHARED_CSP = (
+    "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; "
+    "connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'"
+)
+SHARED_HEADERS = {
+    "Content-Security-Policy": SHARED_CSP + "; frame-ancestors 'none'",
+    "Referrer-Policy": "no-referrer",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Permissions-Policy": "accelerometer=(), browsing-topics=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Strict-Transport-Security": "max-age=31536000",
+}
+
 
 class PageParser(HTMLParser):
     def __init__(self):
@@ -34,6 +53,7 @@ class PageParser(HTMLParser):
         self.headings: list[int] = []
         self.links: list[tuple[str, dict]] = []
         self.lang = None
+        self.meta_csp = None
         self.title = ""
         self.in_title = False
         self.label_for: set[str] = set()
@@ -46,6 +66,8 @@ class PageParser(HTMLParser):
         a = dict(attrs)
         if tag == "html":
             self.lang = a.get("lang")
+        if tag == "meta" and (a.get("http-equiv") or "").lower() == "content-security-policy":
+            self.meta_csp = a.get("content") or ""
         if "id" in a:
             self.ids.append(a["id"])
         for name in a:
@@ -163,6 +185,26 @@ def check_page(path: Path, all_ids: dict[str, set[str]]) -> list[str]:
     return errs
 
 
+def check_headers() -> list[str]:
+    """public/_headers sends exactly the shared headers for every path."""
+    path = PUBLIC / "_headers"
+    if not path.exists():
+        return ["public/_headers is missing"]
+    sent: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith((" ", "\t")) and ":" in line:
+            name, _, value = line.strip().partition(":")
+            sent[name.strip()] = value.strip()
+    errors = []
+    for name, value in SHARED_HEADERS.items():
+        if sent.get(name) != value:
+            errors.append(f"{name} should be {value!r}, found {sent.get(name)!r}")
+    for name in sent:
+        if name not in SHARED_HEADERS:
+            errors.append(f"{name} is not in the shared header set (ADR-0010)")
+    return errors
+
+
 def main() -> int:
     pages = sorted(PUBLIC.glob("*.html"))
     if not pages:
@@ -177,8 +219,18 @@ def main() -> int:
         if (PUBLIC / extra).exists():
             all_ids[extra] = set()
     failed = 0
+    header_errors = check_headers()
+    if header_errors:
+        failed += 1
+        print("FAIL _headers")
+        for e in header_errors:
+            print("   -", e)
     for page in pages:
         errs = check_page(page, all_ids)
+        pp = PageParser()
+        pp.feed(page.read_text(encoding="utf-8"))
+        if pp.meta_csp != SHARED_CSP:
+            errs.append(f"Content Security Policy meta tag differs from the shared policy: {pp.meta_csp!r}")
         if errs:
             failed += 1
             print(f"FAIL {page.name}")

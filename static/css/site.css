@@ -406,6 +406,12 @@ dialog#settings::backdrop { background: rgba(0, 0, 0, 0.6); }
 .source-meta { font-size: 0.95rem; margin: 0; }
 .page-sources { margin-top: 3rem; padding-top: 1rem; border-top: 2px solid var(--rule); font-size: 0.95rem; }
 .page-sources h2 { font-size: 1.2rem; margin-top: 0; }
+/* Tool pages: the full source list starts closed. Not ".deeper", so the
+   "Short version" setting never hides it. */
+details.sources-toggle { border: 1px solid var(--rule); border-radius: 8px; margin: 0.5rem 0 1rem; }
+details.sources-toggle > summary { cursor: pointer; padding: 0.8rem 1rem; min-height: 44px; font-weight: 700; color: var(--link); }
+details.sources-toggle[open] > summary { border-bottom: 1px solid var(--rule); }
+details.sources-toggle > p, details.sources-toggle > ol { margin-left: 1rem; margin-right: 1rem; }
 
 /* Footer */
 .site-footer { background: var(--surface); border-top: 4px solid var(--do-edge); padding: 1.5rem 0 2rem; font-size: 0.95rem; }
@@ -419,7 +425,7 @@ dialog#settings::backdrop { background: rgba(0, 0, 0, 0.6); }
 }
 html { scroll-behavior: auto; scroll-padding-top: 5rem; }  /* keeps focused items clear of the sticky Leave quickly bar (WCAG 2.4.11) */
 @media (forced-colors: active) {
-  .callout, .step, details.deeper, .card, .stat, .toc { border: 2px solid CanvasText; }
+  .callout, .step, details.deeper, details.sources-toggle, .card, .stat, .toc { border: 2px solid CanvasText; }
   .badge { border-color: CanvasText; }
   a:focus-visible { outline: 3px solid Highlight; }
   .exit-link { border: 2px solid ButtonText; }

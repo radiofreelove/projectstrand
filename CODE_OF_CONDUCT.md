@@ -19,7 +19,9 @@ The Strand Project exists for trans, nonbinary, and intersex people and the peop
 
 ## Reporting
 
-Report a problem to the maintainers by opening an issue that says only that you need to report a conduct problem and how to reach you. Do not post details publicly. Reports are handled privately. You do not need to share personal details to report.
+Open an issue that says only: "I need to report a conduct problem." Do not put details or a way to reach you in it. Issues are public, and so is your GitHub account name. A maintainer will reply in that issue with a private way to talk, and reports are handled privately from there. You do not need to share personal details to report.
+
+You can also report a comment straight to GitHub: open the comment's menu (the three dots) and choose **Report content**.
 
 ## What happens next
 

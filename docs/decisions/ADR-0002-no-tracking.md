@@ -11,6 +11,7 @@ Readers may be closeted, in unsafe homes, on shared devices, or worried about go
 
 - No cookies, analytics, ads, social buttons, third-party scripts, or third-party fonts.
 - A Content Security Policy in every page blocks connections to any other origin (`connect-src 'none'`, everything else `'self'`).
+  - Update, 2026-11-03 ([ADR-0010](ADR-0010-shared-with-stasis.md)): the policy now matches The Stasis Project's stricter one. `default-src` and `base-uri` are `'none'`, and only scripts, styles, images, and the font may load, from this site only. `tests/check_site.py` fails if the meta tag or `_headers` differs from the shared set.
 - `referrer` policy `no-referrer`, and `rel="noreferrer"` on every outside link, so official sites do not learn that a visitor came from here.
 - Reading settings and checklists are kept in memory only, unless the reader turns on "Remember." "Forget everything" erases all saved data.
   - Update, 2026-11-03 ([ADR-0010](ADR-0010-shared-with-stasis.md)): the maintainer chose to save reading settings automatically, as The Stasis Project does. Checklist checkmarks still need "Remember." "Forget everything" still erases all saved data.

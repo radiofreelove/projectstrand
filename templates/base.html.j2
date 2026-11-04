@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
 <title>{{ page.title }} | {{ site.name }}</title>
 <meta name="description" content="{{ page.description }}">
@@ -50,8 +50,7 @@
 {% block main %}{% endblock %}
 
 {% if page.slug not in ['sources', '404'] and used_sources() %}
-    <section class="page-sources" aria-labelledby="page-sources-h">
-      <h2 id="page-sources-h">Sources for this page</h2>
+    {% set source_list %}
       <p>We read each of these on the date shown. <a href="{{ page_url('sources') }}">See every source and what each label means</a>.</p>
       <ol>
       {% for s in used_sources() %}
@@ -62,6 +61,20 @@
         </li>
       {% endfor %}
       </ol>
+    {% endset %}
+    <section class="page-sources" aria-labelledby="page-sources-h">
+      <h2 id="page-sources-h">Sources for this page</h2>
+      {% if page.get('tool') %}
+      {#- Tool pages: each result line already links its own source, so the full
+          list starts closed (ADR-0010). Every source is still listed. -#}
+      <p>Each step above links to its own source.</p>
+      <details class="sources-toggle">
+        <summary>Show all {{ used_sources()|length }} sources</summary>
+        {{ source_list }}
+      </details>
+      {% else %}
+      {{ source_list }}
+      {% endif %}
     </section>
 {% endif %}
   </div>

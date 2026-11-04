@@ -2,6 +2,14 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (night): second review follow-up (0.1.3-beta)
+
+- A second outside review compared live headers and both repository roots. Each claim was checked against both repositories first.
+- Path finder sources: the page lists 24 sources (the review's count). They now sit in a closed "Show all 24 sources" toggle, set by `tool: true` in `data/pages.yml`. Every source is still listed, so the build rule holds. The toggle does not use the `.deeper` class, so "Short version" never hides it.
+- Headers: the Content Security Policy now matches Stasis: `default-src 'none'` and `base-uri 'none'` (were `'self'`), no `data:` images (none were used), and no `upgrade-insecure-requests` (every resource is same-site). The meta tag in `templates/base.html.j2` and `site-root/_headers` both changed. `tests/check_site.py` now fails if either differs from the shared header set in ADR-0010. Checked in Chromium: no policy violations on any page.
+- Code of Conduct: the reporting step asked people to post "how to reach you" in a public issue, which contradicted its own "Do not post details publicly." It now asks for an issue that says only that a report is needed; a maintainer replies with a private channel. Stasis now has the same code, adapted for its readers.
+- ADR-0010 records the shared headers, tool-page source lists, code of conduct, and the different doc naming (kept on purpose).
+
 ## 2026-11-03 (evening): review follow-up and shared conventions with Stasis (0.1.2-beta)
 
 - An outside review compared this project with The Stasis Project. Each claim was checked against both repositories before acting on it. Shared conventions are now recorded in ADR-0010.

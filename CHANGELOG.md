@@ -2,6 +2,12 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.3-beta (2026-11-03)
+
+- The path finder page still lists all 24 of its sources, but the list now starts closed behind "Show all 24 sources." Each step already links its own source.
+- Stricter browser security rules, now the same as The Stasis Project's: the page may load only scripts, styles, images, and the font, and only from this site.
+- Code of Conduct: to report a problem, open an issue that says only that you need to report one. It no longer asks you to post a way to reach you in public.
+
 ## 0.1.2-beta (2026-11-03)
 
 - The path finder now shows every Name step when you pick "Both": the Washington driver license step and the Utah step for a child's name change were missing for "Both." A new check tries all 180 answer combinations on every build.

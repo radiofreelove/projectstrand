@@ -12,6 +12,7 @@
 
 - slug: path
   template: path.html.j2
+  tool: true   # the full source list starts closed (ADR-0010)
   title: "Find your path in 4 questions"
   nav_label: Start here
   nav: 2

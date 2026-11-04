@@ -57,6 +57,7 @@ Everything behind the site is public on purpose, so anyone can check the work.
 
 - **Research memos:** [Oregon](docs/research/oregon.md), [Washington](docs/research/washington.md), [Utah](docs/research/utah.md), [federal](docs/research/federal.md). Each one lists the issue, the short answer, the authority, what is uncertain, and a research log of what we opened and what we could not.
 - **Method:** [docs/METHODOLOGY.md](docs/METHODOLOGY.md) explains how sources are chosen, checked, dated, and labeled.
+- **Path finder rules:** [docs/PATH-LOGIC.md](docs/PATH-LOGIC.md) lists every question and which steps each answer shows.
 - **Decisions:** [docs/decisions/](docs/decisions/) records why the site is built the way it is.
 - **Audit log:** [docs/AUDIT-LOG.md](docs/AUDIT-LOG.md) records every research pass, check, and release.
 - **Accessibility:** [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md). **Privacy:** [docs/PRIVACY.md](docs/PRIVACY.md). **Writing style:** [docs/CONTENT-STYLE.md](docs/CONTENT-STYLE.md).
@@ -64,12 +65,12 @@ Everything behind the site is public on purpose, so anyone can check the work.
 
 ## Report a mistake or help
 
-Open an issue on GitHub and pick a template. Please do not include personal details about your own case. See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md).
+Open an issue on GitHub and pick a template. Issues are public, and so is your GitHub account name. Please do not include personal details about your own case. See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md).
 
 ## License
 
-- **Writing** (the words on the site and in this repository's documents): [Creative Commons Attribution 4.0 International (CC BY 4.0)](LICENSE-CONTENT).
-- **Code** (build scripts, tests, CSS, JavaScript, and template markup): [MIT License](LICENSE).
+- **Writing** (the words on the site and in this repository's documents): [Creative Commons Attribution 4.0 International (CC BY 4.0)](LICENSE).
+- **Code** (build scripts, tests, CSS, JavaScript, and template markup): [MIT License](LICENSE-CODE).
 
 You can copy, share, and adapt the guide. Credit us like this: "The Strand Project (https://projectstrand.pages.dev), CC BY 4.0." [docs/REUSING.md](docs/REUSING.md) explains what each license covers, how to credit us, and what neither one covers. Third-party tools and fonts are listed in [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
 

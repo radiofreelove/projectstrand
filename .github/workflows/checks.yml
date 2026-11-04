@@ -36,6 +36,7 @@ jobs:
       - run: python3 tests/check_site.py
       - run: python3 tests/contrast.py
       - run: python3 tests/readability.py
+      - run: python3 tests/path_rules.py
       - name: Clean-URL build, as Cloudflare serves it
         run: |
           CLEAN_URLS=1 python3 build.py

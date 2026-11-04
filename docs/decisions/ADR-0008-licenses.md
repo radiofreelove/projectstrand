@@ -1,6 +1,6 @@
 # ADR-0008: MIT for the code, CC BY 4.0 for the writing
 
-- Status: accepted
+- Status: accepted; file names changed by [ADR-0010](ADR-0010-shared-with-stasis.md)
 - Date: 2026-11-03
 
 ## Context
@@ -22,6 +22,10 @@ GitHub labeled the repository's license "Other." The cause: a note about scope h
 - CC BY 4.0 legal code: [creativecommons.org/licenses/by/4.0/legalcode.txt](https://creativecommons.org/licenses/by/4.0/legalcode.txt). The text in `LICENSE-CONTENT` came from GitHub's license catalog ([github/choosealicense.com](https://github.com/github/choosealicense.com), `_licenses/cc-by-4.0.txt`, commit `b054bc8`). We matched its opening and closing notices and sections 2(a)(6), 2(b)(2), and 6(a) against the Creative Commons page.
 - MIT License: [SPDX license list, MIT](https://spdx.org/licenses/MIT.html). `LICENSE` matches the standard text in the same GitHub catalog (`_licenses/mit.txt`), with the year and holder filled in.
 - Credit format: Creative Commons, [Recommended practices for attribution](https://wiki.creativecommons.org/wiki/Recommended_practices_for_attribution) (page last edited December 4, 2024).
+
+## Update, 2026-11-03
+
+The license files were renamed to match The Stasis Project ([ADR-0010](ADR-0010-shared-with-stasis.md)): `LICENSE` now holds CC BY 4.0 (the writing, which is most of the project) and `LICENSE-CODE` holds MIT. The texts did not change. Where this record says `LICENSE` for MIT or `LICENSE-CONTENT` for CC BY 4.0, read `LICENSE-CODE` and `LICENSE`.
 
 ## Consequences
 

@@ -44,4 +44,4 @@ Everyone follows the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Licensing your contribution
 
-When you contribute, you agree to share your work under the project's licenses: writing under [CC BY 4.0](LICENSE-CONTENT) and code under the [MIT License](LICENSE). Only contribute work you wrote or have the right to share. See [docs/REUSING.md](docs/REUSING.md).
+When you contribute, you agree to share your work under the project's licenses: writing under [CC BY 4.0](LICENSE) and code under the [MIT License](LICENSE-CODE). Only contribute work you wrote or have the right to share. See [docs/REUSING.md](docs/REUSING.md).

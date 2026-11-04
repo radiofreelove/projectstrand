@@ -6,8 +6,8 @@ You can copy, share, and change this project, even in work you sell. Please cred
 
 | What | License | Full text |
 |---|---|---|
-| **The writing:** the words on the site (in `templates/pages/` and `data/`), plus `docs/` and the other Markdown files | Creative Commons Attribution 4.0 International (CC BY 4.0) | [LICENSE-CONTENT](../LICENSE-CONTENT) |
-| **The code:** `build.py`, `scripts/`, `tests/`, `static/` (CSS, JavaScript, and the mark), `.github/`, and the HTML and template code in `templates/` | MIT License | [LICENSE](../LICENSE) |
+| **The writing:** the words on the site (in `templates/pages/` and `data/`), plus `docs/` and the other Markdown files | Creative Commons Attribution 4.0 International (CC BY 4.0) | [LICENSE](../LICENSE) |
+| **The code:** `build.py`, `scripts/`, `tests/`, `static/` (CSS, JavaScript, and the mark), `.github/`, and the HTML and template code in `templates/` | MIT License | [LICENSE-CODE](../LICENSE-CODE) |
 
 Page templates hold both. The words in them are writing (CC BY 4.0). The HTML and template code around the words are code (MIT).
 

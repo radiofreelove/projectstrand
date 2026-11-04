@@ -2,6 +2,16 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-03 (evening): review follow-up and shared conventions with Stasis (0.1.2-beta)
+
+- An outside review compared this project with The Stasis Project. Each claim was checked against both repositories before acting on it. Shared conventions are now recorded in ADR-0010.
+- Path finder: two "Both" gaps fixed. With "Both" selected, the Washington Department of Licensing name step (`t-id-wa`) and the Utah step for a child's name change (`t-court-ut`) were hidden, because their lines were marked for "Name" only. Both now show for "Name" and "Both." Found by trying every combination of questions 2 and 3 against every result block; `tests/path_rules.py` now runs that check (180 answer combinations) in GitHub Actions and in the Cloudflare build. The test fails on the old template and passes on the new one.
+- New `docs/PATH-LOGIC.md`: every question, the block order, and which lines each answer shows, in plain words, matching Stasis's `checker-logic.md`. Linked from the path finder page and the README.
+- Banner: "Independent guide. Not run by any court or government agency." now leads the beta banner, as on Stasis. "Report a mistake" now opens About, `#report`, which says the report and the GitHub account name are public, then links to the issue tracker. The About page's beta notice links there too. `docs/PRIVACY.md` adds the account-name risk. A route that needs no GitHub account is still open: it would need server code, which ADR-0001 (a static site) and `docs/PRIVACY.md` ("nothing on any server we control") rule out today, so it is left for the maintainer to decide.
+- Links: visited links no longer turn green. `--link-visited` and its contrast pairs are removed; Stasis uses one link color.
+- Licenses: `LICENSE` (MIT) renamed to `LICENSE-CODE`, and `LICENSE-CONTENT` (CC BY 4.0) renamed to `LICENSE`, matching Stasis. Texts unchanged. README, REUSING, and CONTRIBUTING links updated; ADR-0008 notes the rename.
+- Build: removed the GitLab fallbacks (`CI_PAGES_URL`, `CI_PROJECT_URL`, `CI_COMMIT_SHA`, and GitLab-style issue links) from `build.py` and the comment in `data/site.yml`. GitLab mentions in earlier ADRs and log entries stay as history.
+
 ## 2026-11-03 (later): updates merged, new mark, licenses adopted (0.1.1-beta)
 
 - Merged Dependabot's five update proposals after reading their release notes: actions/checkout 4 to 7 (#2), actions/setup-python 5 to 7 (#4), actions/upload-artifact 4 to 7 (#3), actions/download-artifact 4 to 8 (#5), and MarkupSafe 3.0.3 to 3.0.4 (#1). The breaking changes they list (Node 24 runners, new checkout rules for `pull_request_target`, digest checks on download) do not affect this workflow. Each new version had already run cleanly on its own pull request. The failed checks there came from the pull requests' older starting commit, before the browser and axe fixes.

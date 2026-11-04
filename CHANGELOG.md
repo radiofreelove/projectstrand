@@ -2,6 +2,15 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.2-beta (2026-11-03)
+
+- The path finder now shows every Name step when you pick "Both": the Washington driver license step and the Utah step for a child's name change were missing for "Both." A new check tries all 180 answer combinations on every build.
+- New public notes on how the path finder picks your steps, linked from the path finder page.
+- The banner on every page now says this is an independent guide, and "Report a mistake" opens the About page first, which explains that reports and GitHub account names are public.
+- Links keep one color after you visit them, as on The Stasis Project.
+- License files renamed to match The Stasis Project: `LICENSE` is CC BY 4.0 for the writing, `LICENSE-CODE` is MIT for the code. The licenses did not change.
+- The build no longer reads GitLab settings.
+
 ## 0.1.1-beta (2026-11-03)
 
 - A slightly updated mark: the strand is now two twisted fibers, white and green. It now prints correctly and follows Windows high contrast themes.

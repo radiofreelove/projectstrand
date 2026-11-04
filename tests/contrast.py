@@ -20,12 +20,12 @@ CSS = Path(__file__).resolve().parent.parent / "static" / "css" / "site.css"
 
 TEXT_PAIRS = [
     ("text", "bg"), ("text", "surface"), ("heading", "bg"), ("heading", "surface"),
-    ("link", "bg"), ("link", "surface"), ("link-visited", "bg"), ("link-visited", "surface"),
+    ("link", "bg"), ("link", "surface"),
     ("header-text", "header-bg"), ("header-accent", "header-bg"),
-    ("text", "why-bg"), ("heading", "why-bg"), ("link", "why-bg"), ("link-visited", "why-bg"),
-    ("text", "watch-bg"), ("link", "watch-bg"), ("link-visited", "watch-bg"),
-    ("text", "changed-bg"), ("link", "changed-bg"), ("link-visited", "changed-bg"), ("heading", "changed-bg"),
-    ("text", "cost-bg"), ("link", "cost-bg"), ("link-visited", "cost-bg"), ("heading", "cost-bg"),
+    ("text", "why-bg"), ("heading", "why-bg"), ("link", "why-bg"),
+    ("text", "watch-bg"), ("link", "watch-bg"),
+    ("text", "changed-bg"), ("link", "changed-bg"), ("heading", "changed-bg"),
+    ("text", "cost-bg"), ("link", "cost-bg"), ("heading", "cost-bg"),
     ("btn-text", "btn-bg"), ("exit-text", "exit-bg"), ("focus-text", "focus-bg"),
     ("link", "badge-bg"), ("text", "badge-bg"), ("text", "code-bg"),
 ]

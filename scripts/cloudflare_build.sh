@@ -25,3 +25,4 @@ CLEAN_URLS=1 python3 build.py
 python3 tests/check_site.py
 python3 tests/contrast.py
 python3 tests/readability.py
+python3 tests/path_rules.py

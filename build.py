@@ -82,11 +82,10 @@ def main() -> int:
             if sid not in sources:
                 errors.append(f"fact {fid}: unknown source {sid}")
 
-    # ---- Where the site lives. Host-neutral: Cloudflare, GitHub, or GitLab. --
+    # ---- Where the site lives: Cloudflare Pages, built from GitHub (ADR-0004). --
     env_vars = os.environ
     pages_url = (
-        env_vars.get("SITE_URL")
-        or env_vars.get("CI_PAGES_URL")      # GitLab Pages, if ever used again
+        env_vars.get("SITE_URL")             # manual override, for testing another address
         or site.get("public_url")
         or env_vars.get("CF_PAGES_URL")      # Cloudflare's per-deployment address, last resort
         or ""
@@ -102,11 +101,10 @@ def main() -> int:
         if env_vars.get("GITHUB_SERVER_URL") and env_vars.get("GITHUB_REPOSITORY")
         else ""
     )
-    repo_url = (env_vars.get("REPO_URL") or env_vars.get("CI_PROJECT_URL") or github_repo or site["repo_url"]).rstrip("/")
-    issues_url = f"{repo_url}/issues" if "github.com" in repo_url else f"{repo_url}/-/issues"
+    repo_url = (env_vars.get("REPO_URL") or github_repo or site["repo_url"]).rstrip("/")
+    issues_url = f"{repo_url}/issues"
     commit = (
-        env_vars.get("CI_COMMIT_SHA")
-        or env_vars.get("GITHUB_SHA")
+        env_vars.get("GITHUB_SHA")
         or env_vars.get("CF_PAGES_COMMIT_SHA")
         or "local"
     )

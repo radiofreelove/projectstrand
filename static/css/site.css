@@ -11,7 +11,6 @@ html[data-theme="light"] {
   --text: #414042;          /* charcoal: 9.2:1 on fog, 10.3:1 on white */
   --heading: #2E3192;       /* indigo: 9.5:1 on fog */
   --link: #2E3192;
-  --link-visited: #184E49;  /* forest: 8.4:1 on fog */
   --border: #6B6A70;        /* UI borders: at least 3:1 */
   --rule: #C9C6BD;          /* decorative lines only */
   --header-bg: #2E3192;
@@ -47,7 +46,6 @@ html[data-theme="dark"] {
   --text: #F4F2ED;          /* 15.6:1 */
   --heading: #B4DCF5;       /* 12:1 */
   --link: #B4DCF5;
-  --link-visited: #AAD7A1;  /* willamette tint: 7.8:1 or better on every dark surface */
   --border: #A9ADD8;
   --rule: #3D4180;
   --header-bg: #0D0F2B;
@@ -83,7 +81,6 @@ html[data-theme="contrast"] {
   --text: #000000;
   --heading: #000000;
   --link: #1C1E7A;
-  --link-visited: #0B3B36;
   --border: #000000;
   --rule: #000000;
   --header-bg: #000000;
@@ -116,7 +113,7 @@ html[data-theme="contrast"] {
 @media (prefers-color-scheme: dark) {
   html[data-theme="auto"] {
     --bg: #14163A; --surface: #1E2152; --text: #F4F2ED; --heading: #B4DCF5;
-    --link: #B4DCF5; --link-visited: #AAD7A1; --border: #A9ADD8; --rule: #3D4180;
+    --link: #B4DCF5; --border: #A9ADD8; --rule: #3D4180;
     --header-bg: #0D0F2B; --header-text: #FFFFFF; --header-accent: #B4DCF5; --nav-current: #ECD263; --brand-thread: #86C679;
     --why-bg: #1E2A57; --why-edge: #B4DCF5; --watch-bg: #3A1730; --watch-edge: #F2A7C3; --watch-title: #F2A7C3;
     --changed-bg: #3A3312; --changed-edge: #ECD263; --cost-bg: #16353A; --cost-edge: #86C679;
@@ -129,7 +126,7 @@ html[data-theme="contrast"] {
 @media (prefers-contrast: more) {
   html[data-theme="auto"] {
     --bg: #FFFFFF; --surface: #FFFFFF; --text: #000000; --heading: #000000;
-    --link: #1C1E7A; --link-visited: #0B3B36; --border: #000000; --rule: #000000;
+    --link: #1C1E7A; --border: #000000; --rule: #000000;
     --why-bg: #FFFFFF; --watch-bg: #FFFFFF; --changed-bg: #FFFFFF; --cost-bg: #FFFFFF;
     --why-edge: #000000; --watch-edge: #000000; --watch-title: #000000; --changed-edge: #000000; --cost-edge: #000000;
   }
@@ -171,7 +168,8 @@ code { background: var(--code-bg); padding: 0.05em 0.3em; border-radius: 3px; fo
 hr { border: 0; border-top: 1px solid var(--rule); margin: 2em 0; }
 
 a { color: var(--link); text-decoration: underline; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
-a:visited { color: var(--link-visited); }
+/* One link color, visited or not, as on The Stasis Project, so a link's color
+   never reads as a status. */
 a:hover { text-decoration-thickness: 0.18em; }
 /* Taller hit areas for links in the content, so every link target is at least
    24px tall (WCAG 2.5.8). Vertical padding on inline links does not move text. */

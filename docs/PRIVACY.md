@@ -10,6 +10,7 @@
 | Referrer leakage | An official site learns the visitor came from a trans resource | `no-referrer` policy and `rel="noreferrer"` on every outside link |
 | Data requests | Someone asks the project for visitor data | We collect none and do not request host logs |
 | Public issue tracker | A reader shares case details when reporting a mistake | Blank issues are off; every template warns against personal details; maintainers redact on sight |
+| Public issue tracker | A reader's GitHub account name, linked to a report on a trans legal guide, is public and may identify them | The banner's "Report a mistake" link opens the About page first, which says the report and account name are public before linking to GitHub. A reporting route that needs no account is an open question (see the audit log, 2026-11-03) |
 
 ## What the site stores
 

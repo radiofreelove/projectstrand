@@ -9,7 +9,7 @@ It is independent. It is not run by, or connected to, any court or government ag
 - **Site:** https://projectstrand.pages.dev (Cloudflare Pages)
 - **Source and audit trail:** https://github.com/radiofreelove/projectstrand
 
-> Status: **beta, version 0.1.0-beta.** Content was checked against official sources on November 3, 2026. It has not yet been reviewed by a lawyer licensed in each state. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> Status: **beta** (current version in [CHANGELOG.md](CHANGELOG.md)). Content was checked against official sources on November 3, 2026. It has not yet been reviewed by a lawyer licensed in each state. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Why this exists
 

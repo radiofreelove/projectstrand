@@ -2,4 +2,4 @@
 # these. Same version as The Stasis Project. Dependabot proposes updates.
 # Keep in step with test-tools/package.json and the axe job's container tag in
 # .github/workflows/checks.yml; tests/check_versions.py fails if they differ.
-playwright==1.63.0
+playwright==1.64.1

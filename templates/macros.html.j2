@@ -4,9 +4,11 @@
 <p class="lede"><span class="label">The big picture:</span> {{ text }}</p>
 {%- endmacro %}
 
-{#- kind: why | do | cost | time | watch | changed | good | note -#}
-{% macro callout(kind, title, id) -%}
-<section class="callout callout-{{ kind }}" id="{{ id }}" aria-labelledby="{{ id }}-t">
+{#- kind: why | do | cost | time | watch | changed | good | note.
+    extra=true marks an optional section: "Short version" mode hides it. Never
+    mark steps, costs, warnings, or anything a reader needs in order to file. -#}
+{% macro callout(kind, title, id, extra=false) -%}
+<section class="callout callout-{{ kind }}{% if extra %} brief-extra{% endif %}" id="{{ id }}" aria-labelledby="{{ id }}-t">
   <h2 class="callout-title" id="{{ id }}-t">{{ title }}</h2>
   {{ caller() }}
 </section>
@@ -24,8 +26,10 @@
 <nav class="toc" aria-label="On this page">
   <p class="toc-title">On this page</p>
   <ol>
-  {% for anchor, text in items %}
-    <li><a href="#{{ anchor }}">{{ text }}</a></li>
+  {#- An item may carry a third value, 'extra', when the section it points to
+      is hidden in "Short version" mode. Its entry then hides with it. -#}
+  {% for item in items %}
+    <li{% if item|length > 2 and item[2] == 'extra' %} class="brief-extra"{% endif %}><a href="#{{ item[0] }}">{{ item[1] }}</a></li>
   {% endfor %}
   </ol>
 </nav>
@@ -55,7 +59,9 @@
 </details>
 {%- endmacro %}
 
-{#- A question-and-answer pair, Vox style. -#}
+{#- A question-and-answer pair, Vox style. Hidden in "Short version" mode, so
+    the heading above a group of these, and its "On this page" entry, carry
+    class "brief-extra" and hide with them. -#}
 {% macro qa(question, id) -%}
 <details class="qa deeper" id="{{ id }}">
   <summary>{{ question }}</summary>

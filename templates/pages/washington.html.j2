@@ -22,7 +22,7 @@
   ('license', 'Driver license or ID'),
   ('court-order-gender', 'A court order that confirms your gender'),
   ('minors', 'Changes for someone under 18'),
-  ('questions', 'Good questions'),
+  ('questions', 'Good questions', 'extra'),
   ('help', 'Get help in Washington')
 ]) }}
 
@@ -107,7 +107,7 @@
   <li><strong>Birth certificate:</strong> use {{ ext('wa-doh-422-144') }}. A parent or guardian and a licensed provider sign it. {{ src('wa-doh-sex') }}</li>
 </ul>
 
-<h2 id="questions">Good questions</h2>
+<h2 id="questions" class="brief-extra">Good questions</h2>
 {% call m.qa("Do I have to file in the county where I live?", 'q-county') %}
 <p>No. The law lets you file a public name change in any district court in the state. A sealed name change can go to any superior court in the state. {{ src('wa-rcw-4-24-130') }}</p>
 {% endcall %}

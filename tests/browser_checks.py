@@ -9,8 +9,9 @@ Checks every page for:
 - no sideways scrolling with WCAG 1.4.12 text spacing applied
 - buttons, form controls, menus, and summaries at least 24 by 24 px (WCAG 2.5.8)
 - a visible focus style on the first tab stops
-Then tests the path finder, Reading settings, Leave quickly, checklists,
-and the page with JavaScript turned off.
+Then tests the path finder, Reading settings, the "How much to show" strip
+and Short version mode, Leave quickly, checklists, and the page with
+JavaScript turned off.
 """
 from __future__ import annotations
 
@@ -244,6 +245,217 @@ def main() -> int:
         if page.evaluate("() => document.documentElement.dataset.theme") != "auto":
             fail("settings: 'Forget everything' did not reset the colors")
 
+        # ---- "How much to show" strip and Short version mode ----
+        print("- short version")
+        hidden_sel = ".deeper, .brief-extra"
+        shown_js = """sel => [...document.querySelectorAll(sel)].filter(e => e.getClientRects().length > 0).length"""
+        state_js = """() => {
+            const b = document.getElementById('brief-toggle');
+            const vis = e => !!e && e.getClientRects().length > 0;
+            const box = document.querySelector('#settings input[name="brief"]');
+            let saved = null;
+            try { saved = (JSON.parse(localStorage.getItem('strand:prefs') || '{}') || {}).brief || null; } catch (e) {}
+            return {
+                attr: document.documentElement.getAttribute('data-brief') || 'off',
+                pressed: b ? b.getAttribute('aria-pressed') : null,
+                label: b ? b.innerText.trim() : null,
+                note: vis(document.querySelector('.brief-note')),
+                noteText: (document.querySelector('.brief-note') || {}).textContent || '',
+                ask: vis(document.querySelector('.brief-ask')),
+                hint: vis(document.querySelector('.brief-hint')),
+                checkbox: box ? box.checked : null,
+                saved: saved,
+                focus: document.activeElement ? document.activeElement.id : null,
+            };
+        }"""
+
+        def expect_state(where: str, on: bool) -> dict:
+            st = page.evaluate(state_js)
+            want = {
+                "attr": "on" if on else "off",
+                "pressed": "true" if on else "false",
+                "label": "Show the full version" if on else "Show the short version",
+                "note": on, "ask": not on, "hint": not on, "checkbox": on,
+            }
+            for key, value in want.items():
+                if st[key] != value:
+                    fail(f"short version, {where}: {key} is {st[key]!r}, expected {value!r}")
+            return st
+
+        page.set_viewport_size({"width": 1280, "height": 900})
+        page.goto(base + "index.html")
+        page.evaluate("() => localStorage.clear()")
+        # The strip is on every page, first thing in the main content, above the
+        # page heading, with a button at least 44px tall, and starts in the off state.
+        unchanged: list[str] = []
+        for name in pages:
+            page.goto(base + name)
+            info = page.evaluate("""() => {
+                const strip = document.querySelector('main .brief-strip');
+                const b = document.getElementById('brief-toggle');
+                const h1 = document.querySelector('main h1');
+                if (!strip || !b || !h1) return null;
+                return {
+                    count: document.querySelectorAll('.brief-strip').length,
+                    visible: strip.getClientRects().length > 0,
+                    beforeH1: !!(strip.compareDocumentPosition(h1) & Node.DOCUMENT_POSITION_FOLLOWING),
+                    firstInContent: strip === document.querySelector('.content').firstElementChild,
+                    isButton: b.tagName === 'BUTTON' && b.type === 'button',
+                    height: b.getBoundingClientRect().height,
+                };
+            }""")
+            if not info:
+                fail(f"{name}: the How much to show strip, its button, or the h1 is missing")
+                continue
+            if info["count"] != 1 or not info["visible"] or not info["beforeH1"] or not info["firstInContent"]:
+                fail(f"{name}: strip should appear once, visible, first in the main content above the h1: {info}")
+            if not info["isButton"] or info["height"] < 44:
+                fail(f"{name}: strip control should be a real button at least 44px tall: {info}")
+            expect_state(name, False)
+            if page.evaluate("sel => document.querySelectorAll(sel).length", hidden_sel) == 0:
+                unchanged.append(name)
+        print(f"  pages where the short version hides nothing: {', '.join(unchanged) or 'none'}")
+
+        # Keyboard: Enter turns it on. Focus stays on the button, the button does
+        # not move in the window, and the change is announced in words.
+        page.goto(base + "oregon.html")
+        total = page.evaluate("sel => document.querySelectorAll(sel).length", hidden_sel)
+        if total < 7 or page.evaluate(shown_js, hidden_sel) != total:
+            fail(f"short version: expected the extra sections on the Oregon page to start visible ({total} marked)")
+        page.focus("#brief-toggle")
+        top_before = page.evaluate("() => document.getElementById('brief-toggle').getBoundingClientRect().top")
+        page.keyboard.press("Enter")
+        st = expect_state("after Enter on the strip button", True)
+        if st["focus"] != "brief-toggle":
+            fail(f"short version: focus moved off the strip button to {st['focus']!r}")
+        if st["saved"] != "on":
+            fail("short version: the strip did not save to the strand:prefs reading settings")
+        if "short version" not in st["noteText"] or "Some sections are hidden" not in st["noteText"]:
+            fail(f"short version: brief-note does not say sections are hidden: {st['noteText']!r}")
+        top_after = page.evaluate("() => document.getElementById('brief-toggle').getBoundingClientRect().top")
+        if abs(top_after - top_before) > 1:
+            fail(f"short version: the strip button moved {top_after - top_before}px when toggled")
+        if page.evaluate(shown_js, hidden_sel) != 0:
+            fail("short version: marked sections still visible with the mode on")
+        if page.is_visible("#questions") or page.is_visible('.toc a[href="#questions"]'):
+            fail("short version: the Good questions heading or its On this page entry is still visible")
+        for keep in (".lede", "#steps", "ol.steps", "#or-step-forms", "#cost", "#or-confidential", ".page-sources", ".page-sources ol", "#do-i-need-court + .table-wrap table"):
+            if not page.is_visible(keep):
+                fail(f"short version: {keep} must stay visible and is hidden")
+        page.wait_for_function("() => /Short version\\. .*hidden/.test(document.getElementById('announcer').textContent)", timeout=3000)
+
+        # The dialog checkbox shows the same state, and turning it off there
+        # updates the strip.
+        page.click("#settings-open")
+        expect_state("dialog opened after the strip turned it on", True)
+        page.uncheck('#settings input[name="brief"]')
+        expect_state("after unchecking the dialog checkbox", False)
+        page.check('#settings input[name="brief"]')
+        expect_state("after checking the dialog checkbox", True)
+        page.click("#settings-close")
+
+        # The saved choice carries to the next page, and the strip's state comes
+        # from CSS and prefs.js alone: with site.js blocked it must already show
+        # the on wording, so it cannot flash the wrong state while site.js loads.
+        ctx.route("**/js/site.js", lambda r: r.abort())
+        errors.clear()
+        page.goto(base + "washington.html")
+        early = page.evaluate("""() => {
+            const vis = e => !!e && e.getClientRects().length > 0;
+            return {attr: document.documentElement.getAttribute('data-brief'),
+                    note: vis(document.querySelector('.brief-note')), ask: vis(document.querySelector('.brief-ask')),
+                    label: document.getElementById('brief-toggle').innerText.trim(),
+                    shown: [...document.querySelectorAll('.deeper, .brief-extra')].filter(vis).length};
+        }""")
+        if early != {"attr": "on", "note": True, "ask": False, "label": "Show the full version", "shown": 0}:
+            fail(f"short version: wrong state before site.js runs (would flash): {early}")
+        ctx.unroute("**/js/site.js")
+        errors.clear()   # the blocked script logs one load error, by design
+        page.goto(base + "washington.html")
+        expect_state("carried to the next page", True)
+
+        # Print always shows everything, and the strip does not print.
+        page.goto(base + "oregon.html")
+        page.emulate_media(media="print")
+        printed = page.evaluate("""sel => {
+            const all = [...document.querySelectorAll(sel)];
+            return {total: all.length,
+                    hidden: all.filter(e => getComputedStyle(e).display === 'none').map(e => e.id || e.tagName),
+                    li: getComputedStyle(document.querySelector('.toc li.brief-extra')).display,
+                    strip: getComputedStyle(document.querySelector('.brief-strip')).display,
+                    mode: document.documentElement.getAttribute('data-brief')};
+        }""", hidden_sel)
+        if printed["mode"] != "on" or printed["hidden"] or printed["total"] != total:
+            fail(f"short version: print leaves sections out: {printed}")
+        if printed["li"] != "list-item":
+            fail(f"short version: the On this page entry prints as {printed['li']}, not a list item")
+        if printed["strip"] != "none":
+            fail("short version: the strip prints")
+        page.emulate_media(media="screen")
+
+        # Space on the button restores everything.
+        page.focus("#brief-toggle")
+        page.keyboard.press("Space")
+        st = expect_state("after Space on the strip button", False)
+        if st["focus"] != "brief-toggle" or st["saved"] != "off":
+            fail(f"short version: restore lost focus or was not saved: {st}")
+        if page.evaluate(shown_js, hidden_sel) != total:
+            fail("short version: Show the full version did not bring every section back")
+        page.wait_for_function("() => /Full version/.test(document.getElementById('announcer').textContent)", timeout=3000)
+
+        # A link into a hidden section must not strand the reader: the short
+        # version turns off (both controls), the section opens, and it is in view.
+        def target_ok(where: str, target_id: str) -> None:
+            expect_state(where, False)
+            got = page.evaluate("""id => {
+                const t = document.getElementById(id);
+                const d = t.closest('details');
+                const r = t.getBoundingClientRect();
+                const bar = document.querySelector('.exit-bar').getBoundingClientRect();
+                let saved = null;
+                try { saved = JSON.parse(localStorage.getItem('strand:prefs')).brief; } catch (e) {}
+                return {visible: t.getClientRects().length > 0, open: d ? d.open : true,
+                        inView: r.top >= bar.bottom - 1 && r.top < window.innerHeight, saved: saved};
+            }""", target_id)
+            if got != {"visible": True, "open": True, "inView": True, "saved": "off"}:
+                fail(f"short version, {where}: reader stranded at #{target_id}: {got}")
+
+        def brief_on() -> None:
+            page.evaluate("() => { if (document.documentElement.getAttribute('data-brief') !== 'on') document.getElementById('brief-toggle').click(); }")
+            expect_state("turned on for a link test", True)
+
+        brief_on()
+        page.goto(base + "utah.html")
+        expect_state("before following a link into a hidden section", True)
+        page.goto(base + "oregon.html#q-out-of-state")      # the link the Utah page uses
+        target_ok("link from another page", "q-out-of-state")
+        page.wait_for_function("() => /Full version\\. The link/.test(document.getElementById('announcer').textContent)", timeout=3000)
+        brief_on()
+        page.evaluate("() => { window.location.hash = '#q-judge'; }")   # a link on the same page
+        page.wait_for_function("() => document.documentElement.getAttribute('data-brief') === 'off'", timeout=3000)
+        target_ok("link on the same page", "q-judge")
+        brief_on()
+        page.evaluate("""() => { const a = document.createElement('a'); a.href = '#q-judge'; a.textContent = 'x';
+                                 document.querySelector('.content').appendChild(a); a.click(); }""")   # same address again: no hashchange
+        target_ok("same link followed twice", "q-judge")
+        brief_on()
+        page.goto(base + "oregon.html#questions")           # a hidden heading
+        target_ok("link to a hidden heading", "questions")
+        # A link to a section that is not hidden leaves the short version on.
+        brief_on()
+        page.goto(base + "oregon.html#cost")
+        expect_state("link to a section the short version keeps", True)
+        page.evaluate("() => { window.location.hash = '#license'; }")
+        expect_state("in-page link to a section the short version keeps", True)
+
+        # "Forget everything" resets the strip too.
+        page.click("#settings-open")
+        page.click("#forget-all")
+        page.click("#settings-close")
+        expect_state("after Forget everything", False)
+        if errors:
+            fail(f"short version: console errors: {errors[:3]}")
+
         # ---- Checklist ----
         print("- checklist")
         page.goto(base + "oregon.html")
@@ -282,6 +494,10 @@ def main() -> int:
             fail("no-js: settings button shown even though it cannot work")
         if not p2.is_visible("#steps"):
             fail("no-js: content missing")
+        if p2.is_visible(".brief-strip") or p2.is_visible("#brief-toggle"):
+            fail("no-js: the How much to show strip is shown even though it cannot work")
+        if not p2.is_visible("#questions") or not p2.is_visible("#q-doctor"):
+            fail("no-js: the full page should show, including the question sections")
         browser.close()
     httpd.shutdown()
     print(f"\n{len(problems)} problem(s).")

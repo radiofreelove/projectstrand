@@ -21,7 +21,7 @@
   ('birth-certificate', 'Oregon birth certificate'),
   ('license', 'Driver license or ID'),
   ('minors', 'Changes for someone under 18'),
-  ('questions', 'Good questions'),
+  ('questions', 'Good questions', 'extra'),
   ('help', 'Get help in Oregon')
 ]) }}
 
@@ -153,7 +153,7 @@
 </ul>
 <p>Under 18 and your parents will not help? Talk with a lawyer. Oregon law lets a judge meet with a minor who applies for a name change, without parents in the room. A lawyer can tell you whether that path fits you. {{ src('or-ors-33') }} {{ m.badge('inference') }}</p>
 
-<h2 id="questions">Good questions</h2>
+<h2 id="questions" class="brief-extra">Good questions</h2>
 {% call m.qa("Do I need a doctor's letter or proof of surgery?", 'q-doctor') %}
 <p>The court form does not ask for medical records. You check a box swearing that you have had treatment that is appropriate for you. The law says "surgical, hormonal or other treatment," so surgery is not required. {{ src('or-ors-33') }} {{ src('or-ojd-adult-packet') }}</p>
 {% endcall %}

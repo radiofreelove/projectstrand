@@ -303,9 +303,29 @@ details.deeper > summary {
 details.deeper[open] > summary { border-bottom: 1px solid var(--rule); }
 .deeper-label { color: var(--text); }
 .deeper-body { padding: 0.8rem 1rem 0.4rem; }
-html[data-brief="on"] .deeper { display: none; }
+/* "Short version": hides the "Go deeper" and question sections (.deeper) and
+   anything else marked as extra (.brief-extra). Print shows them all again. */
+html[data-brief="on"] .deeper, html[data-brief="on"] .brief-extra { display: none; }
 html[data-brief="on"] .brief-note { display: block; }
 .brief-note { display: none; }
+
+/* "How much to show" strip, at the top of the main content on every page.
+   Both wordings are in the page; data-brief picks one before first paint. */
+.brief-strip {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1rem;
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 0.6rem 1rem; margin: 0 0 1.25rem;
+}
+.brief-strip p { margin: 0; }
+.brief-ask, .brief-note { flex: 1 1 14rem; }
+.brief-hint { flex: 1 1 100%; font-size: 0.95rem; }
+.brief-toggle { flex: 0 1 auto; max-width: 100%; }
+.brief-when-on { display: none; }
+html[data-brief="on"] .brief-when-on { display: inline; }
+html[data-brief="on"] .brief-when-off,
+html[data-brief="on"] .brief-ask,
+html[data-brief="on"] .brief-hint { display: none; }
+html[data-theme="contrast"] .brief-strip { border: 3px solid #000000; }
 
 /* Badges and source links */
 .badge {
@@ -425,7 +445,7 @@ details.sources-toggle > p, details.sources-toggle > ol { margin-left: 1rem; mar
 }
 html { scroll-behavior: auto; scroll-padding-top: 5rem; }  /* keeps focused items clear of the sticky Leave quickly bar (WCAG 2.4.11) */
 @media (forced-colors: active) {
-  .callout, .step, details.deeper, details.sources-toggle, .card, .stat, .toc { border: 2px solid CanvasText; }
+  .callout, .step, details.deeper, details.sources-toggle, .card, .stat, .toc, .brief-strip { border: 2px solid CanvasText; }
   .badge { border-color: CanvasText; }
   a:focus-visible { outline: 3px solid Highlight; }
   .exit-link { border: 2px solid ButtonText; }
@@ -438,12 +458,14 @@ html { scroll-behavior: auto; scroll-padding-top: 5rem; }  /* keeps focused item
 @media print {
   html { font-size: 12pt; }
   body { background: #FFFFFF; color: #000000; }
-  .exit-bar, .site-nav, .settings-btn, .beta-bar, dialog, .skip-link, .btn-row, .copy-btn, .footer-links, .no-print { display: none !important; }
+  .exit-bar, .site-nav, .settings-btn, .beta-bar, .brief-strip, dialog, .skip-link, .btn-row, .copy-btn, .footer-links, .no-print { display: none !important; }
   .site-header { background: #FFFFFF; color: #000000; border-bottom: 2px solid #000000; }
   .site-header a, .mission, .mission strong, .brand-mark { color: #000000; }
   .callout, .step, details.deeper, .card { break-inside: avoid; border: 1px solid #000000; background: #FFFFFF; }
   a { color: #000000; }
   .content a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; overflow-wrap: anywhere; }
   .done { border: 0; }
-  html[data-brief="on"] .deeper { display: block; }
+  /* Printing always shows everything, even in "Short version" mode. "revert"
+     gives each element back its normal display (block, list item, and so on). */
+  html[data-brief="on"] .deeper, html[data-brief="on"] .brief-extra { display: revert; }
 }

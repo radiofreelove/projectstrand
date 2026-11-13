@@ -47,6 +47,17 @@
     <p class="wrap"><strong>Independent guide.</strong> Not run by any court or government agency. <strong>Beta.</strong> Checked {{ page.checked|human_date }}. Laws change, so use the official links before you file. <a href="{{ page_url('about#report') }}">Report a mistake</a>.</p>
   </div>
   <div class="wrap content">
+    {#- "How much to show" strip. One button turns the "Short version" reading
+        setting on and off, in step with the checkbox in Reading settings. Both
+        wordings are in the page and CSS picks one from data-brief, which
+        prefs.js sets before the page draws, so the strip never flashes the
+        wrong state. Needs JavaScript, so it is js-only. It does not print. -#}
+    <aside class="brief-strip js-only" aria-label="How much to show">
+      <p class="brief-ask"><strong>Still too much to take in?</strong></p>
+      <p class="brief-note"><strong>You are seeing the short version.</strong> Some sections are hidden.</p>
+      <button type="button" class="btn-secondary brief-toggle" id="brief-toggle" aria-pressed="false"><span class="brief-when-off">Show the short version</span><span class="brief-when-on">Show the full version</span></button>
+      <p class="brief-hint">This hides the extra sections on this page. The main steps and the links you need stay here.</p>
+    </aside>
 {% block main %}{% endblock %}
 
 {% if page.slug not in ['sources', '404'] and used_sources() %}

@@ -2,6 +2,14 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.5-beta (2026-11-13)
+
+- New strip at the top of every page, above the page title: "Still too much to take in?" with a "Show the short version" button. It turns the short version on and off without opening Reading settings. The "Short version" checkbox in Reading settings is still there, and the two always show the same choice. Nothing new is saved: the button uses the same saved reading setting.
+- When the short version is on, the strip becomes a note: "You are seeing the short version. Some sections are hidden." with a "Show the full version" button. Before this, nothing on the page said that sections were hidden. Screen readers hear the change announced. The button works with Tab, Enter, and Space, keeps your place on the page, and is not shown when JavaScript is off.
+- What the short version hides: the "Good questions" answers on the Oregon, Washington, and Utah pages, as before, and now their "Good questions" heading and its "On this page" entry, which used to stay behind with nothing under them. It also now hides the tips box on the after-court checklist and the "How we choose what to list" note on the help page. Steps, costs, warnings, tables, the big picture line, and "Sources for this page" always stay. On the other pages the short version changes nothing yet.
+- Fixed: with the short version on, a link to a hidden section went nowhere. Now the full version comes back, the section opens, and the page goes to it.
+- Printing still shows everything, and the strip does not print. New browser checks cover all of this.
+
 ## 0.1.4-beta (2026-11-03)
 
 - Test tools only (nothing readers see changes): Playwright and axe-core versions now live in `test-tools/requirements.txt` and `test-tools/package.json`, the same versions as The Stasis Project, so Dependabot can propose updates. A new check keeps Playwright's version the same in all three places it appears.

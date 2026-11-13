@@ -26,7 +26,7 @@
   ('birth-certificate', 'Utah birth certificate'),
   ('license', 'Driver license or ID'),
   ('minors', 'Changes for someone under 18'),
-  ('questions', 'Good questions'),
+  ('questions', 'Good questions', 'extra'),
   ('help', 'Get help in Utah')
 ]) }}
 
@@ -130,7 +130,7 @@
   <li>The order does not take effect until the child is at least 16.</li>
 </ul>
 
-<h2 id="questions">Good questions</h2>
+<h2 id="questions" class="brief-extra">Good questions</h2>
 {% call m.qa("What does \"involved in any kind of lawsuit\" mean for me?", 'q-lawsuit') %}
 <p>The law uses those words and does not define them further on the page we read. If you are part of any court case, such as a divorce, custody case, debt case, or eviction, talk to a lawyer before you file. {{ src('ut-code-26b-8-111') }} {{ m.badge('inference') }}</p>
 {% endcall %}

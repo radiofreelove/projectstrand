@@ -59,6 +59,37 @@
     if (remember) remember.checked = remembering();
   }
 
+  /* ---------- "How much to show" strip ---------- */
+  /* One button at the top of every page for the same "Short version" setting
+     as the checkbox in Reading settings. CSS swaps the wording from
+     data-brief; this keeps aria-pressed and the checkbox in step. */
+  var briefToggle = document.getElementById("brief-toggle");
+  function syncBrief() {
+    if (briefToggle) briefToggle.setAttribute("aria-pressed", current().brief === "on" ? "true" : "false");
+    syncForm();
+  }
+  function setBrief(on, message) {
+    var p = current();
+    p.brief = on ? "on" : "off";
+    apply(p);
+    savePrefs(p);
+    syncBrief();
+    announce(message || (on
+      ? "Short version. Extra sections on this page are now hidden."
+      : "Full version. All sections on this page are showing."));
+  }
+  if (briefToggle) {
+    briefToggle.addEventListener("click", function () {
+      /* Hiding sections above the reader would slide the page under them, so
+         hold the button at the same spot in the window. Focus stays on it. */
+      var before = briefToggle.getBoundingClientRect().top;
+      setBrief(current().brief !== "on");
+      var moved = briefToggle.getBoundingClientRect().top - before;
+      if (moved) window.scrollBy(0, moved);
+    });
+  }
+  syncBrief();
+
   if (dialog && opener && typeof dialog.showModal === "function") {
     opener.addEventListener("click", function () {
       syncForm();
@@ -90,6 +121,12 @@
       }
       apply(p);
       savePrefs(p);
+      if (el.name === "brief") {
+        syncBrief();
+        announce(el.checked
+          ? "Short version. Extra sections on this page are now hidden."
+          : "Full version. All sections on this page are showing.");
+      }
     });
     var forget = document.getElementById("forget-all");
     if (forget) {
@@ -101,7 +138,7 @@
           box.checked = false;
           markStep(box);
         });
-        syncForm();
+        syncBrief();
         var status = document.getElementById("forget-status");
         if (status) status.textContent = "Done. Nothing from this site is saved on this device.";
       });
@@ -181,15 +218,31 @@
     reopened = [];
   });
 
-  /* Open a "Go deeper" section when a link points into it. */
+  /* Open a "Go deeper" section when a link points into it. In "Short version"
+     mode that section is hidden, so the link would go nowhere. Then the short
+     version turns off first (the strip and the checkbox both show it), and
+     the page goes to the section. */
+  var HIDDEN_IN_BRIEF = ".deeper, .brief-extra";
   function openTarget() {
     if (!window.location.hash) return;
-    var target = document.getElementById(window.location.hash.slice(1));
-    if (target) {
-      var d = target.closest("details");
-      if (d) d.open = true;
+    var id = window.location.hash.slice(1);
+    try { id = decodeURIComponent(id); } catch (e) { /* use it as written */ }
+    var target = document.getElementById(id);
+    if (!target) return;
+    var wasHidden = current().brief === "on" && target.closest(HIDDEN_IN_BRIEF);
+    if (wasHidden) {
+      setBrief(false, "Full version. The link goes to a section the short version hides, so all sections are showing again.");
     }
+    var d = target.closest("details");
+    if (d) d.open = true;
+    if (wasHidden) target.scrollIntoView();
   }
   window.addEventListener("hashchange", openTarget);
+  /* A second click on the same link does not change the address, so no
+     "hashchange" fires. Handle that click here. */
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest ? event.target.closest('a[href^="#"]') : null;
+    if (link && link.getAttribute("href") === window.location.hash) openTarget();
+  });
   openTarget();
 })();

@@ -2,6 +2,15 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-14: Utah driver license link fixed (0.1.6-beta)
+
+- The November 13 link check found one dead link: source `ut-dld-name`, `https://dld.utah.gov/name-change/`, returned 404. It showed in five places: the Utah page (twice), the after-court checklist, the path finder, and the sources page.
+- Opened on November 14, 2026, all on the Division's own site: the old address still returns "Page not found." The Division's Required Documents page says "View the list of acceptable documents if your name has changed" and links to `https://dld.utah.gov/name-change-sort/`. The Division's server redirects that address, permanently, to `https://dld.utah.gov/name-change-info/`, and the page names that same address as its own. Its title is "Name Change Information."
+- Read the page in full. It says a name change needs an office visit and "legal documentation," and it lists the documents the Division accepts. It says nothing about sex designation. That matches what the site says around the link.
+- Change: `url` in `data/sources.yml` is now `https://dld.utah.gov/name-change-info/`, the address the redirect ends at, and `checked` is 2026-11-14. The link in `docs/research/utah.md` and its research log are updated. No template, fact, title, or wording changed.
+- Open, not changed here: the page lists "Court papers showing the name change, sealed by the court." The site says the Division "accepts sealed court documents." Whether that wording should change is with the maintainer.
+- Checks after the change: build (16 pages, 59 sources, 25 facts), `check_site.py` in both link styles (16 of 16), `contrast.py` (0 problems), `readability.py` (highest grade 5.0), `path_rules.py` (180 combinations), `check_versions.py`, `browser_checks.py` (0 problems), `freshness.py`, and `axe_check.mjs` (0 serious or critical) all pass.
+
 ## 2026-11-03 (night): first Dependabot updates for the test tools
 
 - Waited for the Cloudflare deploy of `6e82cea` (the Dependabot fix) to finish before merging anything, so each change could be traced.

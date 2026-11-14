@@ -2,6 +2,11 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.6-beta (2026-11-14)
+
+- Fixed a broken link. The link to the Utah Driver License Division's name change page went to a "Page not found" page. The Division moved the page. The link now goes to its current address, `https://dld.utah.gov/name-change-info/`. It appears on the Utah page (twice), the after-court checklist, the path finder, and the sources page.
+- Nothing else changed. The words around the link are the same.
+
 ## 0.1.5-beta (2026-11-13)
 
 - New strip at the top of every page, above the page title: "Still too much to take in?" with a "Show the short version" button. It turns the short version on and off without opening Reading settings. The "Short version" checkbox in Reading settings is still there, and the two always show the same choice. Nothing new is saved: the button uses the same saved reading setting.

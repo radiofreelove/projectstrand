@@ -3,7 +3,7 @@ name: The Strand Project
 tagline: "Your name. Your marker. Your records. One clear path."
 mission: "Changing your name or gender marker should not take a lawyer, a law degree, or luck."
 mission_follow: "This free guide shows you how, step by step, in Oregon, Washington, and Utah."
-version: "0.1.5-beta"
+version: "0.1.6-beta"
 last_checked: 2026-11-03
 # Where the site and its source live (Cloudflare Pages, built from GitHub;
 # see docs/decisions/ADR-0004-hosting.md). The build reads, in order:

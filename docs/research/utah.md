@@ -19,7 +19,7 @@ A name change is filed in the district court of the county where the person has 
 - **Utah State Courts, Fees** (effective May 6, 2026): $375 general civil filing fee (Utah Code 78A-2-301(1)(a)); certified copy $4 per document plus $0.50 per page. [Fees page](https://www.utcourts.gov/en/self-help/legal-help/procedures/fees.html)
 - **Utah Senate notice, March 4, 2026**: the Government Operations and Political Subdivisions Committee "has returned 2nd Sub. H.B. 183, SEX DESIGNATION AMENDMENTS ... to the Rules Committee." [Notice PDF](https://pf.utleg.gov/public-web/sessions/2026GS/comreport/HB0183S02.pdf)
 - **LegiScan, HB 183 (2026)** (secondary, aggregator): filed in the House file for bills not passed, March 6, 2026. [LegiScan](https://legiscan.com/UT/bill/HB0183/2026)
-- **Utah Driver License Division, Name change**: requires legal documentation of the name change; accepts sealed court documents; says nothing about sex designation. [DLD page](https://dld.utah.gov/name-change/)
+- **Utah Driver License Division, Name change**: requires legal documentation of the name change; accepts sealed court documents; says nothing about sex designation. [DLD page](https://dld.utah.gov/name-change-info/)
 
 ## Application
 
@@ -55,3 +55,4 @@ A name change is filed in the district court of the county where the person has 
 | 2026-11-03 | Utah Courts fees page | Read. |
 | 2026-11-03 | Utah Courts page for minors (name or sex change) | Read. Replaces the adult page as the path finder's link for a child's name change. Does not say who files. |
 | 2026-11-03 | Utah DLD name change page | Read. No sex designation information. |
+| 2026-11-14 | Utah DLD name change page | The address read on November 3 (`https://dld.utah.gov/name-change/`) now returns "Page not found." The Division's Required Documents page links to `https://dld.utah.gov/name-change-sort/`, which the Division's server redirects to `https://dld.utah.gov/name-change-info/`, titled "Name Change Information." Read in full. It says a name change needs an office visit and "legal documentation," and lists "Court papers showing the name change, sealed by the court." No sex designation information. Link updated; wording on the site not changed. |

@@ -567,11 +567,11 @@
   short: "Utah Driver License Division"
   link_text: "Utah Driver License Division: name change"
   publisher: Utah Department of Public Safety, Driver License Division
-  url: https://dld.utah.gov/name-change/
+  url: https://dld.utah.gov/name-change-info/
   kind: agency-page
   jurisdiction: UT
   date: "Live page"
-  checked: 2026-11-03
+  checked: 2026-11-14
   status: verified
   notes: "Asks for legal documentation of the name change; accepts sealed court documents. Says nothing about changing the sex on a license."
 

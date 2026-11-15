@@ -1,0 +1,526 @@
+# What each source in data/sources.yml returned to tests/evidence_audit.py.
+# Written by: python3 tests/evidence_audit.py --write-baseline
+# Do not edit by hand. See docs/OPERATIONS.md, "Evidence audit".
+#
+# These baselines rest on the project's November 2026 verified source
+# checks (the "checked" dates in data/sources.yml, copied into
+# registry_checked below). Writing a baseline is a tool fetching each
+# address and storing a hash. It is not a fresh read of any source by a
+# person.
+#
+#   url               the address fetched
+#   fetched           the date of the fetch
+#   state             fetched, checker-blocked, or unreachable
+#   mode              text: the readable words of a web page
+#                     bytes: the raw file (every PDF); a change report for
+#                     a bytes source is lower-confidence
+#   sha256, length    the hash and size of that content (characters for
+#                     text, bytes for bytes). No sha256 means the source
+#                     was blocked or unreachable and is not yet baselined.
+#   registry_checked  the source's "checked" date when this entry was
+#                     written: the verified check the hash rests on
+#   note              why a source could not be read, or which lines that
+#                     change on every load were dropped before hashing
+
+- id: or-ors-33
+  url: https://www.oregonlegislature.gov/bills_laws/ors/ors033.html
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: or-2026-ch52
+  url: https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2026orLaw0052.pdf
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: or-2026-ch88
+  url: https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2026orLaw0088.pdf
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: or-ojd-adult-packet
+  url: https://www.courts.oregon.gov/forms/Documents/Name%20and%20Sex%20Change%20Packet%20(Adult).pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: 23b05b61e734cce722d4b259b6bf3f4ef49e5b7337bce0e826b451fd34e013cb
+  length: 199064
+  registry_checked: 2026-11-03
+
+- id: or-ojd-minor-packet
+  url: https://www.courts.oregon.gov/forms/Documents/Name-Sex%20Change-PACKET-Minor.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: 6d865fa1f6fa885f78f6b5346db222777f86c67ed6bf083e467410f37c3724ad
+  length: 759390
+  registry_checked: 2026-11-03
+
+- id: or-ojd-forms
+  url: https://www.courts.oregon.gov/programs/family/forms/Pages/name-sex-change.aspx
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 26f9e935c5d8dce62801be5238e9276688ce4c45b491eba44fd92ece3bb891e1
+  length: 3755
+  registry_checked: 2026-11-03
+
+- id: or-ojd-fees
+  url: https://www.courts.oregon.gov/Documents/2026_CircuitFeeSchedule_public_eff-2026-01-01.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: 9db4d3e2071c295077ceeac035b5b3f84225422c89349f2d37d3e9bb4db34f4a
+  length: 375701
+  registry_checked: 2026-11-03
+
+- id: or-ojd-fee-waiver
+  url: https://www.courts.oregon.gov/forms/Pages/fee-waiver.aspx
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: d2e1644ffcce12b8b73c54a072a005e0e8ba6feabd423943feb4c82d262592d2
+  length: 4618
+  registry_checked: 2026-11-03
+
+- id: or-ojd-guide-file
+  url: https://www.courts.oregon.gov/services/online/Pages/iforms.aspx
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: f6ce1dc430639873e944374f2c99928be06748177e2ce563e4392c8a8647be8b
+  length: 8424
+  registry_checked: 2026-11-03
+
+- id: or-ojd-self-help
+  url: https://www.courts.oregon.gov/help/Pages/default.aspx
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 2d5ce3d7216078bdd91a173f2e94e2b5cfc1613c0f7fbd1f92ffa00ac9a7e139
+  length: 8736
+  registry_checked: 2026-11-03
+
+- id: or-ojd-courts
+  url: https://www.courts.oregon.gov/courts/Pages/default.aspx
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 0a4495758fee683dfa71c79d7abde69873d9e5d6157e3f2afa4ff49aa8427353
+  length: 4100
+  registry_checked: 2026-11-03
+
+- id: or-oha-gender
+  url: https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Pages/ChangeBirthSupportGenderIdentity.aspx
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: dc5636eebe11df569d58a0dbfcfa64ac570ac701bee6b6ed2722915c02b314c6
+  length: 41201
+  registry_checked: 2026-11-03
+
+- id: or-oha-2673
+  url: https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Document%20Forms/OHA2673FormEnglish.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: 8cbaa851dd8657561925c06ea1d38e1eb01a11d9577c6cfec415904d77a7e0f2
+  length: 785980
+  registry_checked: 2026-11-03
+
+- id: or-oha-2673-es
+  url: https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Document%20Forms/OHA2673FormSpanish.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: a10db8aff6483f103f5ac649c845a7c1146c6b0b086d2016cf7cc3044961d81c
+  length: 650502
+  registry_checked: 2026-11-03
+
+- id: or-oha-court-order
+  url: https://oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/CHANGEVITALRECORDS/Pages/CourtOrderChangeSex.aspx
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 5cb4b6cd306a79c77a7b4be7a9e9043449936b2276d0d0a64520a25c7807c804
+  length: 60293
+  registry_checked: 2026-11-03
+
+- id: or-dmv-gender
+  url: https://www.oregon.gov/odot/DMV/Pages/driverid/chg_gender_designation.aspx
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: b3e2b5c8fa2644ef0e0165319dd477b6ade5e446758a84a5d2e451596e6e2f6f
+  length: 7142
+  registry_checked: 2026-11-03
+
+- id: or-lawhelp
+  url: https://oregonlawhelp.org/
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 00917240b9f2a3cd0a1a50142b78da37cbd8ac5ee770c35db9bb410246fc2a58
+  length: 1809
+  registry_checked: 2026-11-03
+
+- id: wa-rcw-4-24-130
+  url: https://lawfilesext.leg.wa.gov/Law/RCWPDF/RCW%20%20%204%20%20TITLE/RCW%20%20%204%20.%2024%20%20CHAPTER/RCW%20%20%204%20.%2024%20.130.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: ded5f2c86ac2a24dca58228be80b4894ffe6fc242cde00b8f2904db61642acb4
+  length: 322245
+  registry_checked: 2026-11-03
+
+- id: wa-sections-2025
+  url: https://lawfilesext.leg.wa.gov/Law/CRO/SectionsAffected/2025%20RCW%20SL%20Sections%20Affected%20in%20Bill%20Order.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: 6d48f5c7a9d1c85944b40f8277b73cae838287ddf9f517cba17cb5c39001ee1f
+  length: 946440
+  registry_checked: 2026-11-03
+
+- id: wa-wlh-name
+  url: https://www.washingtonlawhelp.org/en/name-change-guide
+  fetched: 2026-11-15
+  state: unreachable
+  registry_checked: 2026-11-03
+  note: 'IncompleteRead: IncompleteRead(234912 bytes read); asked twice'
+
+- id: wa-wlh-gender-order
+  url: https://www.washingtonlawhelp.org/en/get-court-order-confirms-your-gender-change
+  fetched: 2026-11-15
+  state: unreachable
+  registry_checked: 2026-11-03
+  note: 'IncompleteRead: IncompleteRead(226394 bytes read); asked twice'
+
+- id: wa-doh-sex
+  url: https://doh.wa.gov/licenses-permits-and-certificates/vital-records/sex-designation-change-birth-certificate
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 33fb8b412da78fa3b32469022648635b3a1f25cd505b08502f7c7b59777bbed0
+  length: 13811
+  registry_checked: 2026-11-03
+
+- id: wa-doh-422-143
+  url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-143-SexDesignationChangeAdult.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: cd2b59b7beadb2cbf7379f82db7948afc8efafa55027811e07bd0cc45494793b
+  length: 235355
+  registry_checked: 2026-11-03
+
+- id: wa-doh-422-144
+  url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-144-SexDesignationChangeMinor.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: c697831bb79cf1a273cfd5090d0429fb4c6ebf303c687172e84a531cbb7d8081
+  length: 188771
+  registry_checked: 2026-11-03
+
+- id: wa-doh-422-126
+  url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-126-LegalNameChangeRequest.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: ce7375f8722896b411c7a19288a8195bf1482aff7d75534d89984511cd13720d
+  length: 140867
+  registry_checked: 2026-11-03
+
+- id: wa-dol-gender
+  url: https://dol.wa.gov/driver-licenses-and-permits/update-driver-license-information/change-your-gender-designation
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 9015208e92e2e00c854d6a5d12e14b54e77eb9592bcc3865a2727435cdff33b2
+  length: 6615
+  registry_checked: 2026-11-14
+
+- id: wa-courts-forms
+  url: https://www.courts.wa.gov/forms/
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: b2c317c0fe69a744fb90a240108a5f752fccee49e55a8440150442c1bdc54529
+  length: 6008
+  registry_checked: 2026-11-03
+  note: 'drops lines that change on every load: the server''s name at the foot of the page (N1, N2)'
+
+- id: wa-kitsap-fee
+  url: https://www.kitsap.gov/dc/NameChangeDocuments/Name%20Changes%20A%20Judge%20Pro%20Tempore%20Primer.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: 43973d2e2be18b7b3787f84165ee585b11bd69bf0cbfc3f8b1a6aea24907e6c7
+  length: 352545
+  registry_checked: 2026-11-03
+
+- id: ut-code-42-1
+  url: https://le.utah.gov/xcode/Title42/C42_1800010118000101.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: a91c2d9821a57ff27bb60699d956d4fc80794492074c01235c5b192d2b709515
+  length: 15202
+  registry_checked: 2026-11-03
+
+- id: ut-code-26b-8-111
+  url: https://le.utah.gov/xcode/Title26B/Chapter8/C26B-8-S111_2025050720250507.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: ffdb9c21a64d99d7f117d01fcb0e8aa609118c25a302a6f928d98663748298c6
+  length: 8685
+  registry_checked: 2026-11-03
+
+- id: ut-hb183-notice
+  url: https://pf.utleg.gov/public-web/sessions/2026GS/comreport/HB0183S02.pdf
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: ut-hb183-legiscan
+  url: https://legiscan.com/UT/bill/HB0183/2026
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: ut-courts-sex-change
+  url: https://www.utcourts.gov/en/self-help/case-categories/family/name-change/sex-change.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 9ba214da52f436b850fbf556bf78587a1969eaa7bad9acdf078f3267442cb340
+  length: 14077
+  registry_checked: 2026-11-03
+
+- id: ut-courts-minor-change
+  url: https://www.utcourts.gov/en/self-help/case-categories/family/name-change/juvenile/instruct.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 8a23645abaf1aa89ad3e132ee0d70afd87e553d53ac7cffdfecac2cce2c492b5
+  length: 12222
+  registry_checked: 2026-11-03
+
+- id: ut-courts-fees
+  url: https://www.utcourts.gov/en/self-help/legal-help/procedures/fees.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 6290476e34582f38219f71bc76c2305ca9ab007f59b4bcf8c3966a4e749f2dcf
+  length: 9195
+  registry_checked: 2026-11-03
+
+- id: ut-courts-waiver
+  url: https://www.utcourts.gov/en/self-help/legal-help/procedures/waiver.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: bb732d80ca8865f89a8bda12ab675ec9c73c39cb9ab0e35c82297b510073a77c
+  length: 13507
+  registry_checked: 2026-11-03
+
+- id: ut-mypaperwork
+  url: https://www.utcourts.gov/en/self-help/services/mycase/mypaperwork.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 87f856badcf70945eb391e6265d3b919fba304c010bd82c6d8d63029e43010c5
+  length: 10758
+  registry_checked: 2026-11-03
+
+- id: ut-courts-legal-help
+  url: https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-assist.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 8f41bebea86ea6d24549447200ebd19ac07a758153b290664870e87b5c7ba1c6
+  length: 15879
+  registry_checked: 2026-11-03
+
+- id: ut-courts-self-help
+  url: https://www.utcourts.gov/en/self-help/services/contact.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: ad42af45d624d17bf620d8dda993de5c58206cdac3b8f59b39d5daa62e60a63e
+  length: 5824
+  registry_checked: 2026-11-03
+
+- id: ut-courts-directory
+  url: https://www.utcourts.gov/en/about/miscellaneous/directory.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 9f73b65bcf3e742721a29970c3ffecabda391379babc6bccf63a1674d6275867
+  length: 4974
+  registry_checked: 2026-11-03
+
+- id: ut-courts-nonpublic
+  url: https://www.utcourts.gov/en/self-help/legal-help/procedures/filing/non-public.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 742a773e859015f298b71d10f38f33cbc5f335c5fcbedc54b22b1be0164ce802
+  length: 16700
+  registry_checked: 2026-11-03
+
+- id: ut-courts-pronouns
+  url: https://www.utcourts.gov/en/self-help/legal-help/procedures/pro-se/pronouns.html
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 347eb479cf530e0d89925ef6377e17388a516984388edc5e906c493f79c0c950
+  length: 5485
+  registry_checked: 2026-11-03
+
+- id: ut-vital-902
+  url: https://vitalrecords.utah.gov/wp-content/uploads/902-Affidavit-to-Amend-by-Court-Order.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: e84a92b0bd68b5757e83d1acf2cc286c743d4f75d238ad188c10a5606f546072
+  length: 89189
+  registry_checked: 2026-11-03
+
+- id: ut-vital
+  url: https://vitalrecords.health.utah.gov/
+  fetched: 2026-11-15
+  state: unreachable
+  registry_checked: 2026-11-03
+  note: 'SSLError: [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1000)'
+
+- id: ut-dld-name
+  url: https://dld.utah.gov/name-change-info/
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 6da5b0daf1a214ac1fe30d503d0df1498c863dbda403e84aed85211202b19716
+  length: 3004
+  registry_checked: 2026-11-14
+
+- id: us-eo-14168
+  url: https://www.whitehouse.gov/presidential-actions/2025/01/defending-women-from-gender-ideology-extremism-and-restoring-biological-truth-to-the-federal-government/
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 174e8441cb030c6411f4be894b17c8c59bd2039a1f51a363ab886ad1752c3178
+  length: 17092
+  registry_checked: 2026-11-03
+
+- id: us-state-sex-marker
+  url: https://travel.state.gov/content/travel/en/passports/passport-help/sex-marker.html
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: us-state-change
+  url: https://travel.state.gov/content/travel/en/passports/have-passport/change-correct.html
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: us-aclu-orr
+  url: https://www.aclu.org/cases/orr-v-trump
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: a5ad2deefa995475cc6174deb6c40bfad6c2a8417cec64724d16216212d37c69
+  length: 5791
+  registry_checked: 2026-11-03
+
+- id: us-hrc-passport
+  url: https://www.hrc.org/resources/travel-passport-rights-for-transgender-people
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 2212a834210b6ff9447e9262e1116b9992190a91f1a2d02a7ab638bea151af3b
+  length: 17673
+  registry_checked: 2026-11-03
+
+- id: us-ssa-name
+  url: https://www.ssa.gov/personal-record/change-name
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: us-ssa-sex-redirect
+  url: https://www.ssa.gov/personal-record/change-sex-identification
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: the site answered 403 to this tool's request for robots.txt
+
+- id: us-cdc-w2w
+  url: https://www.cdc.gov/nchs/w2w/index.htm
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 291d008efd9abe38a5c098963ed9ac747380604a5012e48d8da3259474b00f2a
+  length: 3509
+  registry_checked: 2026-11-03
+
+- id: us-lambda-helpdesk
+  url: https://lambdalegal.org/helpdesk/
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: d867fe4c28112bb4c82dbc4103d855acb6d5a61e97268fb44a8152a5fc36bce5
+  length: 20231
+  registry_checked: 2026-11-03
+  note: 'drops lines that change on every load: the random label of the contact form''s hidden spam-trap field'
+
+- id: us-translifeline
+  url: https://www.translifeline.org/hotline
+  fetched: 2026-11-15
+  state: fetched
+  mode: text
+  sha256: 97c09003b0476f9197101f559b6f324a93e5e7133414e30d48602ca34e7419b8
+  length: 11620
+  registry_checked: 2026-11-03
+
+- id: data-usts-2022
+  url: https://ustranssurvey.org/wp-content/uploads/2023/11/2022-USTS-Early-Insights-Report_FINAL.pdf
+  fetched: 2026-11-15
+  state: fetched
+  mode: bytes
+  sha256: 22c3cfc2e3c9eff7e8c1dcb20acc68c4758a204d9284bfe85d5500e889258503
+  length: 4586463
+  registry_checked: 2026-11-03
+
+- id: std-wcag22
+  url: https://www.w3.org/TR/WCAG22/
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: robots.txt asks automated visitors not to load this address
+
+- id: std-coga
+  url: https://www.w3.org/TR/coga-usable/
+  fetched: 2026-11-15
+  state: checker-blocked
+  registry_checked: 2026-11-03
+  note: robots.txt asks automated visitors not to load this address
+
+- id: brand-odhs
+  url: https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/dhs2022.pdf
+  fetched: 2026-11-15
+  state: unreachable
+  registry_checked: 2026-11-03
+  note: 'RemoteDisconnected: Remote end closed connection without response; asked twice'

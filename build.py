@@ -9,6 +9,8 @@ What it does, in order:
 3. Fails the build if a page cites a source or fact that does not exist.
 4. Copies static files, then writes sources.json, facts.json, sitemap.xml
    (when the public URL is known) and build-report.json for auditors.
+   build-report.json lists, for each page, the sources it cites and the
+   facts it renders.
 
 No network access. No tracking code. Output is plain HTML, CSS and JS.
 """
@@ -122,7 +124,7 @@ def main() -> int:
     )
     env.filters["human_date"] = human_date
 
-    state = {"used": [], "page": None}
+    state = {"used": [], "facts": [], "page": None}
 
     def use(sid: str) -> dict:
         if sid not in sources:
@@ -148,6 +150,8 @@ def main() -> int:
     def fact(fid: str) -> Markup:
         if fid not in facts:
             raise BuildError(f"page {state['page']}: unknown fact id '{fid}'")
+        if fid not in state["facts"]:
+            state["facts"].append(fid)
         for sid in facts[fid].get("sources", []):
             use(sid)
         value = escape(str(facts[fid]["value"]))
@@ -223,6 +227,7 @@ def main() -> int:
             if key not in p:
                 errors.append(f"page entry missing '{key}': {p}")
         state["used"] = []
+        state["facts"] = []
         state["page"] = p["slug"]
         try:
             tpl = env.get_template(f"pages/{p['template']}")
@@ -231,7 +236,10 @@ def main() -> int:
             errors.append(str(exc))
             continue
         (OUT / f"{p['slug']}.html").write_text(html, encoding="utf-8")
-        page_reports.append({"slug": p["slug"], "sources": list(state["used"]), "checked": str(p["checked"])})
+        # "facts" lists every fact the page rendered, so tests/evidence_audit.py
+        # can name the pages that show a fact whose source changed.
+        page_reports.append({"slug": p["slug"], "sources": list(state["used"]),
+                             "facts": list(state["facts"]), "checked": str(p["checked"])})
 
     if errors:
         print("BUILD FAILED", file=sys.stderr)

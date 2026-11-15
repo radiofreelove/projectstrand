@@ -1,0 +1,51 @@
+# Fixture registry for tests/test_evidence_audit.py and tests/test_mechanical_update.py.
+# The {base} addresses are filled in with a local test server's address.
+
+- id: fx-page
+  title: "A web page that keeps its words"
+  short: "Fixture page"
+  url: "{base}/page"
+  checked: 2026-11-03
+  status: verified
+
+- id: fx-changes
+  title: "A web page whose fee changes"
+  short: "Fixture fee page"
+  url: "{base}/changes"
+  checked: 2026-11-03
+  status: verified
+
+- id: fx-pdf
+  title: "A PDF form"
+  short: "Fixture PDF"
+  url: "{base}/form.pdf"
+  checked: 2026-11-03
+  status: linked
+
+- id: fx-blocked
+  title: "A site that answers 403"
+  short: "Fixture 403"
+  url: "{base}/forbidden"
+  checked: 2026-11-03
+  status: verified
+
+- id: fx-robots
+  title: "An address robots.txt keeps out"
+  short: "Fixture robots"
+  url: "{base}/private/page"
+  checked: 2026-11-03
+  status: verified
+
+- id: fx-gone
+  title: "A page that is gone"
+  short: "Fixture 404"
+  url: "{base}/gone"
+  checked: 2026-11-03
+  status: verified
+
+- id: fx-new
+  title: "A source added after the baseline"
+  short: "Fixture new"
+  url: "{base}/new"
+  checked: 2026-11-14
+  status: verified

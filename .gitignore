@@ -12,3 +12,6 @@ static/fonts/OFL.txt
 # Local scratch files
 *.log
 .DS_Store
+
+# Page text the evidence audit keeps to show diffs (never committed; see docs/OPERATIONS.md)
+.evidence-snapshots/

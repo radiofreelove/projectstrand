@@ -1,0 +1,7 @@
+{
+  "pages": [
+    {"slug": "oregon", "sources": ["fx-changes", "fx-page"], "facts": ["fx_amend_fee", "fx_form_name", "fx_unrelated"], "checked": "2026-11-03"},
+    {"slug": "path", "sources": ["fx-changes", "fx-pdf"], "facts": ["fx_amend_fee"], "checked": "2026-11-03"},
+    {"slug": "sources", "sources": ["fx-changes", "fx-page", "fx-pdf"], "facts": [], "checked": "2026-11-03"}
+  ]
+}

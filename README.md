@@ -24,11 +24,12 @@ The process to fix that is split across courts and agencies that each explain on
 | `templates/` | Page templates (Jinja2). The words on the site live here. |
 | `data/sources.yml` | Every source: URL, publisher, version date, the date we checked it, and its status. |
 | `data/facts.yml` | Numbers that change, like fees, each tied to its source. |
+| `data/evidence_baseline.yml` | A hash of what each source said, so the weekly evidence audit can tell when it changes. |
 | `data/pages.yml`, `data/site.yml` | Page list and site settings. |
 | `static/` | CSS, JavaScript, and the favicon. No third-party code. |
 | `scripts/make_mark.py` | Draws the mark (the header logo and the favicon). |
 | `build.py` | Builds the site into `public/`. Fails if a page cites a source or fact that does not exist. |
-| `tests/` | Structure, contrast, reading level, browser, axe-core, freshness, and link checks. |
+| `tests/` | Structure, contrast, reading level, browser, axe-core, freshness, and link checks, plus the evidence audit and its tests. |
 | `docs/` | Vision, methodology, research memos, decisions, accessibility, privacy, and the audit log. |
 | `.github/` | GitHub Actions checks, issue and pull request templates, and Dependabot settings. |
 | `scripts/cloudflare_build.sh` | The build command Cloudflare Pages runs before each deploy. |
@@ -64,7 +65,7 @@ Everything behind the site is public on purpose, so anyone can check the work.
 - **Decisions:** [docs/decisions/](docs/decisions/) records why the site is built the way it is.
 - **Audit log:** [docs/AUDIT-LOG.md](docs/AUDIT-LOG.md) records every research pass, check, and release.
 - **Accessibility:** [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md). **Privacy:** [docs/PRIVACY.md](docs/PRIVACY.md). **Writing style:** [docs/CONTENT-STYLE.md](docs/CONTENT-STYLE.md).
-- **Running it:** [docs/OPERATIONS.md](docs/OPERATIONS.md) covers publishing, updating a fee, re-checking sources, and moving hosts.
+- **Running it:** [docs/OPERATIONS.md](docs/OPERATIONS.md) covers publishing, updating a fee, re-checking sources, the weekly source check and evidence audit, and moving hosts. [docs/dated-language.md](docs/dated-language.md) lists wording that goes out of date on a known date.
 
 ## Report a mistake or help
 

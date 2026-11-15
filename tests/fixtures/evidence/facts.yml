@@ -1,0 +1,13 @@
+# Fixture facts for tests/test_evidence_audit.py.
+fx_amend_fee:
+  value: "$35"
+  sources: [fx-changes]
+fx_form_name:
+  value: "OHA 2673"
+  sources: [fx-changes, fx-pdf]
+fx_unrelated:
+  value: "free"
+  sources: [fx-page]
+fx_unrendered:
+  value: "no page shows this"
+  sources: [fx-changes]

@@ -94,6 +94,7 @@ wa_dol_fee:
 # ------------------------------------------------------------------ Utah
 ut_fee_petition:
   value: "$375"
+  reading: true
   sources: [ut-courts-fees]
   note: "General civil filing fee. Utah Courts links its fee page from the name and sex change page; we read the $375 general fee as the one that applies."
 ut_fee_cert_copy:

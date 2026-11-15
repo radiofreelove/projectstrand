@@ -2,6 +2,19 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.8-beta (2026-11-14)
+
+Corrections from the November 13, 2026 audit, on the maintainer's rulings of Nov. 14, 2026. The audit memo's wording is used where it proposed exact text.
+
+- **"Sealed by the court" (Utah).** The Driver License Division's list means court papers bearing the court's seal, not sealed case files. The Utah page and the path finder now say so, with the Division's words quoted and the reading badged. The source note and research record say the same.
+- **Washington enhanced licenses.** The Washington page now states the enhanced-card rule: for an EDL or EID in person, bring the filled-out form 520043 as well as your current card. Recorded in the source note and the research record; the source's checked date is now 2026-11-14.
+- **Three statute-text fixes.** Utah: the guardian ad litem line now says "who is not emancipated". Washington: the comparison cell now names people required to register as a sex offender, and the fee waiver line now states the victim compensation exception. Path finder: the Utah privacy line now matches the Utah page ("Filed papers are private. The case history and public hearings are not.").
+- **Two readings are now labeled.** The Oregon page's "A sex change follows the same rule" carries the "Our reading" badge while the "shall or may" question waits for a lawyer. The Utah page's name-only sentence is reworded as a reading, badged, and sourced.
+- **The Utah $375 badge is now set by the data.** `ut_fee_petition` is marked as a reading in data/facts.yml, and the build adds the "Our reading" badge wherever the fact is used (home card, compare table, path finder, Utah page, quick facts). The path finder's Utah court line also carries the Utah Courts fees source marker next to the fee.
+- **Federal page.** The "What still works" court orders line now reads: courts in all three states still change names; Oregon and Utah courts still order sex changes; Washington changes the marker with a form.
+- **Two first-screen follow-ups from 0.1.7-beta.** The compare table's state names now link to the state pages. The after-court page's opening line now starts with certified copies, matching its step 1.
+- **Records.** ORS 33.420(3)(a) is quoted in the Oregon research record and its audit flag is closed as correct. The Washington sealed-file carve-out question and the Utah name-only classification question are recorded for the states' lawyers. No page changed for either.
+
 ## 0.1.7-beta (2026-11-15)
 
 - New "Quick facts" box near the top of the Oregon, Washington, and Utah pages, right after the big picture and the "Last checked" date. It lists, in the same order on each page: whether you need court for a name change, whether you need court for the sex or gender change, the court filing fee, the cost of certified copies, the birth certificate cost, the driver license or ID cost, the first step (a link to the steps), and anything the page flags as new in 2026.

@@ -19,7 +19,7 @@ A name change is filed in the district court of the county where the person has 
 - **Utah State Courts, Fees** (effective May 6, 2026): $375 general civil filing fee (Utah Code 78A-2-301(1)(a)); certified copy $4 per document plus $0.50 per page. [Fees page](https://www.utcourts.gov/en/self-help/legal-help/procedures/fees.html)
 - **Utah Senate notice, March 4, 2026**: the Government Operations and Political Subdivisions Committee "has returned 2nd Sub. H.B. 183, SEX DESIGNATION AMENDMENTS ... to the Rules Committee." [Notice PDF](https://pf.utleg.gov/public-web/sessions/2026GS/comreport/HB0183S02.pdf)
 - **LegiScan, HB 183 (2026)** (secondary, aggregator): filed in the House file for bills not passed, March 6, 2026. [LegiScan](https://legiscan.com/UT/bill/HB0183/2026)
-- **Utah Driver License Division, Name change**: requires legal documentation of the name change; accepts sealed court documents; says nothing about sex designation. [DLD page](https://dld.utah.gov/name-change-info/)
+- **Utah Driver License Division, Name change**: requires legal documentation of the name change; lists "Court papers showing the name change, sealed by the court" among accepted documents (we read this as papers bearing the court's seal, not sealed case files); says nothing about sex designation. [DLD page](https://dld.utah.gov/name-change-info/)
 
 ## Application
 
@@ -33,7 +33,8 @@ A name change is filed in the district court of the county where the person has 
 3. **Vital Records fee.** The courts page says a fee applies, plus more if sealed; the amount was not found (unverified).
 4. **DLD sex designation process.** No official DLD page found (unverified).
 5. **Courts page wording.** The sex change section reads "If you are not currently committed to the custody of the Utah Department of Corrections..." which appears to be a typo; the statute bars offenders. The site follows the statute.
-6. **2026 H.B. 174** ("Sex Characteristic Change Treatment Amendments") was signed March 18, 2026, according to a secondary tracker. It concerns medical treatment, not records, and is out of scope (unverified; not researched in depth).
+6. **Name-only cases.** The courts page states its privacy rule only for sex change requests. The site reads that silence to mean a name-only case is public, and labels it "Our reading". A Utah lawyer should confirm how name-only cases are classified.
+7. **2026 H.B. 174** ("Sex Characteristic Change Treatment Amendments") was signed March 18, 2026, according to a secondary tracker. It concerns medical treatment, not records, and is out of scope (unverified; not researched in depth).
 
 ## Next step
 

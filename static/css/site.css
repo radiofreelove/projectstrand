@@ -282,6 +282,24 @@ main:focus { outline: none; }
 .callout-small .callout-title { font-size: 1rem; margin-bottom: 0.3rem; }
 html[data-theme="contrast"] .callout { border: 3px solid #000000; border-left-width: 8px; }
 
+/* "Quick facts" strip on state pages (m.quickfacts). It is a callout, so it
+   takes the callout's print, forced-colors, and high contrast rules. Text,
+   headings, and links on the surface color are pairs tests/contrast.py checks. */
+.quick-facts-list { margin: 0; }
+.quick-facts-row {
+  display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 0.1rem 1rem;
+  padding: 0.5rem 0; border-top: 1px solid var(--rule);
+}
+.quick-facts-row dt { font-weight: 700; color: var(--heading); }
+.quick-facts-row dd { margin: 0; }
+/* Values are the same words the page uses mid-sentence. Show a capital here
+   without changing the text itself. */
+.quick-facts-row dd::first-letter { text-transform: uppercase; }
+.quick-facts-more { display: block; }
+@media (max-width: 44rem) {
+  .quick-facts-row { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* Steps */
 .steps { list-style: none; padding: 0; margin: 1rem 0 2rem; counter-reset: none; }
 .step { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 0.9rem 1.1rem; margin-bottom: 1rem; }

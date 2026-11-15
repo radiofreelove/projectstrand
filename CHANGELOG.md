@@ -2,6 +2,17 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.10-beta (2026-11-15)
+
+Maintenance only. No page wording, fact, or source changed, and no "checked" date moved. The only change readers can see is the version number in the footer.
+
+- **New: the evidence audit.** `tests/evidence_audit.py` records what each source in `data/sources.yml` says and reports when that changes. It reads robots.txt, asks one address at a time with a pause, and names itself. Web pages are compared by their readable text. PDFs are compared by their bytes, which makes a "changed" report for a PDF lower-confidence. Every source ends in one of four states: unchanged, changed, unreachable, or checker-blocked. Checker-blocked means a site refused this tool. It never means a dead link or a removed source. For a changed source, the report names the facts that cite it and the pages that show them.
+- **New: the evidence baseline.** `data/evidence_baseline.yml` holds a hash of each source, written on November 15, 2026. The baselines rest on the project's November 2026 verified source checks. The run that wrote them was a tool fetching each address, not a fresh read of every source by a person. 44 of 59 sources were read (29 as text, 15 PDFs as bytes), 11 were checker-blocked, and 4 were unreachable. The 15 with no hash are listed as "not yet baselined."
+- **New: the weekly source check.** `.github/workflows/weekly.yml` runs on Mondays and by hand. It runs the external link check, the freshness check, and the evidence audit, and opens one issue with all three reports when any of them needs a person. The "Checks" workflow no longer runs on a schedule or runs the link check, so each source is asked once a week, not twice.
+- **New: the dated-language list.** [docs/dated-language.md](docs/dated-language.md) lists the wording whose truth depends on the date, such as "New in 2026," the 2026 fee schedules, and the passport case's "until spring 2027." Each entry says when it expires and what to do then. The first dates fall on January 1, 2027.
+- **Ready, not switched on: mechanical date updates.** `tests/mechanical_update.py` can set the `checked` date for exactly the sources an audit found unchanged, and refuses any other source. It is not in any workflow. [docs/OPERATIONS.md](docs/OPERATIONS.md) says what must be settled first: the site says a person read each source on its "checked" date.
+- `build.py` now lists the facts each page shows in `build-report.json`, so the audit can name the pages. The pages themselves are the same.
+
 ## 0.1.9-beta (2026-11-14)
 
 - **Bug fix: the "Our reading" badge printed as raw markup.** The data-level badge added in 0.1.8-beta was appended to an already-escaped value in the build, so every use of the Utah $375 fact showed the badge's HTML as literal text on the page (home card, compare table, path finder, Utah page). The build now appends the badge as markup. No wording changed. `tests/check_site.py` now fails a build that contains escaped badge or link markup, so this cannot ship again.

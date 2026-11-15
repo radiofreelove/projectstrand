@@ -6,6 +6,23 @@
 {{ m.lede("Washington splits this into two jobs. Your name changes in court, and you can keep that case sealed if the change relates to your gender identity or expression. Your gender marker on a Washington license or Washington birth certificate changes with a form, no court needed.") }}
 {{ m.checked_line(page) }}
 
+{#- Quick facts. Values the strip shares with the text below are set once here
+    and used in both places, so they cannot drift apart. -#}
+{% set first_step = 'Choose public or sealed' %}
+{% set birth_cost %}{{ fact('wa_doh_amend_fee') }}; {{ fact('wa_doh_cert_fee') }}{% endset %}
+{#- Strip only: restates "Fees vary by court" (step 3) and the sealed line of "What it costs". -#}
+{% set filing_fee %}varies by court. A sealed name change in superior court is usually {{ fact_src('wa_fee_sealed') }}{% endset %}
+{{ m.quickfacts(page, {
+  'court_name': fact_src('wa_court_name'),
+  'sex_label': 'Court needed to change your gender marker',
+  'court_sex': fact_src('wa_court_marker'),
+  'filing_fee': filing_fee,
+  'certified_copy': fact_src('wa_fee_cert_copy'),
+  'birth_certificate': birth_cost ~ ' ' ~ src('wa-doh-sex'),
+  'license': fact_src('wa_dol_fee'),
+  'first_step': first_step
+}) }}
+
 {% call m.callout('why', 'Why it matters', 'wa-why') %}
 <ul>
   <li>The sealed option means no public access to your name change filing, hearing, or order. {{ src('wa-rcw-4-24-130') }}</li>
@@ -45,7 +62,7 @@
 <p>Washington's free legal aid guide has the forms and instructions for both options. {{ ext('wa-wlh-name') }}. {{ src('wa-wlh-name') }}</p>
 <div class="btn-row js-only"><button type="button" class="btn-secondary" data-print>Print this checklist</button></div>
 <ol class="steps">
-{% call m.step(page.slug, 1, 'wa-step-choose', 'Choose public or sealed') %}
+{% call m.step(page.slug, 1, 'wa-step-choose', first_step) %}
   <p>If your name change relates to your gender identity or expression, you can file in superior court and the case will be sealed. {{ src('wa-rcw-4-24-130') }}</p>
 {% endcall %}
 {% call m.step(page.slug, 2, 'wa-step-forms', 'Fill out the forms') %}
@@ -70,8 +87,8 @@
   <li><strong>Sealed name change in superior court:</strong> usually {{ fact('wa_fee_sealed') }}. {{ src('wa-wlh-name') }}</li>
   <li><strong>Public name change in district court:</strong> varies by county. One district court lists {{ fact('wa_fee_district_example') }}. {{ src('wa-kitsap-fee') }}</li>
   <li><strong>Can't pay?</strong> In district court, the law says the court "shall waive all fees" if you sign a statement that you cannot pay because of financial hardship. In any court, you can ask with the GR 34 fee waiver forms. {{ src('wa-rcw-4-24-130') }} {{ src('wa-courts-forms') }}</li>
-  <li><strong>Birth certificate:</strong> no fee to change the sex designation; {{ fact('wa_doh_cert_fee') }}. {{ src('wa-doh-sex') }}</li>
-  <li><strong>License:</strong> free if you only change the gender designation. {{ src('wa-dol-gender') }}</li>
+  <li><strong>Birth certificate:</strong> {{ birth_cost }}. {{ src('wa-doh-sex') }}</li>
+  <li><strong>License:</strong> {{ fact('wa_dol_fee') }}. {{ src('wa-dol-gender') }}</li>
 </ul>
 {% endcall %}
 

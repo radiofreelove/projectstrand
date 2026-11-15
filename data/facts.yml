@@ -1,5 +1,11 @@
 # Numbers and details that change. Pages pull these with fact("id"),
 # so one edit here updates every page. Each fact names its source ids.
+#
+# The "Quick facts" strip on each state page is built from these values and
+# from wording the page template shares with its own text below the strip.
+# A fact whose note starts "Quick facts:" restates something the state page
+# already says with a source. Its note says where. Change the page and the
+# fact together.
 
 # ---------------------------------------------------------------- Oregon
 or_fee_petition:
@@ -36,6 +42,18 @@ or_oha_email:
 or_osb_lrs:
   value: "503-684-3763 or 800-452-7636"
   sources: [or-ojd-adult-packet]
+or_court_name:
+  value: "Yes, in almost every case"
+  sources: [us-ssa-name]
+  note: "Quick facts: the legal name row of the 'Do you need court?' table on the Oregon page, which pulls this value."
+or_court_sex:
+  value: "No for an Oregon license or ID, or an Oregon birth certificate"
+  sources: [or-dmv-gender, or-oha-gender]
+  note: "Quick facts: joins the license row and the Oregon birth certificate row of the 'Do you need court?' table on the Oregon page. Both rows say No."
+or_dmv_fee:
+  value: "the usual renewal or replacement fee"
+  sources: [or-dmv-gender]
+  note: "Quick facts: the driver license line of 'What it costs' on the Oregon page, which pulls this value."
 
 # ------------------------------------------------------------ Washington
 wa_fee_sealed:
@@ -56,6 +74,22 @@ wa_doh_mail:
 wa_clear:
   value: "1-888-201-1014"
   sources: [wa-courts-forms]
+wa_court_name:
+  value: "Yes. You pick one of two courts: public or sealed"
+  sources: [wa-rcw-4-24-130]
+  note: "Quick facts: 'Change your name in court' on the Washington page ('You pick one of two courts') and its table of the public and sealed options."
+wa_court_marker:
+  value: "No for a Washington license or a Washington birth certificate"
+  sources: [wa-wlh-gender-order]
+  note: "Quick facts: the first sentence of 'Change your gender marker' on the Washington page."
+wa_doh_amend_fee:
+  value: "no fee to change the sex designation"
+  sources: [wa-doh-sex]
+  note: "Quick facts: the birth certificate line of 'What it costs' on the Washington page, which pulls this value."
+wa_dol_fee:
+  value: "free if you only change the gender designation"
+  sources: [wa-dol-gender]
+  note: "Quick facts: the license line of 'What it costs' on the Washington page, which pulls this value."
 
 # ------------------------------------------------------------------ Utah
 ut_fee_petition:
@@ -71,6 +105,22 @@ ut_vital_mail:
 ut_registry_mail:
   value: "Offender Registration Program, Utah Bureau of Criminal Identification, 4315 South 2700 West, Taylorsville, UT 84129, or registry@utah.gov"
   sources: [ut-courts-sex-change]
+ut_court_name:
+  value: "Yes. It needs a year of living in your county and a hearing"
+  sources: [ut-code-42-1, ut-courts-sex-change]
+  note: "Quick facts: the big picture line on the Utah page ('Utah uses court for both. A name change needs a year of living in your county and a hearing.'), sourced in 'Can you ask for a name change?' and step 3."
+ut_court_sex:
+  value: "Yes. It needs a judge to find strong proof of six things"
+  sources: [ut-code-26b-8-111]
+  note: "Quick facts: the big picture line on the Utah page ('A sex designation change needs a judge to find strong proof of six things.'), sourced in 'What you must prove for a sex designation change.'"
+ut_vital_amend_fee:
+  value: "a fee to amend the birth certificate, and an extra fee if your case was sealed"
+  sources: [ut-courts-sex-change]
+  note: "Quick facts: the Vital Records line of 'What it costs' on the Utah page, which pulls this value. The amounts were not found."
+ut_hb183_status:
+  value: "H.B. 183, a 2026 bill that would have changed these rules, is listed as not passed"
+  sources: [ut-hb183-notice, ut-hb183-legiscan]
+  note: "Quick facts: shortens the 'What happened in 2026' box on the Utah page. Not passed comes from a bill tracker, not an official page."
 
 # ------------------------------------------------------------ National
 translifeline_phone:

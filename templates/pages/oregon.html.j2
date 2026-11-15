@@ -6,6 +6,24 @@
 {{ m.lede("One court form can change your name, your legal sex, or both. Since July 1, 2026, any case that includes a sex change is confidential by law. Your Oregon driver license and Oregon birth certificate can change without going to court.") }}
 {{ m.checked_line(page) }}
 
+{#- Quick facts. Values the strip shares with the text below are set once here
+    and used in both places, so they cannot drift apart. -#}
+{% set first_step = 'Get the forms' %}
+{% set birth_cost %}{{ fact('or_oha_amend_fee') }} to change it, plus {{ fact('or_oha_cert_fee') }}{% endset %}
+{#- Strip only: joins the title and first sentence of the "New in 2026" box below. -#}
+{% set confidential %}Sex change cases filed on or after {{ fact('or_confidential_date') }}, are confidential. {{ src('or-2026-ch52') }}{% endset %}
+{{ m.quickfacts(page, {
+  'court_name': fact_src('or_court_name'),
+  'sex_label': 'Court needed to change the sex on your records',
+  'court_sex': fact_src('or_court_sex'),
+  'filing_fee': fact_src('or_fee_petition'),
+  'certified_copy': fact_src('or_fee_certified_copy'),
+  'birth_certificate': birth_cost ~ ' ' ~ src('or-oha-gender'),
+  'license': fact_src('or_dmv_fee'),
+  'first_step': first_step,
+  'whats_new': {'label': 'New in 2026', 'text': confidential, 'anchor': 'privacy', 'link': 'Who can see your case'}
+}) }}
+
 {% call m.callout('why', 'Why it matters', 'or-why') %}
 <ul>
   <li>A court judgment is the strongest proof of a legal change. Social Security, banks, and other states may ask for one even when Oregon offices do not.</li>
@@ -31,7 +49,7 @@
   <caption>Which Oregon changes need a court judgment</caption>
   <thead><tr><th scope="col">What you want to change</th><th scope="col">Court needed?</th><th scope="col">Where to go</th></tr></thead>
   <tbody>
-    <tr><th scope="row">Your legal name, everywhere</th><td data-label="Court needed?">Yes, in almost every case. Social Security updates your name only after you legally change it. {{ src('us-ssa-name') }}</td><td data-label="Where to go"><a href="#steps">Court steps below</a></td></tr>
+    <tr><th scope="row">Your legal name, everywhere</th><td data-label="Court needed?">{{ fact('or_court_name') }}. Social Security updates your name only after you legally change it. {{ src('us-ssa-name') }}</td><td data-label="Where to go"><a href="#steps">Court steps below</a></td></tr>
     <tr><th scope="row">The sex on your Oregon license or ID</th><td data-label="Court needed?">No. You choose M, F, or X. {{ src('or-dmv-gender') }}</td><td data-label="Where to go"><a href="#license">Oregon DMV</a></td></tr>
     <tr><th scope="row">Name or sex on an Oregon birth certificate</th><td data-label="Court needed?">No. A notarized form works. {{ src('or-oha-gender') }}</td><td data-label="Where to go"><a href="#birth-certificate">Oregon Vital Records</a></td></tr>
     <tr><th scope="row">A birth certificate from another state</th><td data-label="Court needed?">Depends on that state. Some ask for a court order.</td><td data-label="Where to go">{{ ext('us-cdc-w2w') }}</td></tr>
@@ -44,7 +62,7 @@
 <p>This is the same process for a name change, a legal sex change, or both. You can do it without a lawyer. {{ src('or-ojd-adult-packet') }}</p>
 <div class="btn-row js-only"><button type="button" class="btn-secondary" data-print>Print this checklist</button></div>
 <ol class="steps">
-{% call m.step(page.slug, 1, 'or-step-forms', 'Get the forms') %}
+{% call m.step(page.slug, 1, 'or-step-forms', first_step) %}
   <p>Pick one:</p>
   <ul>
     <li>{{ ext('or-ojd-guide-file') }}: free questions online that fill in the forms for you. Answers must be in English. {{ src('or-ojd-guide-file') }}</li>
@@ -87,8 +105,8 @@
   <li><strong>Court filing fee:</strong> {{ fact('or_fee_petition') }} for a name change, a sex change, or both in one petition. {{ src('or-ojd-fees') }}</li>
   <li><strong>Can't pay?</strong> Apply to waive or defer the fee. It costs {{ fact('or_fee_waiver_application') }}. {{ ext('or-ojd-fee-waiver') }}.</li>
   <li><strong>Certified copies:</strong> {{ fact('or_fee_certified_copy') }}.</li>
-  <li><strong>Oregon birth certificate:</strong> {{ fact('or_oha_amend_fee') }} to change it, plus {{ fact('or_oha_cert_fee') }}.</li>
-  <li><strong>Driver license or ID:</strong> the usual renewal or replacement fee. {{ src('or-dmv-gender') }}</li>
+  <li><strong>Oregon birth certificate:</strong> {{ birth_cost }}.</li>
+  <li><strong>Driver license or ID:</strong> {{ fact('or_dmv_fee') }}. {{ src('or-dmv-gender') }}</li>
 </ul>
 {% endcall %}
 

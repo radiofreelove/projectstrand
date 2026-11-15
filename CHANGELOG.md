@@ -2,6 +2,10 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.9-beta (2026-11-14)
+
+- **Bug fix: the "Our reading" badge printed as raw markup.** The data-level badge added in 0.1.8-beta was appended to an already-escaped value in the build, so every use of the Utah $375 fact showed the badge's HTML as literal text on the page (home card, compare table, path finder, Utah page). The build now appends the badge as markup. No wording changed. `tests/check_site.py` now fails a build that contains escaped badge or link markup, so this cannot ship again.
+
 ## 0.1.8-beta (2026-11-14)
 
 Corrections from the November 13, 2026 audit, on the maintainer's rulings of Nov. 14, 2026. The audit memo's wording is used where it proposed exact text.

@@ -10,8 +10,8 @@ Checks every page for:
 - buttons, form controls, menus, and summaries at least 24 by 24 px (WCAG 2.5.8)
 - a visible focus style on the first tab stops
 Then tests the path finder, Reading settings, the "How much to show" strip
-and Short version mode, Leave quickly, checklists, and the page with
-JavaScript turned off.
+and Short version mode, the "Quick facts" strip on the state pages, Leave
+quickly, checklists, and the page with JavaScript turned off.
 """
 from __future__ import annotations
 
@@ -29,6 +29,8 @@ SPACING_CSS = (
     "* { line-height: 1.5 !important; letter-spacing: 0.12em !important; "
     "word-spacing: 0.16em !important; } p { margin-bottom: 2em !important; }"
 )
+# Every state page. Add a new state page here so its "Quick facts" strip is checked.
+STATE_PAGES = ("oregon.html", "utah.html", "washington.html")
 problems: list[str] = []
 
 OBSCURED_JS = """() => {
@@ -455,6 +457,67 @@ def main() -> int:
         expect_state("after Forget everything", False)
         if errors:
             fail(f"short version: console errors: {errors[:3]}")
+
+        # ---- "Quick facts" strip on the state pages ----
+        # Once per state page, right after the checked line and before any other
+        # callout, with every row filled in. It stays in Short version mode and
+        # in print, and its first step is the page's own step 1.
+        print("- quick facts")
+        page.set_viewport_size({"width": 1280, "height": 900})
+        quick_js = """() => {
+            const vis = e => e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden';
+            const strips = document.querySelectorAll('.quick-facts');
+            const s = strips[0];
+            if (!s) return null;
+            const rows = [...s.querySelectorAll('.quick-facts-row')];
+            const title = document.getElementById(s.getAttribute('aria-labelledby'));
+            const step1 = document.querySelector('#steps ~ ol.steps .step-title');
+            const num = step1 && step1.querySelector('.step-num');
+            return {
+                count: strips.length,
+                shown: vis(s) && rows.every(r => vis(r.querySelector('dt')) && vis(r.querySelector('dd'))),
+                title: title ? title.tagName + ':' + title.textContent.trim() : '',
+                afterChecked: !!s.previousElementSibling && s.previousElementSibling.classList.contains('checked'),
+                firstCallout: document.querySelector('main .callout') === s,
+                extra: !!s.closest('.brief-extra, .deeper'),
+                rows: rows.length,
+                empty: rows.filter(r => !r.querySelector('dt').textContent.trim() || !r.querySelector('dd').textContent.trim()).length,
+                labels: rows.map(r => r.querySelector('dt').textContent.trim()),
+                deadLinks: [...s.querySelectorAll('a[href^="#"]')].map(a => a.getAttribute('href')).filter(h => !document.getElementById(h.slice(1))),
+                firstStep: (s.querySelector('a[href="#steps"]') || {}).textContent || '',
+                step1: step1 ? step1.textContent.replace(num ? num.textContent : '', '').trim() : '',
+            };
+        }"""
+        for name in STATE_PAGES:
+            page.goto(base + name)
+            page.evaluate("() => { if (document.documentElement.getAttribute('data-brief') === 'on') document.getElementById('brief-toggle').click(); }")
+            q = page.evaluate(quick_js)
+            if not q:
+                fail(f"{name}: no Quick facts strip")
+                continue
+            if q["count"] != 1 or not q["shown"] or q["title"] != "H2:Quick facts":
+                fail(f"{name}: Quick facts should appear once, visible, under an h2 that names it: {q}")
+            if not q["afterChecked"] or not q["firstCallout"]:
+                fail(f"{name}: Quick facts should sit right after the checked line, before the first callout: {q}")
+            if q["extra"]:
+                fail(f"{name}: Quick facts is marked as an extra, so Short version mode would hide it")
+            if q["rows"] < 6 or q["empty"] or len(set(q["labels"])) != q["rows"]:
+                fail(f"{name}: Quick facts has a missing, empty, or repeated row: {q}")
+            if q["deadLinks"]:
+                fail(f"{name}: Quick facts links to missing sections: {q['deadLinks']}")
+            if not q["firstStep"] or q["firstStep"].strip() != q["step1"]:
+                fail(f"{name}: Quick facts first step {q['firstStep']!r} is not the page's step 1 {q['step1']!r}")
+            page.click("#brief-toggle")
+            brief = page.evaluate(quick_js)
+            if page.evaluate("() => document.documentElement.getAttribute('data-brief')") != "on" or not brief["shown"]:
+                fail(f"{name}: Quick facts is not fully shown in Short version mode")
+            page.emulate_media(media="print")
+            if not page.evaluate(quick_js)["shown"]:
+                fail(f"{name}: Quick facts does not print")
+            page.emulate_media(media="screen")
+            page.click("#brief-toggle")
+            if not page.evaluate(quick_js)["shown"]:
+                fail(f"{name}: Quick facts is not shown after leaving Short version mode")
 
         # ---- Checklist ----
         print("- checklist")

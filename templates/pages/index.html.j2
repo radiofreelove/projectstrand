@@ -4,15 +4,6 @@
 <h1>Change your name and gender marker. Here is how.</h1>
 {{ m.lede("You can ask a court to change your legal name. In Oregon, Washington, and Utah, you can change the sex on your state records too. The steps are spread across courts and offices that each explain only their own part. This guide puts the whole path in one place, in plain words, with a link to every official form.") }}
 
-{% call m.callout('why', 'Why it matters', 'why-it-matters') %}
-<ul>
-  <li>In the 2022 U.S. Trans Survey, {{ fact('usts_name_none') }} of people who had at least one ID said none of their IDs listed the name they wanted. {{ fact('usts_gender_none') }} said none listed the gender they wanted. {{ src('data-usts-2022') }}</li>
-  <li>{{ fact('usts_mistreated') }} said they had been harassed, assaulted, asked to leave, or denied service after showing an ID that did not match how they look.</li>
-  <li>Matching ID will not fix everything. It does remove one thing that can out you every time you show your ID.</li>
-</ul>
-<p><a href="{{ page_url('why') }}">Why this site exists</a></p>
-{% endcall %}
-
 <section class="big-start" aria-labelledby="start-h">
   <h2 id="start-h">Start here: 4 questions, about 1 minute</h2>
   <p>Tell us where you live, what you want to change, who it is for, and where you were born. You will see only the steps that fit you.</p>
@@ -38,6 +29,15 @@
     <p>Both changed in 2025. Read this before you apply for any passport.</p>
   </li>
 </ul>
+
+{% call m.callout('why', 'Why it matters', 'why-it-matters') %}
+<ul>
+  <li>In the 2022 U.S. Trans Survey, {{ fact('usts_name_none') }} of people who had at least one ID said none of their IDs listed the name they wanted. {{ fact('usts_gender_none') }} said none listed the gender they wanted. {{ src('data-usts-2022') }}</li>
+  <li>{{ fact('usts_mistreated') }} said they had been harassed, assaulted, asked to leave, or denied service after showing an ID that did not match how they look.</li>
+  <li>Matching ID will not fix everything. It does remove one thing that can out you every time you show your ID.</li>
+</ul>
+<p><a href="{{ page_url('why') }}">Why this site exists</a></p>
+{% endcall %}
 
 {% call m.callout('changed', 'What changed in 2026', 'changed-2026') %}
 <ul>

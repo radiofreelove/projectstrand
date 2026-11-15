@@ -22,6 +22,48 @@
 </div>
 {%- endmacro %}
 
+{#- "Quick facts" strip for a state page: the key answers and numbers, right
+    after the lede and the checked line, before the first callout. Never
+    "brief-extra": "Short version" mode keeps it, and it prints.
+
+    Every state page passes the same fields, so the strips line up from state
+    to state. Each value must come from data/facts.yml (fact() or fact_src())
+    or from a variable the page body also uses, so the strip cannot drift from
+    the text below it. Do not type a number or a rule into a call.
+
+    q fields. Required (the build fails if one is missing):
+      court_name          court needed for a name change?
+      sex_label           row label in the state's own term (see CONTENT-STYLE)
+      court_sex           court needed for that change?
+      filing_fee          court filing fee
+      certified_copy      cost of a certified copy
+      birth_certificate   cost to change a birth certificate from this state
+      first_step          the title of step 1; links to the page's #steps
+    Optional (leave out when the page does not state it):
+      license             cost to change a driver license or ID
+      whats_new           what the page flags as new or time-sensitive, as
+                          {'label', 'text', 'anchor', 'link'}
+    The page must have sections with the ids "steps" and "cost". -#}
+{% macro quickfacts(page, q) -%}
+<section class="callout quick-facts" id="quick-facts" aria-labelledby="quick-facts-t">
+  <h2 class="callout-title" id="quick-facts-t">Quick facts</h2>
+  <dl class="quick-facts-list">
+    <div class="quick-facts-row"><dt>Court needed for a name change</dt><dd>{{ q.court_name }}</dd></div>
+    <div class="quick-facts-row"><dt>{{ q.sex_label }}</dt><dd>{{ q.court_sex }}</dd></div>
+    <div class="quick-facts-row"><dt>Court filing fee</dt><dd>{{ q.filing_fee }} <span class="quick-facts-more">Can't pay? <a href="#cost">See what it costs</a>.</span></dd></div>
+    <div class="quick-facts-row"><dt>Certified copies</dt><dd>{{ q.certified_copy }}</dd></div>
+    <div class="quick-facts-row"><dt>{{ page.nav_label }} birth certificate cost</dt><dd>{{ q.birth_certificate }}</dd></div>
+    {% if q.license is defined %}
+    <div class="quick-facts-row"><dt>Driver license or ID cost</dt><dd>{{ q.license }}</dd></div>
+    {% endif %}
+    <div class="quick-facts-row"><dt>First step</dt><dd><a href="#steps">{{ q.first_step }}</a></dd></div>
+    {% if q.whats_new is defined %}
+    <div class="quick-facts-row"><dt>{{ q.whats_new.label }}</dt><dd>{{ q.whats_new.text }} <span class="quick-facts-more"><a href="#{{ q.whats_new.anchor }}">{{ q.whats_new.link }}</a></span></dd></div>
+    {% endif %}
+  </dl>
+</section>
+{%- endmacro %}
+
 {% macro onthispage(items) -%}
 <nav class="toc" aria-label="On this page">
   <p class="toc-title">On this page</p>

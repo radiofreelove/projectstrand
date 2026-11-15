@@ -6,6 +6,22 @@
 {{ m.lede("Utah uses court for both. A name change needs a year of living in your county and a hearing. A sex designation change needs a judge to find strong proof of six things. That is more proof than Oregon or Washington ask for. The court's own online tool and forms walk you through it.") }}
 {{ m.checked_line(page) }}
 
+{#- Quick facts. Values the strip shares with the text below are set once here
+    and used in both places, so they cannot drift apart. -#}
+{% set first_step = 'Check that you can file, and gather proof' %}
+{% set birth_cost %}{{ fact('ut_vital_amend_fee') }}. We could not find the amounts. {{ m.badge('unconfirmed') }}{% endset %}
+{#- No 'license' field: this page states no cost for a Utah license or ID. -#}
+{{ m.quickfacts(page, {
+  'court_name': fact_src('ut_court_name'),
+  'sex_label': 'Court needed for a sex designation change',
+  'court_sex': fact_src('ut_court_sex'),
+  'filing_fee': fact_src('ut_fee_petition') ~ ' ' ~ m.badge('inference'),
+  'certified_copy': fact_src('ut_fee_cert_copy'),
+  'birth_certificate': birth_cost ~ ' ' ~ src('ut-courts-sex-change'),
+  'first_step': first_step,
+  'whats_new': {'label': 'What happened in 2026', 'text': fact_src('ut_hb183_status'), 'anchor': 'ut-2026', 'link': 'More about the 2026 bill'}
+}) }}
+
 {% call m.callout('why', 'Why it matters', 'ut-why') %}
 <ul>
   <li>Utah's birth certificate office changes the sex designation only with a court order. {{ src('ut-courts-sex-change') }}</li>
@@ -67,7 +83,7 @@
 <p>Utah Courts lists five steps. These follow its page. {{ src('ut-courts-sex-change') }}</p>
 <div class="btn-row js-only"><button type="button" class="btn-secondary" data-print>Print this checklist</button></div>
 <ol class="steps">
-{% call m.step(page.slug, 1, 'ut-step-ready', 'Check that you can file, and gather proof') %}
+{% call m.step(page.slug, 1, 'ut-step-ready', first_step) %}
   <p>Read the name change limits and the six things above. For a sex designation change, gather your proof before you fill out forms.</p>
 {% endcall %}
 {% call m.step(page.slug, 2, 'ut-step-file', 'Fill out and file the forms') %}
@@ -96,7 +112,7 @@
   <li><strong>Court filing fee:</strong> {{ fact('ut_fee_petition') }}. {{ src('ut-courts-fees') }} {{ m.badge('inference') }} Utah lists $375 as its general civil filing fee and links its fee page from the name and sex change page.</li>
   <li><strong>Can't pay?</strong> {{ ext('ut-courts-waiver') }}.</li>
   <li><strong>Certified copy of the order:</strong> {{ fact('ut_fee_cert_copy') }}. {{ src('ut-courts-fees') }}</li>
-  <li><strong>Vital Records:</strong> a fee to amend the birth certificate, and an extra fee if your case was sealed. We could not find the amounts. {{ m.badge('unconfirmed') }} {{ src('ut-courts-sex-change') }}</li>
+  <li><strong>Vital Records:</strong> {{ birth_cost }} {{ src('ut-courts-sex-change') }}</li>
 </ul>
 {% endcall %}
 

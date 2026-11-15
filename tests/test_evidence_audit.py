@@ -94,6 +94,20 @@ class Normalization(unittest.TestCase):
     def test_other_files_are_bytes(self):
         self.assertEqual(audit.normalize(b"\x89PNG....", "image/png")[0], "bytes")
 
+    def test_volatile_lines_are_dropped_only_for_their_source(self):
+        text = "Find legal help\nN2\nExternal Link Warning"
+        self.assertEqual(audit.drop_volatile(text, "wa-courts-forms"), "Find legal help\nExternal Link Warning")
+        self.assertEqual(audit.drop_volatile(text, "or-ojd-forms"), text)
+        form = "CAPTCHA\nComments\nThis field is for validation purposes and should be left unchanged.\nSend"
+        self.assertEqual(audit.drop_volatile(form, "us-lambda-helpdesk"),
+                         "CAPTCHA\nThis field is for validation purposes and should be left unchanged.\nSend")
+        one = audit.apply_volatile({"state": audit.FETCHED, "mode": "text", "text": text,
+                                    "sha256": "x", "length": 0}, "wa-courts-forms")
+        two = audit.apply_volatile({"state": audit.FETCHED, "mode": "text", "text": text.replace("N2", "N1"),
+                                    "sha256": "y", "length": 0}, "wa-courts-forms")
+        self.assertEqual(one["sha256"], two["sha256"])
+        self.assertIn("change on every load", one["note"])
+
     def test_charset_is_respected(self):
         _, text, _, _ = audit.normalize("<p>Fé</p>".encode("latin-1"), "text/html; charset=ISO-8859-1")
         self.assertEqual(text, "Fé")

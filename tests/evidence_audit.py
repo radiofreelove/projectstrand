@@ -26,7 +26,9 @@ data/sources.yml it:
      project's declared test tools include no PDF library; its raw bytes
      are compared, and the baseline marks it "mode: bytes". A report that
      a "bytes" source changed is lower-confidence: a PDF saved again with
-     the same words has new bytes.
+     the same words has new bytes. A few pages carry a line that changes
+     on every load (a server name, a random form label); the VOLATILE
+     list below names each one, and that line is dropped before hashing.
   4. Compares the SHA-256 of that content with data/evidence_baseline.yml.
 
 Every source ends in exactly one state:
@@ -133,7 +135,8 @@ BASELINE_HEADER = """\
 #                     was blocked or unreachable and is not yet baselined.
 #   registry_checked  the source's "checked" date when this entry was
 #                     written: the verified check the hash rests on
-#   note              why a source could not be read, when it could not
+#   note              why a source could not be read, or which lines that
+#                     change on every load were dropped before hashing
 """
 
 
@@ -195,6 +198,44 @@ def html_text(markup: str) -> str:
     parser.feed(markup)
     parser.close()
     return collapse("".join(parser.parts))
+
+
+# Lines that change on every load of a page, for reasons that have nothing to
+# do with what the page says. Each one was seen to flip between two fetches a
+# few minutes apart. They are dropped from that source's text before hashing,
+# and the baseline entry says so. Keep this list short, and add to it only
+# after seeing a line flip with no change a reader would notice.
+VOLATILE = {
+    # A server name at the foot of the page ("N1", "N2").
+    "wa-courts-forms": {"lines": [r"N\d{1,2}"], "why": "the server's name at the foot of the page (N1, N2)"},
+    # The contact form's hidden spam trap gets a random label ("Name", "Comments").
+    "us-lambda-helpdesk": {
+        "before": ["This field is for validation purposes and should be left unchanged."],
+        "why": "the random label of the contact form's hidden spam-trap field",
+    },
+}
+
+
+def drop_volatile(text: str, source_id: str) -> str:
+    """The text without the lines VOLATILE names for this source."""
+    rules = VOLATILE.get(source_id)
+    if not rules or text is None:
+        return text
+    lines = text.split("\n")
+    patterns = [re.compile(p) for p in rules.get("lines", [])]
+    drop = {i for i, line in enumerate(lines) if any(p.fullmatch(line) for p in patterns)}
+    for marker in rules.get("before", []):
+        drop |= {i - 1 for i, line in enumerate(lines) if line == marker and i > 0}
+    return "\n".join(line for i, line in enumerate(lines) if i not in drop)
+
+
+def apply_volatile(result: dict, source_id: str) -> dict:
+    """Re-hash a fetched page's text without its volatile lines."""
+    if result.get("state") != FETCHED or result.get("mode") != "text" or source_id not in VOLATILE:
+        return result
+    text = drop_volatile(result["text"], source_id)
+    return {**result, "text": text, "sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
+            "length": len(text), "note": "drops lines that change on every load: " + VOLATILE[source_id]["why"]}
 
 
 def is_pdf(body: bytes, content_type: str) -> bool:
@@ -325,7 +366,7 @@ def fetch_all(entries, fetcher=fetch, robots=None, pause: float = PAUSE, host_pa
         if not allowed:
             yield src, {"state": BLOCKED, "note": note}
             continue
-        result = fetcher(url)
+        result = apply_volatile(fetcher(url), src["id"])
         last_any = last_host[host] = time.time()
         yield src, result
 

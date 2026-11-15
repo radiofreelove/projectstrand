@@ -11,7 +11,98 @@ Runbooks for keeping The Strand Project accurate and online.
 
 ## Re-check a source
 
-The weekly scheduled run of the "Checks" workflow lists anything older than 120 days in its freshness step. For each one: open it, compare it with the site, update dates, fix content, and log it in `docs/AUDIT-LOG.md`.
+The weekly source check (below) lists anything older than 120 days in its freshness report. For each one: open it, compare it with the site, update dates, fix content, and log it in `docs/AUDIT-LOG.md`. If you re-read a source whose evidence baseline is out of date, refresh its baseline too (see "The baseline").
+
+## Weekly source check
+
+`.github/workflows/weekly.yml` runs every Monday at 15:17 UTC, and by hand: in GitHub, open Actions, select "Weekly source check," and choose "Run workflow." It builds the site, then runs three checks, one after another:
+
+| Check | Asks | Needs a person when |
+|---|---|---|
+| `tests/check_external_links.py` | Does each source still answer? | any address fails. Some government sites refuse scripts, so this means "open it," not "it is dead." |
+| `tests/freshness.py` | Is any source or page `checked` date older than 120 days? | anything is due. |
+| `tests/evidence_audit.py` | Does each source still say the same thing? | any source is "changed." |
+
+If any of them needs a person, the workflow opens one GitHub issue with all three reports. It never writes to the repository. Its permissions are contents read and issues write, nothing more.
+
+Since 0.1.10-beta, the Monday schedule lives only here. The "Checks" workflow runs on pushes, pull requests, and by hand. It no longer runs on a schedule or runs the link check, so each source is asked once a week, not twice.
+
+## Evidence audit
+
+The link check asks whether a source still answers. The evidence audit asks whether it still says the same thing.
+
+```sh
+python3 build.py                                          # for the fact-to-page map
+python3 tests/evidence_audit.py --report evidence-report.md
+python3 tests/evidence_audit.py --only or-ojd-fees --report evidence-report.md
+```
+
+For every source in `data/sources.yml`, the tool reads the site's robots.txt and stays out if it is asked to. It asks for one address at a time, with a pause between requests, a 30-second time limit, and a user agent that names the project. It turns the reply into text it can compare, and compares a SHA-256 of that text with [data/evidence_baseline.yml](../data/evidence_baseline.yml).
+
+- **A web page** is compared as text: the words a reader sees, with tags, scripts, and styles removed and runs of spaces made into one.
+- **A PDF** is compared by its bytes, because the project's declared test tools include no PDF library. The baseline marks it `mode: bytes`. A change report for a PDF is lower-confidence: the same words saved again make new bytes. Open the file before you believe it.
+- **A few pages print a line that changes on every load,** such as a server name or a random form label. The `VOLATILE` list in the tool names each one, and that line is dropped before hashing. The baseline entry says so in its `note`. Add to that list only after you see a line flip with no change a reader would notice.
+
+### The four states
+
+Every source ends in exactly one.
+
+| State | What it means | What to do |
+|---|---|---|
+| Unchanged | The content matches the baseline. | Nothing. |
+| Changed | The content differs. For a web page, the report shows what changed, up to a limit. It names the facts in `data/facts.yml` that cite the source, and the pages that show those facts. It also names pages that cite the source directly. | Re-read the source. A change is a prompt to read, not proof that a fact is wrong: a new menu item changes a page too. If a fact changed, follow "Update a fee or other fact." Then refresh that source's baseline. |
+| Unreachable | The connection failed, the reply was cut short twice, or the server answered with an error other than 401 or 403. Nothing was compared. | Look at the link check report in the same issue. If the address keeps failing there, open it by hand. |
+| Checker-blocked | The site answered 401 or 403 to this tool, or its robots.txt keeps this tool out. | A person opens it. This state says nothing about the source. It is not a dead link, and it is not a removed source. |
+
+Why the care with "checker-blocked": on November 14, 2026, a person opened by hand all 8 sources the link check had flagged. Every one was alive for a human reader.
+
+The report has one more list, **Not yet baselined**: sources with no stored hash. They were blocked or unreachable when the baseline was written, or they were added since, or their address changed. A missing hash is never counted as a change.
+
+Only a changed source fails the run (exit code 1). Blocked and unreachable sources are listed in the report and do not fail the run. An address that keeps failing shows up in the link check, which does fail.
+
+The pages each fact appears on come from the build. `build.py` lists the facts each page rendered in `public/build-report.json`, and the audit reads that file. Without a build, the report still names the facts and says the pages are not known.
+
+### The baseline
+
+- **What the baselines rest on.** The baselines rest on the project's November 2026 verified source checks. Each entry copies the source's `checked` date from `data/sources.yml` on the day it was written (`registry_checked`). That check is what stands behind the hash.
+- **What the baseline run was not.** The run that wrote the baseline on November 15, 2026 was a tool fetching each address and storing a hash. It was not a fresh read of every source by a person, and nothing here says it was.
+- **What it holds.** One entry per source: its address, the fetch date, the fetch state, the comparison mode (`text` or `bytes`), the SHA-256, the length, and `registry_checked`. On November 15, 2026: 44 of 59 sources were read (29 as text, 15 as bytes), 11 were checker-blocked, and 4 were unreachable. The 15 with no hash are "not yet baselined." Two compare runs right after the baseline found 44 unchanged and 0 changed.
+- **Hashes, not text.** The repository does not keep copies of official pages. To show what changed, the tool keeps each page's text in `.evidence-snapshots/`, which is not committed. The weekly run saves that folder between runs. If the saved text is gone, the report still names the changed source, its facts, and its pages, and says there is no diff to show.
+- **Refresh a baseline only on purpose.** Comparing never rewrites it. Refresh one source after a person has re-read it and its `checked` date is set:
+
+  ```sh
+  python3 tests/evidence_audit.py --write-baseline --only or-ojd-fees
+  ```
+
+  Do the same to give a "not yet baselined" source its first hash, after a person has read it. Never refresh a baseline to make a "changed" report go away without reading the source. A refresh keeps the old hash for any source it cannot read that day. Say what you refreshed, and why, in [AUDIT-LOG.md](AUDIT-LOG.md).
+
+The tests run against files in `tests/fixtures/evidence/` and a small server on your own computer. They never use the live network:
+
+```sh
+python3 tests/test_evidence_audit.py
+python3 tests/test_mechanical_update.py
+```
+
+## Dated language
+
+[dated-language.md](dated-language.md) lists the wording on the site that depends on the date: "New in 2026," "What changed in 2026," the 2026 fee schedules, the Orr v. Trump status, and more. Each entry gives the exact words, where they appear, when they expire, and what to do then.
+
+`tests/freshness.py` and `data/site.yml` have no checkpoint mechanism, so that file is the register. No scheduled check reads it. Look at it at the start of each month and whenever the weekly source check opens an issue. The first dates fall on January 1, 2027.
+
+## Mechanical date updates
+
+`tests/mechanical_update.py` is built, tested, and **not switched on**. Nothing runs it on a schedule.
+
+```sh
+python3 tests/evidence_audit.py --report evidence-report.md --results evidence-results.json
+python3 tests/mechanical_update.py --audit evidence-results.json --dry-run
+```
+
+Given an evidence audit run, it sets the `checked` date in `data/sources.yml` to the audit's date for exactly the sources the audit found unchanged, and nothing else. It changes only those lines, keeps every comment, and prints every date it changed. It refuses, and writes nothing, for a source named with `--only` that is changed, checker-blocked, unreachable, or not yet baselined; for a hash, address, or baseline that does not agree; and for an audit that is more than 2 days old, dated in the future, or malformed. A date never moves backward. `--dry-run` writes nothing.
+
+It is ready to wire into the weekly workflow behind a repository variable switch, as The Stasis Project does: a second job that runs only when the variable `MECHANICAL_UPDATES` is `on`, with `contents: write` and `pull-requests: write` for that job alone. It would open a pull request for a person to review and never merge anything.
+
+Before anyone turns it on, settle one question. The site says "We read each of these on the date shown" under every page's source list, and the sources page says "We read each one ourselves on the date shown." `data/sources.yml` defines `verified` as "We opened and read it on the 'checked' date." A date set by this tool means a tool found the same content as the last verified check, not that a person read the source again. Either that wording changes, or the tool writes a different field, before its dates can appear on the site.
 
 ## Add a source
 
@@ -41,7 +132,7 @@ A Playwright update is always one commit that changes `test-tools/requirements.t
 
 ## Run checks by hand
 
-In GitHub, open Actions, select "Checks," and choose "Run workflow." This also runs the external link report.
+In GitHub, open Actions, select "Checks," and choose "Run workflow." For the external link report, the freshness report, and the evidence audit, run "Weekly source check" the same way.
 
 ## Move hosts
 

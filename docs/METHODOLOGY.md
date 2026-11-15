@@ -47,7 +47,7 @@ Fees, form numbers, addresses, and phone numbers live in `data/facts.yml`. Each 
 
 ## 6. Freshness
 
-Every source and page has a `checked` date. The build report lists anything older than 120 days (`max_source_age_days` in `data/site.yml`), and the weekly scheduled check warns. A re-check means opening the source again, comparing it with the site, updating the dates, and adding an entry to [AUDIT-LOG.md](AUDIT-LOG.md).
+Every source and page has a `checked` date. The build report lists anything older than 120 days (`max_source_age_days` in `data/site.yml`), and the weekly source check warns. A re-check means opening the source again, comparing it with the site, updating the dates, and adding an entry to [AUDIT-LOG.md](AUDIT-LOG.md). The weekly evidence audit compares each source with a stored hash and reports when its content changes. A match is not a re-check: only a person reading the source sets a `checked` date. See [OPERATIONS.md](OPERATIONS.md), "Evidence audit."
 
 ## 7. Choosing organizations to list
 

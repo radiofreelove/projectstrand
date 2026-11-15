@@ -13,7 +13,7 @@
 | 1. Help users understand what things are and how to use them | Standard underlined links, real buttons, labeled form fields, the same page structure everywhere, "Source:" and "Not confirmed" labels explained on the sources page. |
 | 2. Help users find what they need | Eight-item main menu on every page, "On this page" lists, the 4-question path finder, the compare table. |
 | 3. Use clear and understandable content | Smart Brevity structure, short sentences, grade 8 or lower measured on every build, a word list, legal terms defined where they appear. |
-| 4. Help users avoid mistakes and know how to correct them | Fees and requirements are stated before the steps; the path finder names any unanswered question and moves focus to it. |
+| 4. Help users avoid mistakes and know how to correct them | Fees and requirements are stated before the steps, and each state page opens with a "Quick facts" strip; the path finder names any unanswered question and moves focus to it. |
 | 5. Help users focus | One idea per section, steps in numbered cards, "Go deeper" sections collapsed, a Short version setting that hides them. |
 | 6. Ensure processes do not rely on memory | Checkable steps, print-ready checklists, copy buttons for addresses and phone numbers, an after-court checklist in order. |
 | 7. Provide help and support | A help page on every menu, state help sections, a Leave quickly button, crisis and peer support at the top of the help page. |
@@ -60,7 +60,7 @@ Automated, on every push to GitHub (the fast checks also run in the Cloudflare b
 - `tests/check_site.py`: one h1, no skipped heading levels, labeled fields, named links and buttons, valid internal links and anchors, no inline scripts or styles, `noreferrer` on outside links.
 - `tests/contrast.py`: every token pair, every theme, and the device dark theme must match the manual dark theme.
 - `tests/readability.py`: grade level per page and a list of sentences over 25 words.
-- `tests/browser_checks.py`: Chromium at 1280px and 320px, text-spacing override, target sizes, focus visibility, the path finder, Reading settings, checklists, Leave quickly, and JavaScript turned off.
+- `tests/browser_checks.py`: Chromium at 1280px and 320px, text-spacing override, target sizes, focus visibility, the path finder, Reading settings, Short version mode, the "Quick facts" strip (present, complete, kept in Short version mode and in print), checklists, Leave quickly, and JavaScript turned off.
 - `tests/axe_check.mjs`: axe-core on every page in all three themes. Warning-only until the first baseline is reviewed.
 
 Manual, before each release (see [REVIEW-CHECKLIST.md](REVIEW-CHECKLIST.md)):

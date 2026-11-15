@@ -2,6 +2,15 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.7-beta (2026-11-15)
+
+- New "Quick facts" box near the top of the Oregon, Washington, and Utah pages, right after the big picture and the "Last checked" date. It lists, in the same order on each page: whether you need court for a name change, whether you need court for the sex or gender change, the court filing fee, the cost of certified copies, the birth certificate cost, the driver license or ID cost, the first step (a link to the steps), and anything the page flags as new in 2026.
+- The box adds no new facts. Every line repeats something the same page already says, with the same source links and the same "Our reading," "Not confirmed," and "Not official" labels. The values come from `data/facts.yml` or from wording the page uses in both places, so the box and the text below it change together. No source was opened or re-checked for this release, and the "Last checked" dates did not change.
+- Where a page does not give a value, the box leaves the line out. The Utah box has no license cost line, and it says the Utah birth certificate fee amounts were not found, as the page already did. The Washington box has no "new" line.
+- The box stays when the short version is on, and it prints. A new browser check covers that on every state page.
+- Home page: "Start here: 4 questions" and "Or go straight to your state" moved up, right after the big picture. "Why it matters" now comes after them. No words changed.
+- The path finder, compare, and after-court pages were checked for the same thing (can a new reader tell what the page does and what to do first) and did not change.
+
 ## 0.1.6-beta (2026-11-14)
 
 - Fixed a broken link. The link to the Utah Driver License Division's name change page went to a "Page not found" page. The Division moved the page. The link now goes to its current address, `https://dld.utah.gov/name-change-info/`. It appears on the Utah page (twice), the after-court checklist, the path finder, and the sources page.

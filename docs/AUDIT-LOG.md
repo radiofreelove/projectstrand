@@ -2,6 +2,13 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-14: Audit corrections applied (0.1.8-beta)
+
+- The maintainer ruled on the November 13, 2026 audit flags on November 14, 2026: the Utah driver license address stands as fixed in 0.1.6-beta; the memo's exact corrections for "sealed by the court" were adopted; the Washington enhanced license sentence was added as proposed; the fix-now batch (UT-3a, WA-3a, WA-3b, UT-3c) was applied; OR-3 was confirmed correct and closed with the ORS 33.420(3)(a) quote added to the Oregon research record; OR-2 and UT-3b were labeled "Our reading" as interim fixes; WA-3c and the X-3 lawyer question were recorded, with X-3's rewording applied to the federal page; and the Utah $375 badge was fixed at the data level (X-2).
+- Build change: `build.py`'s fact helper appends the "Our reading" badge when a fact carries `reading: true` in `data/facts.yml`. Only `ut_fee_petition` carries it. The two hand-placed badges on the Utah page were removed so no page shows it twice.
+- Also applied, from the 0.1.7-beta first-screen audit's open notes, on the maintainer's direction: the compare table's state names link to the state pages, and the after-court opening line starts with certified copies, matching its step 1.
+- The old-name sweep of the changes: cleared.
+
 ## 2026-11-15: "Quick facts" strip on the state pages (0.1.7-beta)
 
 - Approved by the maintainer on November 13, 2026. Built on November 14 and 15, 2026. This is a layout change. No source was opened or re-checked for it, and no `checked` date changed.

@@ -150,7 +150,10 @@ def main() -> int:
             raise BuildError(f"page {state['page']}: unknown fact id '{fid}'")
         for sid in facts[fid].get("sources", []):
             use(sid)
-        return Markup(escape(str(facts[fid]["value"])))
+        value = escape(str(facts[fid]["value"]))
+        if facts[fid].get("reading"):
+            value += ' <span class="badge badge-inference">Our reading</span>'
+        return Markup(value)
 
     def fact_src(fid: str) -> Markup:
         """A fact value followed by its source link(s)."""

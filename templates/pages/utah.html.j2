@@ -15,7 +15,7 @@
   'court_name': fact_src('ut_court_name'),
   'sex_label': 'Court needed for a sex designation change',
   'court_sex': fact_src('ut_court_sex'),
-  'filing_fee': fact_src('ut_fee_petition') ~ ' ' ~ m.badge('inference'),
+  'filing_fee': fact_src('ut_fee_petition'),
   'certified_copy': fact_src('ut_fee_cert_copy'),
   'birth_certificate': birth_cost ~ ' ' ~ src('ut-courts-sex-change'),
   'first_step': first_step,
@@ -109,7 +109,7 @@
 
 {% call m.callout('cost', 'What it costs', 'cost') %}
 <ul>
-  <li><strong>Court filing fee:</strong> {{ fact('ut_fee_petition') }}. {{ src('ut-courts-fees') }} {{ m.badge('inference') }} Utah lists $375 as its general civil filing fee and links its fee page from the name and sex change page.</li>
+  <li><strong>Court filing fee:</strong> {{ fact('ut_fee_petition') }}. {{ src('ut-courts-fees') }} Utah lists $375 as its general civil filing fee and links its fee page from the name and sex change page.</li>
   <li><strong>Can't pay?</strong> {{ ext('ut-courts-waiver') }}.</li>
   <li><strong>Certified copy of the order:</strong> {{ fact('ut_fee_cert_copy') }}. {{ src('ut-courts-fees') }}</li>
   <li><strong>Vital Records:</strong> {{ birth_cost }} {{ src('ut-courts-sex-change') }}</li>
@@ -118,7 +118,7 @@
 
 <h2 id="privacy">Who can see your case</h2>
 <p>When you ask for a sex designation change, including a name and sex change together, the court marks the case private. The papers you file are not public. The case history, public hearings, and records of public hearings still are. {{ src('ut-courts-sex-change') }} {{ ext('ut-courts-nonpublic') }}.</p>
-<p>A name-only case is not covered by that rule.</p>
+<p>The courts page says this only about sex change requests. We read that to mean a name-only case is public. {{ m.badge('inference') }} {{ src('ut-courts-sex-change') }}</p>
 
 <h2 id="birth-certificate">Utah birth certificate</h2>
 <ul>
@@ -131,7 +131,7 @@
 {% endcall %}
 
 <h2 id="license">Driver license or ID</h2>
-<p>For a name change, the Driver License Division asks for legal documentation of the change, and accepts sealed court documents. {{ src('ut-dld-name') }}</p>
+<p>For a name change, the Driver License Division asks for legal documentation of the change. Its list includes "Court papers showing the name change, sealed by the court." We read that as papers with the court's seal on them, like a certified copy of your order. {{ m.badge('inference') }} {{ src('ut-dld-name') }}</p>
 <p>We could not find an official Utah page about changing the sex on a license or ID. {{ m.badge('unconfirmed') }} Ask the {{ ext('ut-dld-name', 'Driver License Division') }} before you go.</p>
 
 <h2 id="minors">Changes for someone under 18</h2>
@@ -140,7 +140,7 @@
 <ul>
   <li>A judge cannot grant it for a child younger than 15 years and 6 months.</li>
   <li>A judge cannot grant it unless the parent or guardian with legal custody gives permission.</li>
-  <li>For a child 15 years and 6 months or older, the court appoints a guardian ad litem, a lawyer for the child. Unless the court finds them unable to pay, the parent or guardian pays for it.</li>
+  <li>For a child 15 years and 6 months or older who is not emancipated, the court appoints a guardian ad litem, a lawyer for the child. Unless the court finds them unable to pay, the parent or guardian pays for it.</li>
   <li>Known parents get notice and can object. The hearing is closed to the public.</li>
   <li>The judge must find clear and convincing evidence that the change is in the child's best interest. The judge must also find it would not create a risk of harm.</li>
   <li>The order does not take effect until the child is at least 16.</li>

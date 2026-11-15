@@ -337,9 +337,9 @@
   kind: agency-page
   jurisdiction: WA
   date: "Live page"
-  checked: 2026-11-03
+  checked: 2026-11-14
   status: verified
-  notes: "M, F, or X. In person or by mail (form 520043). Free if you only change the gender designation."
+  notes: "M, F, or X. In person or by mail (form 520043). Free if you only change the gender designation. For a standard card in person, you confirm verbally. For an enhanced card (EDL/EID) in person, you must also bring the filled-out form 520043. The mail rule is the same for both. Enhanced-card rule read on the page on 2026-11-14 and added to the Washington page."
 
 - id: wa-courts-forms
   title: "Washington Courts forms"
@@ -573,7 +573,7 @@
   date: "Live page"
   checked: 2026-11-14
   status: verified
-  notes: "Asks for legal documentation of the name change; accepts sealed court documents. Says nothing about changing the sex on a license."
+  notes: "Asks for legal documentation of the name change; lists \"Court papers showing the name change, sealed by the court\" among accepted documents (we read this as papers bearing the court's seal, not sealed case files). Says nothing about changing the sex on a license."
 
 # --------------------------------------------------------------- Federal
 - id: us-eo-14168

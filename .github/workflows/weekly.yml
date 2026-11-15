@@ -1,0 +1,114 @@
+name: Weekly source check
+
+# Every Monday morning (Pacific time), and by hand from the Actions tab:
+#   1. the external link check (does each source still answer?),
+#   2. the freshness check (is any source or page past 120 days?),
+#   3. the evidence audit (does each source still say the same thing?).
+# If any of them needs a person, open one GitHub issue with all three
+# reports. Nothing here writes to the repository.
+#
+# tests/mechanical_update.py is not run here. It is ready to add behind a
+# repository variable switch; see docs/OPERATIONS.md, "Mechanical date updates".
+# This workflow took over the Monday schedule from the "Checks" workflow,
+# so the sources are asked once a week, not twice.
+
+on:
+  schedule:
+    - cron: "17 15 * * 1"   # Mondays, 15:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: weekly-source-check
+  cancel-in-progress: false
+
+jobs:
+  review:
+    name: Links, freshness, and evidence audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - run: python3 -m pip install -r requirements.txt
+
+      # The evidence audit reads public/build-report.json to name the pages
+      # that show each fact.
+      - name: Build (for the fact-to-page map)
+        run: python3 build.py
+
+      - name: External links (a failure means a person should open the link)
+        id: links
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 tests/check_external_links.py | tee link-report.txt
+
+      - name: Source freshness
+        id: freshness
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 tests/freshness.py | tee freshness-report.txt
+
+      # The baseline holds hashes, not text. The text of each page is kept
+      # between runs so a report can show what changed. If it is gone, the
+      # report says so and still names the changed source.
+      - name: Bring back the page text saved by earlier runs
+        uses: actions/cache@v5
+        with:
+          path: .evidence-snapshots
+          key: evidence-snapshots-${{ github.run_id }}
+          restore-keys: evidence-snapshots-
+
+      - name: Evidence audit (what each source says, compared with its baseline; respects robots.txt)
+        id: evidence
+        continue-on-error: true
+        run: python3 tests/evidence_audit.py --report evidence-report.md > /dev/null
+
+      - name: Open an issue if a person is needed
+        if: steps.links.outcome == 'failure' || steps.freshness.outcome == 'failure' || steps.evidence.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINKS: ${{ steps.links.outcome }}
+          FRESHNESS: ${{ steps.freshness.outcome }}
+          EVIDENCE: ${{ steps.evidence.outcome }}
+        run: |
+          verdict() { [ "$1" = "failure" ] && echo "needs a person" || echo "nothing to do"; }
+          {
+            echo "The weekly source check found something that needs a person."
+            echo
+            echo "| Check | Result |"
+            echo "|---|---|"
+            echo "| External links | $(verdict "$LINKS") |"
+            echo "| Freshness | $(verdict "$FRESHNESS") |"
+            echo "| Evidence audit | $(verdict "$EVIDENCE") |"
+            echo
+            echo "A link the link check lists, or a source the evidence audit calls checker-blocked, is not a dead link: some sites refuse automated tools. Open it in a browser before you call it broken."
+            echo
+            echo "## External links"
+            echo
+            echo '```'
+            cat link-report.txt 2>/dev/null || echo "(no link report)"
+            echo '```'
+            echo
+            echo "## Freshness"
+            echo
+            echo '```'
+            cat freshness-report.txt 2>/dev/null || echo "(no freshness report)"
+            echo '```'
+            echo
+            # GitHub's limit for an issue body is 65,536 characters.
+            head -c 50000 evidence-report.md 2>/dev/null || echo "(no evidence audit report)"
+            echo
+            echo "See docs/OPERATIONS.md, \"Weekly source check\", for what to do."
+          } > body.md
+          gh issue create \
+            --title "Weekly source check needs attention ($(date -u +%Y-%m-%d))" \
+            --body-file body.md

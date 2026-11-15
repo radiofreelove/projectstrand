@@ -135,9 +135,12 @@ class PageParser(HTMLParser):
 
 
 def check_page(path: Path, all_ids: dict[str, set[str]]) -> list[str]:
+    raw = path.read_text(encoding="utf-8")
     p = PageParser()
-    p.feed(path.read_text(encoding="utf-8"))
+    p.feed(raw)
     errs = list(p.errors)
+    if "&lt;span" in raw or "&lt;a " in raw:
+        errs.append("escaped markup in page text (a badge or link rendered as literal text)")
     if not p.lang:
         errs.append("missing <html lang>")
     if not p.title.strip():

@@ -152,7 +152,7 @@ def main() -> int:
             use(sid)
         value = escape(str(facts[fid]["value"]))
         if facts[fid].get("reading"):
-            value += ' <span class="badge badge-inference">Our reading</span>'
+            value += Markup(' <span class="badge badge-inference">Our reading</span>')
         return Markup(value)
 
     def fact_src(fid: str) -> Markup:

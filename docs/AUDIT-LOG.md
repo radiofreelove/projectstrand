@@ -2,6 +2,11 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-14: Badge escaping bug fixed (0.1.9-beta)
+
+- The maintainer spotted raw badge markup printed as text on the home page Utah card, live from 0.1.8-beta. Root cause: in `build.py`, `fact()` appended the badge string to a markupsafe-escaped value with `+=`, which escapes the appended string. Every rendered use of `ut_fee_petition` was affected (index, compare, path, and four places on the Utah page, including the quick facts strip).
+- Fix: append the badge as a `Markup` object. Added a guard to `tests/check_site.py`: a built page containing `&lt;span` or `&lt;a ` fails the check. Verified the guard fails on the 0.1.8-beta output and passes on the fixed build.
+
 ## 2026-11-14: Audit corrections applied (0.1.8-beta)
 
 - The maintainer ruled on the November 13, 2026 audit flags on November 14, 2026: the Utah driver license address stands as fixed in 0.1.6-beta; the memo's exact corrections for "sealed by the court" were adopted; the Washington enhanced license sentence was added as proposed; the fix-now batch (UT-3a, WA-3a, WA-3b, UT-3c) was applied; OR-3 was confirmed correct and closed with the ORS 33.420(3)(a) quote added to the Oregon research record; OR-2 and UT-3b were labeled "Our reading" as interim fixes; WA-3c and the X-3 lawyer question were recorded, with X-3's rewording applied to the federal page; and the Utah $375 badge was fixed at the data level (X-2).

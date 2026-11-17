@@ -2,6 +2,19 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.11-beta (2026-11-17)
+
+Maintenance only. No page wording, fact, or source changed, and no "checked" date moved. The only change readers can see is the version number in the footer.
+
+- **The evidence audit now uses the same comparison rules as The Stasis Project's.** This project's first weekly audit, on November 16, 2026, was clean: 43 sources unchanged and 1 real change, a menu line on `or-ojd-forms`. The Stasis Project's was not. Its baseline had been put together from captures made by a different copy of the tool, on a different computer, and 42 of its 45 "changed" sources were artifacts of that. The same fixes are here, so a different capture computer cannot cause them in this project either.
+- **Line breaks.** The hash covers the words alone, in order. Where the lines break, and characters a reader never sees, do not count. The diff compares words.
+- **Replies cut short.** A reply shorter than the length it announced, or a PDF with no length and no end-of-file marker, is cut short: asked for once more and never hashed. Python's read with a size limit hands over the part that arrived without an error. One gap is known: a web page that announces no length and just stops cannot be told from a whole one.
+- **Pages that are not the source.** A page that checks for automated visitors, a page with no words, and any reply with fewer than 50 words are checker-blocked, never hashed. A check page that was hashed would match itself the next week, and the source would be called unchanged although its words were never read.
+- **Rules versions.** `RULES` numbers the comparison rules (now 2), and each baseline entry records the rules it was written under. An entry under other rules is "not yet baselined", never "changed". `--carry-forward` re-hashes a web page's entry from its saved text, fetching nothing. A PDF's hash is never carried forward, because its bytes are not saved and the old rules hashed a cut-short reply as if whole.
+- **Refreshing a baseline.** A refresh keeps a hash it cannot replace, even one written under older rules. For each source it can read, the new entry says whether it says the same as the hash it replaces. If not, a person reads the source before the new hash is relied on.
+- **The baseline.** The 29 web pages were carried forward to rules 2 from their November 15 text, with no new fetch, so the menu change on `or-ojd-forms` is still reported until a person reads it. The 15 PDFs keep their November 15 hashes under rules 1 and show as "not yet baselined" until they are written again. That run will say whether each is the same file as on November 15. 11 sources are checker-blocked and 4 unreachable, as before.
+- The comparison rules are one block, the same line for line in both projects, and each project's tests check the block's hash. The tests include a fixture for each way a source looked changed, or could look unchanged, when it was not. See [docs/OPERATIONS.md](docs/OPERATIONS.md), "The comparison rules".
+
 ## 0.1.10-beta (2026-11-15)
 
 Maintenance only. No page wording, fact, or source changed, and no "checked" date moved. The only change readers can see is the version number in the footer.

@@ -29,14 +29,14 @@ data/sources.yml it:
      words a reader sees, with tags, scripts, and styles removed. The hash
      is taken over the words alone, so where the lines break does not
      count. A reply that is a check for automated visitors, or that has no
-     readable words, is not the source and is never hashed. A PDF is not
-     turned into text, because the project's declared test tools include
-     no PDF library; its raw bytes are compared, and the baseline marks it
-     "mode: bytes". A report that a "bytes" source changed is
-     lower-confidence: a PDF saved again with the same words has new
-     bytes. A few pages carry a line that changes on every load (a server
-     name, a random form label); the VOLATILE list below names each one,
-     and that line is dropped before hashing.
+     readable words or too few to be a source, is not the source and is
+     never hashed. A PDF is not turned into text, because the project's
+     declared test tools include no PDF library; its raw bytes are
+     compared, and the baseline marks it "mode: bytes". A report that a
+     "bytes" source changed is lower-confidence: a PDF saved again with the
+     same words has new bytes. A few pages carry a line that changes on
+     every load (a server name, a random form label); the VOLATILE list
+     below names each one, and that line is dropped before hashing.
   4. Compares the SHA-256 of that content with data/evidence_baseline.yml.
 
 These are "the comparison rules", in the block of that name below. They
@@ -52,8 +52,8 @@ Every source ends in exactly one state:
                    error other than 401 or 403.
   checker-blocked  The site answered 401 or 403 to this tool, its
                    robots.txt keeps this tool out, or it answered with a
-                   check for automated visitors (or a page with no words)
-                   instead of the source. This says nothing about
+                   check for automated visitors (or a page with no words,
+                   or too few) instead of the source. This says nothing about
                    the source: it is not a dead link and not a removed
                    source. A person opens it.
 
@@ -154,6 +154,9 @@ BASELINE_HEADER = """\
 #                     rules is not compared
 #   carried           the hash was re-taken from the saved text of the
 #                     earlier fetch, without fetching again
+#   earlier           whether this fetch said the same as the hash it
+#                     replaced; if different, a person reads the source
+#                     before this hash is relied on
 #   note              why a source could not be read, or which lines that
 #                     change on every load were dropped before hashing
 """
@@ -194,14 +197,36 @@ BASELINE_HEADER = """\
 #      being verified", a CAPTCHA), or with a page that has no readable
 #      words and sends the browser elsewhere. Which one a fetch gets can
 #      vary from one fetch to the next. Such a reply is never hashed: it is
-#      checker-blocked, and a person opens the source.
+#      checker-blocked, and a person opens the source. A check page that
+#      is hashed is the worst case: the next fetch gets the same check page,
+#      and the source is called unchanged although its words were never
+#      read. So a reply with fewer than MIN_WORDS words is not taken as the
+#      source either, whatever it says: every source of these projects has
+#      well over a hundred words, and every check page seen has a dozen.
 #
 # RULES numbers these rules. Every baseline entry records the RULES it was
 # written under. An entry written under other rules is never compared,
 # because its hash means something else: it is listed as not yet
 # baselined until it is written again (--write-baseline) or carried
 # forward from its saved text (--carry-forward). Raise RULES whenever a
-# change in this block would change a hash.
+# change in this block would change a hash. (A rule that only refuses more
+# replies, like MIN_WORDS, changes no hash.)
+#
+# Three more rules keep a baseline honest when it is written again:
+#
+#   - A refresh never throws away a hash it cannot replace, even one
+#     written under older rules: that hash cannot be compared, but it can
+#     still be carried forward, or checked against the next whole fetch.
+#   - Carrying forward re-takes a text hash from the saved text. A file
+#     compared by its bytes has no saved copy, and under older rules a reply
+#     cut short was hashed as if whole (in November 2026, 9 of 37 PDF
+#     hashes), so a bytes hash is never carried forward. It is written
+#     again from a whole fetch.
+#   - When a fresh fetch replaces a hash, the new entry says whether it
+#     says what the old hash said ("earlier"). The same words or bytes
+#     carry the old entry's verified check forward. Different ones mean the
+#     source changed, or the old hash was not of the whole source; either
+#     way a person reads the source before the new hash is relied on.
 RULES = 2
 
 # Their content is not words on the page a reader sees.
@@ -362,10 +387,18 @@ CHALLENGE_PHRASES = (
     "please wait while your request is being verified",
     "your request has been flagged as potentially automated",
     "checking your browser before accessing",
+    "checking if the site connection is secure",
+    "needs to review the security of your connection",
     "enable javascript and cookies to continue",
     "verify you are human",
+    "verifying you are human",
+    "incapsula incident id",
+    "pardon our interruption",
 )
 CHALLENGE_MAX_CHARS = 3000
+# Fewer words than this, and a reply is not taken as the source (see 3 above).
+# The shortest source text in either project in November 2026 had 165 words.
+MIN_WORDS = 50
 
 
 def not_the_source(mode: str, text: str | None) -> str | None:
@@ -380,6 +413,10 @@ def not_the_source(mode: str, text: str | None) -> str | None:
         for phrase in CHALLENGE_PHRASES:
             if phrase in lowered:
                 return f'the site answered with a check for automated visitors ("{phrase}"), not the source'
+    count = len(words.split())
+    if count < MIN_WORDS:
+        return (f"the reply has only {count} words, too few to be the source "
+                "(the site may have sent a check for automated visitors, or an error page)")
     return None
 
 
@@ -418,9 +455,10 @@ def merge_baseline(old: dict, fresh: dict, order: list) -> tuple[list, list]:
 
     A refresh never throws away a hash it cannot replace: if a source was
     blocked or unreachable this time and the old entry holds a hash for
-    the same address under the current rules, the old entry stays. "kept"
-    lists those ids. A hash under other rules is never compared, so it is
-    not kept. Sources that left the registry are dropped.
+    the same address, the old entry stays, whatever rules it was written
+    under. "kept" lists those ids. A hash under other rules is still never
+    compared; it is kept so it can be carried forward or checked against
+    the next whole fetch. Sources that left the registry are dropped.
     """
     entries, kept = [], []
     for source_id in order:
@@ -429,7 +467,7 @@ def merge_baseline(old: dict, fresh: dict, order: list) -> tuple[list, list]:
             if was:
                 entries.append(was)
             continue
-        if new["sha256"] is None and has_baseline(was, new["url"]):
+        if new["sha256"] is None and (has_baseline(was, new["url"]) or older_rules(was, new["url"])):
             entries.append(was)
             kept.append(source_id)
         else:
@@ -437,20 +475,42 @@ def merge_baseline(old: dict, fresh: dict, order: list) -> tuple[list, list]:
     return entries, kept
 
 
+def compared_with_earlier(was: dict | None, result: dict, url: str, old_text: str | None) -> str | None:
+    """For a fresh fetch of url about to replace a stored hash: whether it
+    says what that hash said, under the rules the hash was taken under.
+    old_text is the saved text of the earlier fetch, if it is on hand. None
+    if there is nothing to compare (no earlier hash for this address, or
+    nothing fetched)."""
+    if result.get("state") != FETCHED or not was or not was.get("sha256") or was.get("url") != url:
+        return None
+    when = f"the entry of {was['fetched']} (rules {was.get('rules', 1)})"
+    if was.get("mode") != result.get("mode"):
+        return f"different from {when}: compared as {was.get('mode')} then, {result.get('mode')} now"
+    if result["mode"] == "bytes":
+        same = result["sha256"] == was["sha256"]
+    elif was.get("rules") == RULES:
+        same = result["sha256"] == was["sha256"]
+    elif old_text is not None and text_digest(old_text, was.get("rules", 1)) == was["sha256"]:
+        same = text_digest(old_text) == result["sha256"]
+    else:
+        return f"not known: the text behind {when} is not on hand"
+    return f"the same as {when}" if same else f"different from {when}"
+
+
 def carry_forward(entry: dict | None, text: str | None) -> tuple[dict | None, str | None]:
     """Re-hash a baseline entry under the current rules, from the text it
     was made from, without asking the source again. Returns (entry, None),
     or (None, why not). The words that were baselined stay the baseline;
-    nothing the source says now is taken in. A bytes entry keeps its
-    hash, because the bytes rule did not change, and says that whether
-    that reply was whole is not known."""
+    nothing the source says now is taken in. A bytes entry is never
+    carried forward: there is no saved copy to re-take its hash from, and
+    whether that reply was whole is not known."""
     if not entry or not entry.get("sha256"):
         return None, "it has no stored hash"
     if entry.get("rules") == RULES:
         return None, "it is already under the current rules"
     if entry.get("mode") == "bytes":
-        return {**entry, "rules": RULES, "carried": f"bytes hash kept from {entry['fetched']}; "
-                                                    "not known whether that reply was whole"}, None
+        return None, ("it is compared by its bytes, which are not saved, so its hash cannot be re-taken "
+                      "and whether that reply was whole is not known")
     if text is None or text_digest(text, entry.get("rules", 1)) != entry["sha256"]:
         return None, "the text the baseline hashed is not on hand on this computer"
     why = not_the_source("text", text)
@@ -914,7 +974,8 @@ def main(argv=None, fetcher=fetch, robots=None) -> int:
         save_baseline(args.baseline, [carried.get(source_id, entry) for source_id, entry in baseline.items()])
         print(f"\nWrote {args.baseline} ({len(carried)} entries carried forward to rules {RULES}).")
         if left:
-            print("  Not carried forward; these need --write-baseline after a person reads them: " + ", ".join(left))
+            print("  Not carried forward; these need --write-baseline, which says whether each still says what "
+                  "its earlier hash said (if not, a person reads it first): " + ", ".join(left))
         return 0
 
     if args.write_baseline:
@@ -922,10 +983,17 @@ def main(argv=None, fetcher=fetch, robots=None) -> int:
         for src, result in fetch_all(entries, fetcher=fetcher, robots=robots):
             fresh[src["id"]] = baseline_entry(src, result, today)
             counts[result["state"]] = counts.get(result["state"], 0) + 1
+            was = baseline.get(src["id"])
             if result["state"] == FETCHED:
+                # Read the earlier text before this fetch's text takes its place.
+                old_text = (load_snapshot(args.snapshots, src["id"], was["sha256"], was.get("rules", 1))
+                            if was and was.get("sha256") and was.get("mode") == "text" else None)
+                earlier = compared_with_earlier(was, result, src["url"], old_text)
+                if earlier:
+                    fresh[src["id"]]["earlier"] = earlier
                 save_snapshot(args.snapshots, src["id"], result["text"])
-            print(f"{src['id']}: {result['state']}" + (f" ({result['note']})" if result.get("note") else ""),
-                  flush=True)
+            print(f"{src['id']}: {result['state']}" + (f" ({result['note']})" if result.get("note") else "")
+                  + (f"; {fresh[src['id']]['earlier']}" if fresh[src["id"]].get("earlier") else ""), flush=True)
         merged, kept = merge_baseline(baseline, fresh, [src["id"] for src in registry])
         save_baseline(args.baseline, merged)
         print(f"\nWrote {args.baseline} ({len(merged)} entries; {len(fresh)} fetched in this run).")
@@ -935,6 +1003,17 @@ def main(argv=None, fetcher=fetch, robots=None) -> int:
         print(f"  compared as text: {modes.count('text')}; as bytes: {modes.count('bytes')}")
         if kept:
             print("  Kept the earlier hash for sources that could not be read this time: " + ", ".join(kept))
+        for label, start in (("Says the same as its earlier hash", "the same"),
+                             ("Says something different from its earlier hash; a person reads these before the "
+                              "new hash is relied on", "different"),
+                             ("Could not be compared with its earlier hash (the earlier text is not on hand)",
+                              "not known")):
+            ids = [source_id for source_id, item in fresh.items() if item.get("earlier", "").startswith(start)]
+            if ids:
+                print(f"  {label}: {', '.join(ids)}")
+        first = [source_id for source_id, item in fresh.items() if item.get("sha256") and not item.get("earlier")]
+        if first:
+            print("  A first hash, with no earlier one to compare (a person reads these first): " + ", ".join(first))
         return 0
 
     rows = []

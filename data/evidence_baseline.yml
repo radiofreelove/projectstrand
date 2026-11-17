@@ -53,21 +53,25 @@
 
 - id: or-ojd-adult-packet
   url: https://www.courts.oregon.gov/forms/Documents/Name%20and%20Sex%20Change%20Packet%20(Adult).pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: 23b05b61e734cce722d4b259b6bf3f4ef49e5b7337bce0e826b451fd34e013cb
   length: 199064
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: or-ojd-minor-packet
   url: https://www.courts.oregon.gov/forms/Documents/Name-Sex%20Change-PACKET-Minor.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: 6d865fa1f6fa885f78f6b5346db222777f86c67ed6bf083e467410f37c3724ad
   length: 759390
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: or-ojd-forms
   url: https://www.courts.oregon.gov/programs/family/forms/Pages/name-sex-change.aspx
@@ -82,12 +86,14 @@
 
 - id: or-ojd-fees
   url: https://www.courts.oregon.gov/Documents/2026_CircuitFeeSchedule_public_eff-2026-01-01.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: 9db4d3e2071c295077ceeac035b5b3f84225422c89349f2d37d3e9bb4db34f4a
   length: 375701
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: or-ojd-fee-waiver
   url: https://www.courts.oregon.gov/forms/Pages/fee-waiver.aspx
@@ -146,21 +152,25 @@
 
 - id: or-oha-2673
   url: https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Document%20Forms/OHA2673FormEnglish.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: 8cbaa851dd8657561925c06ea1d38e1eb01a11d9577c6cfec415904d77a7e0f2
   length: 785980
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: or-oha-2673-es
   url: https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Document%20Forms/OHA2673FormSpanish.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: a10db8aff6483f103f5ac649c845a7c1146c6b0b086d2016cf7cc3044961d81c
   length: 650502
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: or-oha-court-order
   url: https://oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/CHANGEVITALRECORDS/Pages/CourtOrderChangeSex.aspx
@@ -197,35 +207,39 @@
 
 - id: wa-rcw-4-24-130
   url: https://lawfilesext.leg.wa.gov/Law/RCWPDF/RCW%20%20%204%20%20TITLE/RCW%20%20%204%20.%2024%20%20CHAPTER/RCW%20%20%204%20.%2024%20.130.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: ded5f2c86ac2a24dca58228be80b4894ffe6fc242cde00b8f2904db61642acb4
   length: 322245
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: wa-sections-2025
   url: https://lawfilesext.leg.wa.gov/Law/CRO/SectionsAffected/2025%20RCW%20SL%20Sections%20Affected%20in%20Bill%20Order.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: 6d48f5c7a9d1c85944b40f8277b73cae838287ddf9f517cba17cb5c39001ee1f
   length: 946440
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: wa-wlh-name
   url: https://www.washingtonlawhelp.org/en/name-change-guide
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: unreachable
   registry_checked: 2026-11-03
-  note: 'IncompleteRead: IncompleteRead(234912 bytes read); asked twice'
+  note: 'IncompleteRead: IncompleteRead(29109 bytes read); asked twice'
 
 - id: wa-wlh-gender-order
   url: https://www.washingtonlawhelp.org/en/get-court-order-confirms-your-gender-change
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: unreachable
   registry_checked: 2026-11-03
-  note: 'IncompleteRead: IncompleteRead(226394 bytes read); asked twice'
+  note: 'IncompleteRead: IncompleteRead(229572 bytes read); asked twice'
 
 - id: wa-doh-sex
   url: https://doh.wa.gov/licenses-permits-and-certificates/vital-records/sex-designation-change-birth-certificate
@@ -240,30 +254,36 @@
 
 - id: wa-doh-422-143
   url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-143-SexDesignationChangeAdult.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: cd2b59b7beadb2cbf7379f82db7948afc8efafa55027811e07bd0cc45494793b
   length: 235355
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: wa-doh-422-144
   url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-144-SexDesignationChangeMinor.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: c697831bb79cf1a273cfd5090d0429fb4c6ebf303c687172e84a531cbb7d8081
   length: 188771
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: wa-doh-422-126
   url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-126-LegalNameChangeRequest.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: ce7375f8722896b411c7a19288a8195bf1482aff7d75534d89984511cd13720d
   length: 140867
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: wa-dol-gender
   url: https://dol.wa.gov/driver-licenses-and-permits/update-driver-license-information/change-your-gender-designation
@@ -290,30 +310,36 @@
 
 - id: wa-kitsap-fee
   url: https://www.kitsap.gov/dc/NameChangeDocuments/Name%20Changes%20A%20Judge%20Pro%20Tempore%20Primer.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: 43973d2e2be18b7b3787f84165ee585b11bd69bf0cbfc3f8b1a6aea24907e6c7
   length: 352545
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: ut-code-42-1
   url: https://le.utah.gov/xcode/Title42/C42_1800010118000101.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: a91c2d9821a57ff27bb60699d956d4fc80794492074c01235c5b192d2b709515
   length: 15202
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: ut-code-26b-8-111
   url: https://le.utah.gov/xcode/Title26B/Chapter8/C26B-8-S111_2025050720250507.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: ffdb9c21a64d99d7f117d01fcb0e8aa609118c25a302a6f928d98663748298c6
   length: 8685
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: ut-hb183-notice
   url: https://pf.utleg.gov/public-web/sessions/2026GS/comreport/HB0183S02.pdf
@@ -441,16 +467,18 @@
 
 - id: ut-vital-902
   url: https://vitalrecords.utah.gov/wp-content/uploads/902-Affidavit-to-Amend-by-Court-Order.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: e84a92b0bd68b5757e83d1acf2cc286c743d4f75d238ad188c10a5606f546072
   length: 89189
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: ut-vital
   url: https://vitalrecords.health.utah.gov/
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: unreachable
   registry_checked: 2026-11-03
   note: 'SSLError: [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:1000)'
@@ -563,12 +591,14 @@
 
 - id: data-usts-2022
   url: https://ustranssurvey.org/wp-content/uploads/2023/11/2022-USTS-Early-Insights-Report_FINAL.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: fetched
   mode: bytes
   sha256: 22c3cfc2e3c9eff7e8c1dcb20acc68c4758a204d9284bfe85d5500e889258503
   length: 4586463
   registry_checked: 2026-11-03
+  rules: 2
+  earlier: the same as the entry of 2026-11-15 (rules 1)
 
 - id: std-wcag22
   url: https://www.w3.org/TR/WCAG22/
@@ -586,7 +616,7 @@
 
 - id: brand-odhs
   url: https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/dhs2022.pdf
-  fetched: 2026-11-15
+  fetched: 2026-11-17
   state: unreachable
   registry_checked: 2026-11-03
   note: 'RemoteDisconnected: Remote end closed connection without response; asked twice'

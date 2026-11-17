@@ -22,6 +22,7 @@ Fails (exit 1) if any test fails. Needs PyYAML, like the tool.
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import http.server
 import io
 import json
@@ -31,12 +32,18 @@ import tempfile
 import threading
 import unittest
 import urllib.error
+import urllib.request
 from pathlib import Path
+
+import yaml
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
 import evidence_audit as audit  # noqa: E402
+
+# The hash of the comparison-rules block, the same in both projects (see OneSetOfRules).
+RULES_BLOCK_SHA256 = "9557dcd7a40651a9a0073d33551140c2ef8ac53c5597d07f1df11a4e180dd135"
 
 FIXTURES = HERE / "fixtures" / "evidence"
 
@@ -117,7 +124,7 @@ class Classification(unittest.TestCase):
     URL = "https://example.test/a"
 
     def entry(self, digest="abc", url=URL):
-        return {"id": "s", "url": url, "sha256": digest, "mode": "text", "fetched": "2026-11-15"}
+        return {"id": "s", "url": url, "sha256": digest, "mode": "text", "fetched": "2026-11-15", "rules": audit.RULES}
 
     def test_every_state(self):
         fetched = {"state": audit.FETCHED, "sha256": "abc", "mode": "text"}
@@ -242,8 +249,9 @@ class Baseline(unittest.TestCase):
             self.assertIn(key, loaded["s1"])
 
     def test_refresh_never_throws_away_a_hash_it_cannot_replace(self):
-        old = {"a": {"id": "a", "url": "u", "sha256": "1"}, "b": {"id": "b", "url": "v", "sha256": "2"},
-               "gone": {"id": "gone", "url": "w", "sha256": "3"}}
+        old = {"a": {"id": "a", "url": "u", "sha256": "1", "rules": audit.RULES},
+               "b": {"id": "b", "url": "v", "sha256": "2", "rules": audit.RULES},
+               "gone": {"id": "gone", "url": "w", "sha256": "3", "rules": audit.RULES}}
         fresh = {"a": {"id": "a", "url": "u", "sha256": None, "state": audit.BLOCKED},
                  "b": {"id": "b", "url": "v", "sha256": "9", "state": "fetched"}}
         entries, kept = audit.merge_baseline(old, fresh, ["a", "b", "c"])
@@ -297,6 +305,235 @@ class Exposure(unittest.TestCase):
         usage = audit.fact_pages(report)
         self.assertIn("utah", usage.get("ut_fee_petition", []))
         self.assertIn("index", usage.get("ut_fee_petition", []))
+
+
+# ---------------------------------------------------------------------------
+# The comparison rules. Each class below copies one way an unchanged source
+# looked changed in November 2026, and fails under the rules before RULES 2.
+
+class LineBreaksAndSpaces(unittest.TestCase):
+    """The same words, with the lines broken in other places, are the same text."""
+
+    # The header of an Oregon.gov page, as two computers turned it into text.
+    SPLIT = ("Skip to main content\nAn official website of the State of Oregon\nLearn\nHow you know »\n"
+             "Please call 800-699-9075, go to\nBenefits.Oregon.gov, or\nvisit your local office.\nContact Us\n\u200b\nMedia")
+    JOINED = ("Skip to main content\nAn official website of the State of Oregon Learn How you know »\n"
+              "Please call 800-699-9075, go to Benefits.Oregon.gov, or visit your local office.\nContact Us\n\u200b Media")
+
+    def test_where_lines_break_does_not_change_the_hash(self):
+        self.assertEqual(audit.text_digest(self.SPLIT), audit.text_digest(self.JOINED))
+
+    def test_the_hash_is_the_canonical_words(self):
+        self.assertEqual(audit.canonical("A\n  b\tc\u00a0d \u200b\ne\u00ad"), "A b c d e")
+
+    def test_a_changed_word_still_changes_the_hash(self):
+        self.assertNotEqual(audit.text_digest(self.JOINED), audit.text_digest(self.JOINED.replace("800-699", "800-698")))
+
+    def test_html_with_other_line_breaks_hashes_the_same(self):
+        one = b"<html><body><p>Please call 800-699-9075, go to\n<a href=x>Benefits.Oregon.gov</a>, or visit.</p></body></html>"
+        two = b"<html><body><p>Please call 800-699-9075, go to <a href=x>Benefits.Oregon.gov</a>,\n  or visit.</p></body></html>"
+        self.assertEqual(audit.normalize(one, "text/html")[2], audit.normalize(two, "text/html")[2])
+
+    def test_a_line_join_is_not_shown_as_a_change(self):
+        self.assertEqual(audit.bounded_diff(self.SPLIT, self.JOINED), "")
+
+    def test_a_changed_word_is_shown_with_its_line(self):
+        diff = audit.bounded_diff(self.SPLIT, self.JOINED.replace("local office", "nearest office"))
+        self.assertIn("-visit your local office.", diff)
+        self.assertIn("+Please call 800-699-9075, go to Benefits.Oregon.gov, or visit your nearest office.", diff)
+        self.assertNotIn("Learn", diff)
+
+    def test_words_added_at_the_end_are_shown(self):
+        diff = audit.bounded_diff("One\nTwo", "One Two\nThree\nFour")
+        self.assertEqual(diff, "@@ after: One Two @@\n+Three\n+Four")
+
+
+class WholeReplies(unittest.TestCase):
+    """A reply that is not all there is never hashed."""
+
+    def test_a_reply_shorter_than_its_content_length_is_cut_short(self):
+        with self.assertRaises(audit.CutShort):
+            audit.check_whole(b"<html><p>Where to send", "text/html", "118961")
+        audit.check_whole(b"<html><p>All</p></html>", "text/html", "23")
+
+    def test_a_pdf_without_a_length_must_end_with_its_marker(self):
+        with self.assertRaises(audit.CutShort):
+            audit.check_whole(b"%PDF-1.7\n1 0 obj", "application/pdf", None)
+        audit.check_whole(b"%PDF-1.7\n1 0 obj\n%%EOF\n", "application/pdf", None)
+
+    def test_a_whole_pdf_with_a_length_needs_no_marker(self):
+        audit.check_whole(b"%PDF-1.7 x", "application/pdf", "10")
+
+    def test_a_page_without_closing_tags_is_whole(self):
+        # Some real pages end without </body> or </html>, and are whole.
+        audit.check_whole(b"<!doctype html><html><body><p>News</p><style>.x{}</style>", "text/html", None)
+
+
+class NotTheSource(unittest.TestCase):
+    """A page that checks for automated visitors, or has no words, is never hashed."""
+
+    def test_a_check_for_automated_visitors_is_checker_blocked(self):
+        body = b"<html><body><h1>One moment, please...</h1><p>Please wait while your request is being verified...</p></body></html>"
+        result = audit.examine(body, "text/html", str(len(body)))
+        self.assertEqual(result["state"], audit.BLOCKED)
+        self.assertNotIn("sha256", result)
+        self.assertIn("check for automated visitors", result["note"])
+
+    def test_a_captcha_page_is_checker_blocked(self):
+        body = (b"<html><body><p>Your request has been flagged as potentially automated. If you are human user "
+                b"receiving this message, please complete the CAPTCHA</p></body></html>")
+        self.assertEqual(audit.examine(body, "text/html", None)["state"], audit.BLOCKED)
+
+    def test_a_page_with_no_words_is_checker_blocked(self):
+        body = (b'<html><head><meta http-equiv="refresh" content="0;/.well-known/sgcaptcha/?r=%2F"></meta>'
+                b"</head></html>")
+        result = audit.examine(body, "text/html", None)
+        self.assertEqual(result["state"], audit.BLOCKED)
+        self.assertIn("no readable words", result["note"])
+
+    def test_a_long_page_that_quotes_a_phrase_is_read(self):
+        body = ("<html><body><p>" + "Words. " * 600 + "verify you are human</p></body></html>").encode()
+        self.assertEqual(audit.examine(body, "text/html", None)["state"], audit.FETCHED)
+
+    def test_a_pdf_is_never_called_a_check_page(self):
+        body = b"%PDF-1.7\n%%EOF"
+        self.assertEqual(audit.examine(body, "application/pdf", None)["mode"], "bytes")
+
+
+class RulesVersions(unittest.TestCase):
+    """A hash written under other rules is never compared, and can be carried forward."""
+    URL = "https://example.test/a"
+    TEXT = "Work rules\nThe rules start\nJan. 1, 2027."
+
+    def old(self, text=TEXT, **extra):
+        """An entry as the tool wrote it before RULES: no "rules", the saved text hashed as it was."""
+        return dict({"id": "T1", "url": self.URL, "fetched": "2026-11-15", "state": audit.FETCHED, "mode": "text",
+                     "sha256": hashlib.sha256(text.encode()).hexdigest(), "length": len(text)}, **extra)
+
+    def test_an_old_rules_entry_is_not_yet_baselined_never_changed(self):
+        now = {"state": audit.FETCHED, "mode": "text", "text": self.TEXT, "sha256": audit.text_digest(self.TEXT)}
+        self.assertEqual(audit.classify(now, self.old(), self.URL), audit.NOT_BASELINED)
+        self.assertTrue(audit.older_rules(self.old(), self.URL))
+
+    def test_a_refresh_does_not_keep_an_old_rules_hash(self):
+        blocked = {"id": "T1", "url": self.URL, "state": audit.BLOCKED, "sha256": None}
+        merged, kept = audit.merge_baseline({"T1": self.old()}, {"T1": blocked}, ["T1"])
+        self.assertIsNone(merged[0]["sha256"])
+        self.assertEqual(kept, [])
+
+    def test_carrying_forward_rehashes_the_saved_text(self):
+        carried, why = audit.carry_forward(self.old(), self.TEXT)
+        self.assertIsNone(why)
+        self.assertEqual((carried["rules"], carried["sha256"]), (audit.RULES, audit.text_digest(self.TEXT)))
+        joined = {"state": audit.FETCHED, "mode": "text", "sha256": audit.text_digest(self.TEXT.replace("\n", " "))}
+        self.assertEqual(audit.classify(joined, carried, self.URL), audit.UNCHANGED)
+
+    def test_carrying_forward_needs_the_text_the_baseline_hashed(self):
+        self.assertIsNone(audit.carry_forward(self.old(), "other words")[0])
+        self.assertIsNone(audit.carry_forward(self.old(), None)[0])
+
+    def test_a_check_page_is_never_carried_forward(self):
+        page = "One moment, please...\nPlease wait while your request is being verified..."
+        carried, why = audit.carry_forward(self.old(page), page)
+        self.assertIsNone(carried)
+        self.assertIn("not the source", why)
+
+    def test_a_bytes_entry_keeps_its_hash_and_says_so(self):
+        carried, _ = audit.carry_forward(self.old(mode="bytes"), None)
+        self.assertEqual(carried["sha256"], self.old()["sha256"])
+        self.assertIn("not known whether that reply was whole", carried["carried"])
+
+
+class OneSetOfRules(unittest.TestCase):
+    """The comparison-rules block is the same in The Stasis Project and The Strand Project."""
+
+    def test_the_block_is_the_shared_one(self):
+        source = Path(audit.__file__).read_text(encoding="utf-8")
+        begin = source.index("# ===========================================================================\n# The comparison rules (begin)")
+        end = source.index("# The comparison rules (end)")
+        block = source[begin:end]
+        self.assertEqual(hashlib.sha256(block.encode("utf-8")).hexdigest(), RULES_BLOCK_SHA256,
+                         "The comparison rules changed. Make the same change in the other project's audit, "
+                         "raise RULES if a hash changes, and update RULES_BLOCK_SHA256 in both projects' tests.")
+
+
+class StopsPartway(unittest.TestCase):
+    """A server that announces a length, sends part of it, and closes. Python's
+    read with a size limit returns the part without an error; the tool must
+    not hash it."""
+
+    @classmethod
+    def setUpClass(cls):
+        class Partway(http.server.BaseHTTPRequestHandler):
+            def log_message(self, *args):
+                pass
+
+            def do_GET(self):
+                body = b"<html><body><p>Where to send your verification</p>" + b"<p>More</p>" * 50
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html")
+                self.send_header("Content-Length", str(len(body) * 3))
+                self.end_headers()
+                self.wfile.write(body)
+                self.close_connection = True
+
+        cls.server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Partway)
+        threading.Thread(target=cls.server.serve_forever, daemon=True).start()
+        cls.addClassCleanup(cls.server.shutdown)
+        cls.url = f"http://127.0.0.1:{cls.server.server_address[1]}/page"
+        direct = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        cls.opener = staticmethod(lambda request: direct.open(request, timeout=10))
+
+    def test_python_returns_the_part_without_an_error(self):
+        with self.opener(urllib.request.Request(self.url)) as response:
+            body = response.read(audit.MAX_BYTES + 1)
+            self.assertLess(len(body), int(response.headers["Content-Length"]))
+
+    def test_the_part_is_never_hashed(self):
+        original, audit.PAUSE = audit.PAUSE, 0
+        try:
+            result = audit.fetch(self.url, opener=self.opener)
+        finally:
+            audit.PAUSE = original
+        self.assertEqual(result["state"], audit.UNREACHABLE)
+        self.assertIn("bytes it announced", result["note"])
+        self.assertIn("asked twice", result["note"])
+        self.assertNotIn("sha256", result)
+
+
+class CarryForwardRun(unittest.TestCase):
+    """--carry-forward re-hashes from saved text and fetches nothing."""
+
+    def test_old_entries_are_carried_forward_from_their_saved_text(self):
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)
+        text, page = "Change a birth record\nThe fee is $35.", "One moment, please...\nPlease wait while your request is being verified..."
+
+        def old(source_id, words):
+            return {"id": source_id, "url": f"https://example.invalid/{source_id}", "fetched": "2026-11-15",
+                    "state": "fetched", "mode": "text", "sha256": hashlib.sha256(words.encode()).hexdigest(),
+                    "length": len(words), "registry_checked": "2026-11-03"}
+
+        audit.save_baseline(tmp / "baseline.yml", [old("s1", text), old("s2", page)])
+        (tmp / "sources.yml").write_text(yaml.safe_dump([
+            {"id": source_id, "url": f"https://example.invalid/{source_id}", "title": source_id}
+            for source_id in ("s1", "s2")]), encoding="utf-8")
+        for source_id, words in (("s1", text), ("s2", page)):
+            audit.save_snapshot(tmp / "snapshots", source_id, words)
+
+        def no_fetch(url):
+            raise AssertionError("nothing is fetched")
+
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            code = audit.main(["--carry-forward", "--baseline", str(tmp / "baseline.yml"), "--registry",
+                               str(tmp / "sources.yml"), "--snapshots", str(tmp / "snapshots"), "--today", "2026-11-16"],
+                              fetcher=no_fetch)
+        self.assertEqual(code, 0)
+        written = audit.load_baseline(tmp / "baseline.yml")
+        self.assertEqual((written["s1"]["rules"], written["s1"]["sha256"]), (audit.RULES, audit.text_digest(text)))
+        self.assertEqual(written["s1"]["fetched"], "2026-11-15")
+        self.assertNotIn("rules", written["s2"])
+        self.assertIn("s2: not carried forward (the baseline text is not the source", out.getvalue())
 
 
 # ---------------------------------------------------------------------------

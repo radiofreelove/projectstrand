@@ -2,6 +2,16 @@
 
 A dated record of research passes, checks, decisions, and releases. Newest first. Every content change adds an entry. No personal case details.
 
+## 2026-11-17: Evidence audit comparison rules shared with The Stasis Project (0.1.11-beta)
+
+- Maintenance only: no template, fact, source, or `checked` date changed. Of the files `build.py` reads, only the version line in `data/site.yml` changed, so the version number in the footer is the only difference in the built pages. The pages were not rebuilt for this entry (Jinja2 is not installed on the computer that made it); the build made earlier on November 17, after the version change, passes `check_site.py`.
+- `tests/evidence_audit.py` now holds the comparison-rules block shared, line for line, with The Stasis Project's `tools/evidence_audit.py` (`RULES` 2). It hashes a page's words alone, refuses replies cut short and replies that are not the source (including any with fewer than 50 words), keeps hashes a refresh cannot replace, never carries a PDF hash forward, and says on each refresh whether the source still says what its old hash said. See `docs/OPERATIONS.md`, "The comparison rules".
+- Why: this project's November 16, 2026 audit was clean (43 unchanged; `or-ojd-forms` changed by one menu line). The Stasis Project's called 45 of 120 sources changed, and 42 were artifacts of a baseline captured by a different copy of the tool on another computer.
+- Baseline, November 17, 2026, with no fetch: the 29 web-page entries were re-hashed under rules 2 from the text saved on November 15. Each saved text matched the November 15 hash before it was used. The 15 PDF entries keep their November 15 hashes under rules 1 and are "not yet baselined" until `--write-baseline --only` runs for them. 11 checker-blocked and 4 unreachable, unchanged.
+- Checks after the change, run on November 17, 2026: `check_site.py` (16 of 16), `contrast.py` (0 problems), `readability.py` (highest grade 5.0), `path_rules.py` (180 combinations), `check_versions.py`, `freshness.py`, `tools/release_notes.py --check`, `test_evidence_audit.py` (74 tests), and `test_mechanical_update.py` (10 tests) all pass. Not run: `build.py` and the `CLEAN_URLS` build (Jinja2 is not installed on this computer, and installing it needs the network), `browser_checks.py` and `axe_check.mjs` (Playwright is not installed, for the same reason; no page markup changed), and the link check and the evidence audit itself (both fetch the live sites; those runs are made separately).
+- No source was opened by hand for this entry.
+- The old-name sweep of the changes: cleared.
+
 ## 2026-11-15: Evidence audit, weekly source check, and dated-language list (0.1.10-beta)
 
 - Built to match the evidence audit in The Stasis Project. Maintenance only: no template, fact, source, or `checked` date changed. Built pages were compared with `d9b7dcf` (0.1.9-beta). The only difference is the version number in the footer.

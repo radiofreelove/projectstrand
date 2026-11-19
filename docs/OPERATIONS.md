@@ -47,6 +47,12 @@ For every source in `data/sources.yml`, the tool reads the site's robots.txt and
 
 These are the comparison rules. They are the same, line for line, in The Stasis Project's audit, and a test in each project checks that. `RULES` in the tool numbers them (2 since November 16, 2026). See "The comparison rules" below before changing them.
 
+### The guard on baseline writes
+
+Every baseline write, from `--write-baseline` or `--carry-forward`, goes through the guard in [tests/guards.py](../tests/guards.py): the same block of code, line for line, in The Stasis Project's `tools/guards.py`, with a test in each project checking that. The guard prints a completeness diff (what the write would gain, lose, or change) and refuses the write, exit 3 with nothing written, if it would drop a hash, weaken an entry, shrink the count hashed under the current rules, or move the baseline's `written` date backward. (Strand's baseline carries its written date in a `# written:` line in the file header, stamped by the guarded write.) A write whose fetch found a different hash for a source is refused unless a person names that source: `--accept-change ID --reason TEXT`. The flag is refused when `GITHUB_ACTIONS` is set, so a scheduled run can never accept a change. The file is written atomically: a temporary file, read back and checked against what was meant to be written, then renamed over the old one, so a write stopped partway leaves the old file whole.
+
+Two offline checks use the same guard. `python3 tests/guards.py --reconcile` prints the registry against the baseline as one equation (sources = hashed under the current rules + hashed under older rules + checker-blocked with no hash + unreachable with no hash) and exits 3 if it does not add up. A merge-gate job in the checks workflow compares a pull request's offline health vector (registry size, sources hashed under the current rules, facts resting on a hashed source) with the main branch's, and fails on any decrease the pull request's body does not accept in so many words: `Accepted decrease: <measure>, <from> to <to>, because <reason>`.
+
 ### The four states
 
 Every source ends in exactly one.

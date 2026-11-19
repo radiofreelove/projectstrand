@@ -85,6 +85,7 @@ import difflib
 import hashlib
 import http.client
 import json
+import os
 import re
 import socket
 import sys
@@ -98,6 +99,8 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 import yaml
+
+import guards  # Stage A: every baseline write goes through the guard
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -698,13 +701,17 @@ def as_iso(value) -> str | None:
 
 
 def load_baseline(path: Path) -> dict:
-    """The baseline as {source id: entry}. A missing or empty file is an empty baseline."""
+    """The baseline as {source id: entry}. A missing or empty file is an empty baseline.
+    Retired entries (marked with a retired date) stay in the file but are
+    not part of the active baseline."""
     if not path.exists():
         return {}
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or []
     out = {}
     for entry in data:
         entry = dict(entry)
+        if entry.get("retired"):
+            continue
         for key in ("fetched", "registry_checked"):
             if key in entry:
                 entry[key] = as_iso(entry[key])
@@ -730,20 +737,55 @@ def baseline_entry(src: dict, result: dict, today: str) -> dict:
     return entry
 
 
-def dump_baseline(entries: list) -> str:
-    """The baseline file's text: the header, then one block per source."""
+def dump_baseline(entries: list, today: str | None = None) -> str:
+    """The baseline file's text: the header, then one block per source.
+    With a date, the header carries the file's written date (B5)."""
     blocks = []
     for entry in entries:
         clean = {k: v for k, v in entry.items() if v is not None}
-        for key in ("fetched", "registry_checked"):
-            if key in clean:
+        for key in ("fetched", "registry_checked", "retired"):
+            if key in clean and isinstance(clean[key], str):
                 clean[key] = dt.date.fromisoformat(clean[key])
         blocks.append(yaml.safe_dump([clean], sort_keys=False, allow_unicode=True, width=1000))
-    return BASELINE_HEADER + "\n" + "\n".join(blocks)
+    header = BASELINE_HEADER
+    if today:
+        header += f"# written: {today}\n"
+    return header + "\n" + "\n".join(blocks)
 
 
-def save_baseline(path: Path, entries: list):
-    path.write_text(dump_baseline(entries), encoding="utf-8")
+def save_baseline(path: Path, entries: list, today: str | None = None):
+    path.write_text(dump_baseline(entries, today), encoding="utf-8")
+
+
+def save_baseline_guarded(path: Path, entries: list, today: str, baseline: dict,
+                          registry: list, accepted: dict) -> bool:
+    """Write a baseline through the Stage A guard (tests/guards.py).
+
+    Prints the completeness diff either way. If any invariant fails,
+    writes nothing and returns False; the caller exits 3. Entries for
+    sources that left the registry stay in the file, marked retired
+    with their hashes, instead of being dropped (B1)."""
+    registry_urls = {src["id"]: src["url"] for src in registry}
+    new = {entry["id"]: entry for entry in entries}
+    _, old_written, prior_retired = guards.load_baseline_file(path)
+    retired = {entry["id"]: entry for entry in prior_retired}
+    for source_id, entry in baseline.items():
+        if source_id not in registry_urls and source_id not in new:
+            retired[source_id] = {**entry, "retired": today}
+    for line in guards.completeness_diff(baseline, new, retired, RULES, "Strand", today):
+        print(line)
+    reasons = guards.check_invariants(baseline, new, registry_urls, retired, old_written,
+                                      today, RULES, accepted, "GITHUB_ACTIONS" in os.environ)
+    if reasons:
+        for reason in reasons:
+            print(f"Refused: {reason}", file=sys.stderr)
+        return False
+    full = entries + [retired[source_id] for source_id in sorted(retired)]
+    text = dump_baseline(full, today)
+    backup = os.environ.get("GUARDS_BACKUP_DIR")
+    guards.atomic_write(path, text, guards.parse_baseline_text, guards._norm(full),
+                        Path(backup) if backup else None, today)
+    return True
 
 
 def snapshot_path(folder: Path, source_id: str) -> Path:
@@ -940,8 +982,17 @@ def main(argv=None, fetcher=fetch, robots=None) -> int:
     parser.add_argument("--snapshots", type=Path, default=SNAPSHOTS,
                         help="folder for the text of each web page, used to show what changed; not committed")
     parser.add_argument("--today", help="YYYY-MM-DD, for testing")
+    parser.add_argument("--accept-change", action="append", default=[], metavar="ID",
+                        help="accept that this source's hash changed (repeatable); needs --reason; "
+                             "refused when GITHUB_ACTIONS is set")
+    parser.add_argument("--reason", help="why the --accept-change hashes changed; recorded nowhere "
+                                         "but required, so the acceptance is a deliberate act")
     args = parser.parse_args(argv)
     today = args.today or dt.date.today().isoformat()
+    if bool(args.accept_change) != bool(args.reason):
+        print("--accept-change and --reason go together.", file=sys.stderr)
+        return 2
+    accepted = {source_id: args.reason for source_id in args.accept_change}
 
     registry = load_sources(args.registry)
     entries = registry
@@ -971,7 +1022,9 @@ def main(argv=None, fetcher=fetch, robots=None) -> int:
             elif was and was.get("sha256") and why != "it is already under the current rules":
                 left.append(src["id"])
                 print(f"{src['id']}: not carried forward ({why})", flush=True)
-        save_baseline(args.baseline, [carried.get(source_id, entry) for source_id, entry in baseline.items()])
+        merged = [carried.get(source_id, entry) for source_id, entry in baseline.items()]
+        if not save_baseline_guarded(args.baseline, merged, today, baseline, registry, accepted):
+            return 3
         print(f"\nWrote {args.baseline} ({len(carried)} entries carried forward to rules {RULES}).")
         if left:
             print("  Not carried forward; these need --write-baseline, which says whether each still says what "
@@ -995,7 +1048,8 @@ def main(argv=None, fetcher=fetch, robots=None) -> int:
             print(f"{src['id']}: {result['state']}" + (f" ({result['note']})" if result.get("note") else "")
                   + (f"; {fresh[src['id']]['earlier']}" if fresh[src["id"]].get("earlier") else ""), flush=True)
         merged, kept = merge_baseline(baseline, fresh, [src["id"] for src in registry])
-        save_baseline(args.baseline, merged)
+        if not save_baseline_guarded(args.baseline, merged, today, baseline, registry, accepted):
+            return 3
         print(f"\nWrote {args.baseline} ({len(merged)} entries; {len(fresh)} fetched in this run).")
         for state in (FETCHED, BLOCKED, UNREACHABLE):
             print(f"  {state}: {counts.get(state, 0)}")
@@ -1025,6 +1079,13 @@ def main(argv=None, fetcher=fetch, robots=None) -> int:
             # The text matches the baseline's hash, so it is the baseline text. Keep it for a later diff.
             save_snapshot(args.snapshots, src["id"], result["text"])
         rows.append((src, result, state))
+
+    scope = {src["id"]: src["url"] for src in entries}
+    unreconciled = guards.ledger2(scope, {src["id"]: state for src, _, state in rows}, baseline, RULES)
+    if unreconciled:
+        for reason in unreconciled:
+            print(f"Unreconciled: {reason}", file=sys.stderr)
+        return 3
 
     facts = yaml.safe_load(args.facts.read_text(encoding="utf-8")) or {}
     report = render_report(rows, baseline, {src["id"] for src in registry}, facts,

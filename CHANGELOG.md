@@ -2,6 +2,12 @@
 
 All notable changes to The Strand Project. Dates are when the change was published or, before launch, built.
 
+## 0.1.12-beta (2026-11-18)
+
+Maintenance only. No page wording, fact, or source changed. The only change readers can see is the version number in the footer.
+
+- **The weekly run moves to 17:43 UTC on Mondays.** It ran at 15:17 UTC, the same minute as The Stasis Project's weekly run, and the two projects ask many of the same hosts. The offset means the two never hit a shared host in the same minute. The Stasis Project's run does not move.
+
 ## 0.1.11-beta (2026-11-17)
 
 Maintenance only. No page wording, fact, or source changed, and no "checked" date moved. The only change readers can see is the version number in the footer.

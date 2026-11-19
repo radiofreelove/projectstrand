@@ -4,13 +4,18 @@ All notable changes to The Strand Project. Dates are when the change was publish
 
 ## 0.1.13-beta (2026-11-18)
 
-Maintenance only. No page wording, fact, or source changed, and no "checked" date moved. The only change readers can see is the version number in the footer. (0.1.12-beta is the weekly run's move to 17:43 UTC, in pull request #19; the two changes are independent and land in either order.)
+Maintenance only. No page wording, fact, or source changed, and no "checked" date moved. The only change readers can see is the version number in the footer. (0.1.12-beta, the weekly run's move to 17:43 UTC, landed immediately before this.)
 
 - **Baseline writes are guarded now.** A new module, `tests/guards.py` (the same block of code, line for line, in The Stasis Project's `tools/guards.py`), stands between the evidence audit and the baseline file. Every write prints a completeness diff and is refused, with nothing written, if it would drop a hash, weaken an entry, shrink the count hashed under the current rules, or move the baseline's written date backward. The baseline file gains a `# written:` line in its header, stamped by the guarded write, so that date exists to be checked. This makes the November 17, 2026 merge loss in The Stasis Project (hashes a refresh could not replace, wiped) impossible by construction in either project, not only fixed.
 - **A changed hash needs a person to name it.** A refresh that finds a source saying something different is refused unless the person refreshing adds `--accept-change ID --reason TEXT` for that source. The flag is refused when `GITHUB_ACTIONS` is set, so a scheduled run can never accept a change.
 - **Writes are atomic and read back.** The baseline is written to a temporary file, read back and checked against what was meant to be written, then renamed over the old file. A write stopped partway leaves the old file whole.
 - **The counts must add up.** A report run that cannot account for every source in the registry (each one exactly once) exits 3 and writes nothing. `python3 tests/guards.py --reconcile` checks the registry against the baseline offline and prints the equation: 59 = 44 + 0 + 11 + 4 today.
 - **A merge gate.** A new job in the checks workflow compares a pull request's offline health vector (registry size, sources hashed under the current rules, facts resting on a hashed source) with the main branch's, and fails on any decrease the pull request's body does not accept in so many words.
+## 0.1.12-beta (2026-11-18)
+
+Maintenance only. No page wording, fact, or source changed. The only change readers can see is the version number in the footer.
+
+- **The weekly run moves to 17:43 UTC on Mondays.** It ran at 15:17 UTC, the same minute as The Stasis Project's weekly run, and the two projects ask many of the same hosts. The offset means the two never hit a shared host in the same minute. The Stasis Project's run does not move.
 
 ## 0.1.11-beta (2026-11-17)
 

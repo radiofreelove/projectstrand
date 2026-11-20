@@ -84,6 +84,7 @@
   title: "Words to know"
   description: "Plain definitions of the legal words you will see on court forms."
   checked: 2026-11-03
+  show_short_toggle: false
 
 - slug: sources
   template: sources.html.j2
@@ -102,15 +103,18 @@
   title: "Accessibility"
   description: "How this site is built for people who are disabled, neurodivergent, or tired, and how to tell us when something does not work."
   checked: 2026-11-03
+  show_short_toggle: false
 
 - slug: privacy
   template: privacy.html.j2
   title: "Privacy and safety"
   description: "No cookies. No tracking. How the Leave quickly button works, and tips for browsing safely."
   checked: 2026-11-03
+  show_short_toggle: false
 
 - slug: "404"
   template: 404.html.j2
   title: "Page not found"
   description: "This page does not exist."
   checked: 2026-11-03
+  show_short_toggle: false

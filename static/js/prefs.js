@@ -12,7 +12,7 @@
   }
   if (!prefs || typeof prefs !== "object") return;
   var allowed = {
-    theme: ["auto", "light", "dark", "contrast"],
+    theme: ["auto", "warm", "light", "dark", "contrast"],
     size: ["m", "l", "xl"],
     spacing: ["normal", "wide"],
     font: ["system", "hyper"],

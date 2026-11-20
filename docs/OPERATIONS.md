@@ -15,7 +15,7 @@ The weekly source check (below) lists anything older than 120 days in its freshn
 
 ## Weekly source check
 
-`.github/workflows/weekly.yml` runs every Monday at 15:17 UTC, and by hand: in GitHub, open Actions, select "Weekly source check," and choose "Run workflow." It builds the site, then runs three checks, one after another:
+`.github/workflows/weekly.yml` runs every Monday at 17:43 UTC, and by hand: in GitHub, open Actions, select "Weekly source check," and choose "Run workflow." It builds the site, then runs three checks, one after another:
 
 | Check | Asks | Needs a person when |
 |---|---|---|
@@ -23,7 +23,7 @@ The weekly source check (below) lists anything older than 120 days in its freshn
 | `tests/freshness.py` | Is any source or page `checked` date older than 120 days? | anything is due. |
 | `tests/evidence_audit.py` | Does each source still say the same thing? | any source is "changed." |
 
-If any of them needs a person, the workflow opens one GitHub issue with all three reports. It never writes to the repository. Its permissions are contents read and issues write, nothing more.
+If any of them needs a person, the workflow opens one GitHub issue labeled `automated-source-check` with all three reports. It never writes to the repository. Its permissions are contents read and issues write, nothing more.
 
 Since 0.1.10-beta, the Monday schedule lives only here. The "Checks" workflow runs on pushes, pull requests, and by hand. It no longer runs on a schedule or runs the link check, so each source is asked once a week, not twice.
 

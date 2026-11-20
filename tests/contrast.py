@@ -65,7 +65,8 @@ def main() -> int:
             raise SystemExit(f"could not find block {selector_regex}")
         return m.group(1)
 
-    light = tokens(block_after(r':root,\s*html\[data-theme="light"\]'))
+    warm = tokens(block_after(r':root,\s*html\[data-theme="warm"\]'))
+    light = tokens(block_after(r'html\[data-theme="light"\]'))
     dark = tokens(block_after(r'html\[data-theme="dark"\]'))
     contrast = tokens(block_after(r'html\[data-theme="contrast"\]'))
     auto_dark = tokens(re.search(r"prefers-color-scheme: dark\)\s*\{\s*html\[data-theme=\"auto\"\]\s*\{(.*?)\}", css, re.S).group(1))
@@ -77,7 +78,12 @@ def main() -> int:
             print(f"MISMATCH auto-dark --{key}: {auto_dark.get(key)} vs dark {value}")
             problems += 1
 
-    themes = {"light": light, "dark": dark, "high contrast": {**light, **contrast}}
+    themes = {
+        "warm light": warm,
+        "plain white": {**warm, **light},
+        "dark": dark,
+        "high contrast": {**warm, **contrast},
+    }
     for name, t in themes.items():
         print(f"\n== {name} ==")
         for pairs, target, kind in ((TEXT_PAIRS, 7.0, "text"), (LARGE_PAIRS, 4.5, "large text"), (UI_PAIRS, 3.0, "UI"),

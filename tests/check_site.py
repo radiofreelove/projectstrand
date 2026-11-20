@@ -208,6 +208,30 @@ def check_headers() -> list[str]:
     return errors
 
 
+def check_checked_dates() -> list[str]:
+    """Fail if any page's checked date is earlier than the newest source it cites."""
+    import datetime as dt
+    import json
+
+    report_path = PUBLIC / "build-report.json"
+    sources_path = PUBLIC / "sources.json"
+    if not (report_path.exists() and sources_path.exists()):
+        return []
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    sources = {s["id"]: dt.date.fromisoformat(str(s["checked"])) for s in json.loads(sources_path.read_text(encoding="utf-8"))}
+    errors = []
+    for p in report.get("pages", []):
+        page_date = dt.date.fromisoformat(str(p["checked"]))
+        cited = [sources[sid] for sid in p.get("sources", []) if sid in sources]
+        if p["slug"] == "sources":
+            cited = list(sources.values())
+        if cited and page_date < max(cited):
+            errors.append(
+                f"page '{p['slug']}' checked date ({page_date.isoformat()}) lags behind cited source ({max(cited).isoformat()})"
+            )
+    return errors
+
+
 def main() -> int:
     pages = sorted(PUBLIC.glob("*.html"))
     if not pages:
@@ -227,6 +251,12 @@ def main() -> int:
         failed += 1
         print("FAIL _headers")
         for e in header_errors:
+            print("   -", e)
+    date_errors = check_checked_dates()
+    if date_errors:
+        failed += 1
+        print("FAIL checked dates")
+        for e in date_errors:
             print("   -", e)
     for page in pages:
         errs = check_page(page, all_ids)

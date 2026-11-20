@@ -217,10 +217,48 @@ def main() -> int:
 
         # ---- Reading settings ----
         print("- reading settings")
+        # Verify zero clipping on both top-right X close button and bottom Done
+        # button at mobile (375x667) and desktop (1280x800), plus Escape and X close.
+        for vp_label, vp_w, vp_h in (("375x667", 375, 667), ("1280x800", 1280, 800)):
+            page.set_viewport_size({"width": vp_w, "height": vp_h})
+            page.goto(base + "index.html")
+            page.click("#settings-open")
+            if not page.evaluate("() => document.getElementById('settings').open"):
+                fail(f"settings ({vp_label}): dialog did not open")
+            bounds = page.evaluate("""() => {
+                const dlg = document.getElementById('settings').getBoundingClientRect();
+                const closeX = document.getElementById('settings-close-x').getBoundingClientRect();
+                const done = document.getElementById('settings-close').getBoundingClientRect();
+                const vw = window.innerWidth, vh = window.innerHeight;
+                const inside = (r, box) => r.left >= box.left - 1 && r.right <= box.right + 1 && r.top >= box.top - 1 && r.bottom <= box.bottom + 1;
+                const inVp = r => r.left >= -1 && r.right <= vw + 1 && r.top >= -1 && r.bottom <= vh + 1;
+                return {
+                    closeX: {w: Math.round(closeX.width), h: Math.round(closeX.height), inModal: inside(closeX, dlg), inVp: inVp(closeX)},
+                    done: {w: Math.round(done.width), h: Math.round(done.height), inModal: inside(done, dlg), inVp: inVp(done)},
+                };
+            }""")
+            if bounds["closeX"]["w"] < 44 or bounds["closeX"]["h"] < 44 or not bounds["closeX"]["inModal"] or not bounds["closeX"]["inVp"]:
+                fail(f"settings ({vp_label}): close X button clipped or under 44x44: {bounds['closeX']}")
+            if bounds["done"]["h"] < 44 or not bounds["done"]["inModal"] or not bounds["done"]["inVp"]:
+                fail(f"settings ({vp_label}): Done button clipped or under 44px: {bounds['done']}")
+            page.keyboard.press("Escape")
+            if page.evaluate("() => document.getElementById('settings').open"):
+                fail(f"settings ({vp_label}): Escape did not close the dialog")
+            if page.evaluate("() => document.activeElement && document.activeElement.id") != "settings-open":
+                fail(f"settings ({vp_label}): Escape did not return focus to #settings-open")
+            page.click("#settings-open")
+            page.click("#settings-close-x")
+            if page.evaluate("() => document.getElementById('settings').open"):
+                fail(f"settings ({vp_label}): X button did not close the dialog")
+            if page.evaluate("() => document.activeElement && document.activeElement.id") != "settings-open":
+                fail(f"settings ({vp_label}): X button did not return focus to #settings-open")
+
+        page.set_viewport_size({"width": 1280, "height": 900})
         page.goto(base + "index.html")
         page.click("#settings-open")
-        if not page.evaluate("() => document.getElementById('settings').open"):
-            fail("settings: dialog did not open")
+        page.check('#settings input[name="theme"][value="warm"]')
+        if page.evaluate("() => document.documentElement.dataset.theme") != "warm":
+            fail("settings: warm light theme not applied")
         page.check('#settings input[name="theme"][value="dark"]')
         if page.evaluate("() => document.documentElement.dataset.theme") != "dark":
             fail("settings: dark theme not applied")
@@ -237,7 +275,25 @@ def main() -> int:
             fail("settings: theme did not carry over to the next page")
         if page.evaluate("() => localStorage.getItem('strand:remember')"):
             fail("settings: 'Remember' turned itself on")
-        # "Forget everything" erases saved settings and resets the page.
+        # Non-destructive "Reset reading settings" resets display preferences
+        # while preserving checklist memory (strand:remember & strand:checks).
+        page.click("#settings-open")
+        page.check('#settings input[name="remember"]')
+        page.click("#settings-close")
+        page.check('input[data-check="oregon:or-step-forms"]')
+        page.click("#settings-open")
+        page.click("#reset-settings")
+        page.click("#settings-close")
+        if page.evaluate("() => document.documentElement.dataset.theme") != "auto":
+            fail("settings: 'Reset reading settings' did not reset theme to auto")
+        if page.evaluate("() => localStorage.getItem('strand:prefs')"):
+            fail("settings: 'Reset reading settings' did not clear strand:prefs")
+        if page.evaluate("() => localStorage.getItem('strand:remember')") != "on":
+            fail("settings: 'Reset reading settings' wiped strand:remember")
+        saved_checks = page.evaluate("() => localStorage.getItem('strand:checks') || ''")
+        if "oregon:or-step-forms" not in saved_checks or not page.is_checked('input[data-check="oregon:or-step-forms"]'):
+            fail(f"settings: 'Reset reading settings' wiped saved checklist progress: {saved_checks!r}")
+        # "Forget everything" erases both reading settings and saved checklist.
         page.click("#settings-open")
         page.click("#forget-all")
         page.click("#settings-close")
@@ -287,11 +343,16 @@ def main() -> int:
         page.set_viewport_size({"width": 1280, "height": 900})
         page.goto(base + "index.html")
         page.evaluate("() => localStorage.clear()")
-        # The strip is on every page, first thing in the main content, above the
-        # page heading, with a button at least 44px tall, and starts in the off state.
+        # Utility pages that set show_short_toggle: false omit the strip;
+        # every other page shows it first in main content above the h1.
+        no_strip_pages = {"glossary.html", "accessibility.html", "privacy.html", "404.html"}
         unchanged: list[str] = []
         for name in pages:
             page.goto(base + name)
+            if name in no_strip_pages:
+                if page.locator(".brief-strip").count() != 0:
+                    fail(f"{name}: sets show_short_toggle: false but still renders .brief-strip")
+                continue
             info = page.evaluate("""() => {
                 const strip = document.querySelector('main .brief-strip');
                 const b = document.getElementById('brief-toggle');

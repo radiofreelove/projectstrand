@@ -222,6 +222,7 @@ def main() -> int:
     OUT.mkdir(parents=True)
 
     page_reports = []
+    effective_checked_by_slug: dict[str, dt.date] = {}
     for p in pages:
         for key in ("slug", "title", "description", "checked", "template"):
             if key not in p:
@@ -232,14 +233,24 @@ def main() -> int:
         try:
             tpl = env.get_template(f"pages/{p['template']}")
             html = tpl.render(page=p)
+            page_date = as_date(p["checked"])
+            cited_dates = [as_date(sources[sid]["checked"]) for sid in state["used"]]
+            if p["slug"] == "sources":
+                cited_dates.extend(as_date(s["checked"]) for s in sources_list if not s.get("docs_only"))
+            effective_date = max([page_date, *cited_dates])
+            if effective_date != page_date:
+                state["used"] = []
+                state["facts"] = []
+                html = tpl.render(page={**p, "checked": effective_date})
         except BuildError as exc:
             errors.append(str(exc))
             continue
+        effective_checked_by_slug[p["slug"]] = effective_date
         (OUT / f"{p['slug']}.html").write_text(html, encoding="utf-8")
         # "facts" lists every fact the page rendered, so tests/evidence_audit.py
         # can name the pages that show a fact whose source changed.
         page_reports.append({"slug": p["slug"], "sources": list(state["used"]),
-                             "facts": list(state["facts"]), "checked": str(p["checked"])})
+                             "facts": list(state["facts"]), "checked": effective_date.isoformat()})
 
     if errors:
         print("BUILD FAILED", file=sys.stderr)
@@ -282,7 +293,7 @@ def main() -> int:
             return f"{base}{slug}.html"
 
         urls = "\n".join(
-            f"  <url><loc>{loc(p['slug'])}</loc><lastmod>{p['checked']}</lastmod></url>"
+            f"  <url><loc>{loc(p['slug'])}</loc><lastmod>{effective_checked_by_slug[p['slug']].isoformat()}</lastmod></url>"
             for p in pages
             if p["slug"] != "404"
         )

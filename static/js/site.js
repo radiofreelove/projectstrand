@@ -43,6 +43,7 @@
   var dialog = document.getElementById("settings");
   var opener = document.getElementById("settings-open");
   var closer = document.getElementById("settings-close");
+  var closerX = document.getElementById("settings-close-x");
 
   function syncForm() {
     if (!dialog) return;
@@ -60,7 +61,7 @@
   }
 
   /* ---------- "How much to show" strip ---------- */
-  /* One button at the top of every page for the same "Short version" setting
+  /* One button at the top of content pages for the same "Short version" setting
      as the checkbox in Reading settings. CSS swaps the wording from
      data-brief; this keeps aria-pressed and the checkbox in step. */
   var briefToggle = document.getElementById("brief-toggle");
@@ -92,10 +93,21 @@
 
   if (dialog && opener && typeof dialog.showModal === "function") {
     opener.addEventListener("click", function () {
+      var resetStatus = document.getElementById("reset-status");
+      var forgetStatus = document.getElementById("forget-status");
+      if (resetStatus) resetStatus.textContent = "";
+      if (forgetStatus) forgetStatus.textContent = "";
       syncForm();
       dialog.showModal();
     });
-    closer.addEventListener("click", function () { dialog.close(); });
+    if (closer) closer.addEventListener("click", function () { dialog.close(); });
+    if (closerX) closerX.addEventListener("click", function () { dialog.close(); });
+    dialog.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        dialog.close();
+      }
+    });
     dialog.addEventListener("close", function () { opener.focus(); });
     dialog.addEventListener("click", function (event) {
       if (event.target === dialog) dialog.close();
@@ -128,6 +140,17 @@
           : "Full version. All sections on this page are showing.");
       }
     });
+    var resetBtn = document.getElementById("reset-settings");
+    if (resetBtn) {
+      resetBtn.addEventListener("click", function () {
+        store("remove", KEYS.prefs);
+        apply(DEFAULTS);
+        syncBrief();
+        var status = document.getElementById("reset-status");
+        if (status) status.textContent = "Reading settings are back to standard. Your checklist was not changed.";
+        announce("Reading settings are back to standard. Your checklist was not changed.");
+      });
+    }
     var forget = document.getElementById("forget-all");
     if (forget) {
       forget.addEventListener("click", function () {
@@ -139,6 +162,8 @@
           markStep(box);
         });
         syncBrief();
+        var resetStatus = document.getElementById("reset-status");
+        if (resetStatus) resetStatus.textContent = "";
         var status = document.getElementById("forget-status");
         if (status) status.textContent = "Done. Nothing from this site is saved on this device.";
       });

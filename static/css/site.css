@@ -216,7 +216,8 @@ main:focus { outline: none; }
   padding: 0.4rem 0;
   background: var(--header-bg);
 }
-.exit-wrap { display: flex; justify-content: flex-end; }
+.exit-wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.35rem 0.9rem; }
+.exit-note { color: var(--header-accent); font-size: 0.88rem; line-height: 1.3; }
 .exit-link, .exit-link:visited {
   display: inline-block; min-height: 44px; padding: 0.55rem 1rem;
   background: var(--exit-bg); color: var(--exit-text);
@@ -242,10 +243,11 @@ main:focus { outline: none; }
   border: 2px solid var(--header-text); border-radius: 6px; cursor: pointer;
 }
 .site-nav { border-top: 1px solid rgba(255, 255, 255, 0.35); }
-.site-nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0 0.25rem; padding-top: 0.25rem; padding-bottom: 0.25rem; margin-bottom: 0; }
+.site-nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 0.45rem; padding-top: 0.35rem; padding-bottom: 0.35rem; margin-bottom: 0; }
 .site-nav li { margin: 0; }
 .site-nav a, .site-nav a:visited {
-  display: inline-block; min-height: 44px; padding: 0.55rem 0.6rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; min-width: 44px; padding: 0.55rem 0.75rem;
   color: var(--header-text); text-decoration: none; font-weight: 600;
   border-bottom: 4px solid transparent;
 }
@@ -457,14 +459,143 @@ details.sources-toggle > p, details.sources-toggle > ol { margin-left: 1rem; mar
 .footer-links a { display: inline-block; min-height: 44px; padding: 0.5rem 0; }
 .build-line { font-size: 0.85rem; }
 
+/* ---------- Shared inline SVG icons & visual-chunking blocks ---------- */
+.icon { width: 1.35rem; height: 1.35rem; flex: none; display: inline-block; vertical-align: middle; }
+.callout-kicker {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-size: 0.88rem; font-weight: 700; margin: 0 0 0.3rem; color: var(--text);
+}
+.callout-icon { display: inline-flex; align-items: center; color: var(--heading); flex: none; }
+.callout-watch .callout-icon { color: var(--watch-edge); }
+.callout-cost .callout-icon, .callout-time .callout-icon { color: var(--cost-edge); }
+.callout-good .callout-icon { color: var(--good-edge); }
+.callout-changed .callout-icon { color: var(--changed-edge); }
+.callout-small .callout-title,
+.quick-facts .callout-title { display: flex; align-items: center; gap: 0.5rem; }
+.quick-facts-row dt { display: flex; align-items: flex-start; gap: 0.45rem; }
+.qf-icon { display: inline-flex; color: var(--heading); margin-top: 0.1rem; flex: none; }
+
+/* Home 2x2 state cards with minimalist silhouettes and full-card click targets */
+.card-interactive { position: relative; border: 2px solid var(--border); }
+.card-head { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.45rem; }
+.card-head h3 { margin: 0; }
+.card-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.6rem; height: 2.6rem; border-radius: 8px;
+  background: var(--why-bg); color: var(--heading); border: 1px solid var(--rule); flex: none;
+}
+.state-mark { width: 1.7rem; height: 1.7rem; }
+.card-link { display: inline-block; min-height: 44px; padding: 0.45rem 0; }
+.card-link::after { content: ""; position: absolute; inset: 0; border-radius: 10px; }
+.card-interactive:has(.card-link:focus-visible) { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+
+/* Proportional stat bars in Why it matters */
+.stat-bars { list-style: none; padding: 0; margin: 0.5rem 0 1rem; display: grid; gap: 0.85rem; }
+.stat-bar-item {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 0.75rem 0.9rem; margin: 0; display: flex; flex-direction: column; gap: 0.35rem;
+}
+.stat-bar-num { font-size: 1.85rem; font-weight: 800; color: var(--heading); line-height: 1.1; }
+.prop-bar { width: 100%; height: 0.65rem; display: block; }
+.bar-track { fill: var(--bg); stroke: var(--border); stroke-width: 1; }
+.bar-fill { fill: var(--heading); }
+.stat-bar-copy { color: var(--text); }
+
+/* Status glyph list in What changed in 2026 */
+.glyph-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.65rem; }
+.glyph-list li { display: flex; align-items: flex-start; gap: 0.6rem; margin: 0; }
+.glyph-icon { display: inline-flex; color: var(--heading); margin-top: 0.1rem; flex: none; }
+
+/* 3-stage branching map for How it works, in 3 parts */
+.stage-map { margin: 1rem 0 1.75rem; }
+.stage-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.65rem; }
+.stage-item { display: flex; flex-direction: column; gap: 0.45rem; margin: 0; }
+.stage-card {
+  flex: 1; background: var(--surface); border: 2px solid var(--border);
+  border-top: 5px solid var(--do-edge); border-radius: 8px;
+  padding: 0.85rem 1rem; display: flex; flex-direction: column; gap: 0.4rem;
+}
+.stage-head { display: flex; align-items: center; gap: 0.5rem; color: var(--heading); }
+.stage-num {
+  width: 1.75rem; height: 1.75rem; border-radius: 50%;
+  background: var(--btn-bg); color: var(--btn-text); font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+}
+.stage-copy { margin: 0; }
+.stage-tag {
+  margin: 0.25rem 0 0; align-self: flex-start; padding: 0.1rem 0.55rem;
+  border-radius: 999px; background: var(--changed-bg); color: var(--text);
+  border: 1px solid var(--changed-edge); font-size: 0.85rem; font-weight: 700;
+}
+.stage-arrow { display: inline-flex; align-self: center; color: var(--heading); transform: rotate(90deg); }
+.stage-bypass {
+  margin: 0.75rem 0 0; padding: 0.75rem 1rem; background: var(--surface);
+  border: 2px dashed var(--cost-edge); border-radius: 8px;
+  display: flex; align-items: flex-start; gap: 0.55rem; color: var(--text);
+}
+.stage-bypass .icon { color: var(--cost-edge); margin-top: 0.1rem; }
+
+/* State guide "You are here / Bring this" and "What happens after you file" strips */
+.bring-strip {
+  margin: 0.6rem 0 1rem; padding: 0.75rem 1rem;
+  background: var(--cost-bg); border-left: 6px solid var(--cost-edge); border-radius: 0 8px 8px 0;
+}
+.bring-head { display: flex; align-items: center; gap: 0.45rem; font-weight: 700; color: var(--heading); margin: 0 0 0.25rem; }
+.bring-label { margin: 0; }
+.after-strip {
+  margin: 1.5rem 0; padding: 1rem 1.1rem;
+  background: var(--surface); border: 2px solid var(--border); border-radius: 8px;
+}
+.after-title { margin: 0 0 0.75rem; font-size: 1.15rem; display: flex; align-items: center; gap: 0.45rem; }
+.after-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+.after-item {
+  background: var(--bg); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 0.75rem 0.85rem; margin: 0; display: flex; flex-direction: column; gap: 0.3rem;
+}
+.after-head { display: flex; align-items: center; gap: 0.45rem; color: var(--heading); }
+.after-num {
+  width: 1.65rem; height: 1.65rem; border-radius: 50%;
+  background: var(--btn-bg); color: var(--btn-text); font-weight: 700; font-size: 0.9rem;
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+}
+
+/* Multi-column layouts only above 46rem so 200% zoom on 1280px (640px CSS width)
+   and narrow phones stack linearly into one column. */
+@media (min-width: 46rem) {
+  .stat-bars { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .stage-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; align-items: stretch; }
+  .stage-item { flex-direction: row; align-items: stretch; gap: 0.5rem; }
+  .stage-arrow { align-self: center; transform: none; }
+  .after-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+html[data-size="xl"] .stat-bars,
+html[data-spacing="wide"] .stat-bars,
+html[data-size="xl"] .stage-list,
+html[data-spacing="wide"] .stage-list,
+html[data-size="xl"] .after-list,
+html[data-spacing="wide"] .after-list { grid-template-columns: 1fr; }
+html[data-size="xl"] .stage-item,
+html[data-spacing="wide"] .stage-item { flex-direction: column; }
+html[data-size="xl"] .stage-arrow,
+html[data-spacing="wide"] .stage-arrow { transform: rotate(90deg); }
+
+html[data-theme="contrast"] .bring-strip,
+html[data-theme="contrast"] .after-strip,
+html[data-theme="contrast"] .stage-card,
+html[data-theme="contrast"] .stage-bypass,
+html[data-theme="contrast"] .stat-bar-item { border: 3px solid #000000; }
+
 /* ---------- Motion and forced colors ---------- */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
-html { scroll-behavior: auto; scroll-padding-top: 5rem; }  /* keeps focused items clear of the sticky Leave quickly bar (WCAG 2.4.11) */
+html { scroll-behavior: auto; scroll-padding-top: 7.5rem; }  /* keeps focused items clear of the sticky Leave quickly bar (WCAG 2.4.11) */
 @media (forced-colors: active) {
-  .callout, .step, details.deeper, details.sources-toggle, .card, .stat, .toc, .brief-strip { border: 2px solid CanvasText; }
-  .badge { border-color: CanvasText; }
+  .callout, .step, details.deeper, details.sources-toggle, .card, .stat, .toc, .brief-strip,
+  .stat-bar-item, .stage-card, .stage-bypass, .bring-strip, .after-strip, .after-item, .card-icon { border: 2px solid CanvasText; }
+  .badge, .stage-tag, .stage-num, .after-num { border: 2px solid CanvasText; }
+  .bar-track { fill: Canvas; stroke: CanvasText; }
+  .bar-fill { fill: CanvasText; }
   a:focus-visible { outline: 3px solid Highlight; }
   .exit-link { border: 2px solid ButtonText; }
   .brand-mark { color: CanvasText; }
@@ -479,7 +610,10 @@ html { scroll-behavior: auto; scroll-padding-top: 5rem; }  /* keeps focused item
   .exit-bar, .site-nav, .settings-btn, .beta-bar, .brief-strip, dialog, .skip-link, .btn-row, .copy-btn, .footer-links, .no-print { display: none !important; }
   .site-header { background: #FFFFFF; color: #000000; border-bottom: 2px solid #000000; }
   .site-header a, .mission, .mission strong, .brand-mark { color: #000000; }
-  .callout, .step, details.deeper, .card { break-inside: avoid; border: 1px solid #000000; background: #FFFFFF; }
+  .callout, .step, details.deeper, .card, .stat-bar-item, .stage-card, .stage-bypass, .bring-strip, .after-strip, .after-item { break-inside: avoid; border: 1px solid #000000; background: #FFFFFF; }
+  .stage-num, .after-num { background: #FFFFFF; color: #000000; border: 1px solid #000000; }
+  .bar-track { fill: #FFFFFF; stroke: #000000; }
+  .bar-fill { fill: #000000; }
   a { color: #000000; }
   .content a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; overflow-wrap: anywhere; }
   .done { border: 0; }

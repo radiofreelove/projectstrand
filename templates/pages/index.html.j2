@@ -11,48 +11,102 @@
 </section>
 
 <h2 id="states">Or go straight to your state</h2>
-<ul class="cards">
-  <li class="card">
-    <h3><a href="{{ page_url('oregon') }}">Oregon</a></h3>
+<ul class="cards state-cards">
+  <li class="card card-interactive">
+    <div class="card-head">
+      <span class="card-icon">{{ m.icon('state_or', 'state-mark') }}</span>
+      <h3><a class="card-link" href="{{ page_url('oregon') }}">Oregon</a></h3>
+    </div>
     <p>One court petition for name, sex, or both: {{ fact('or_fee_petition') }}. Sex change cases are confidential. License and Oregon birth certificate: no court needed.</p>
   </li>
-  <li class="card">
-    <h3><a href="{{ page_url('washington') }}">Washington</a></h3>
+  <li class="card card-interactive">
+    <div class="card-head">
+      <span class="card-icon">{{ m.icon('state_wa', 'state-mark') }}</span>
+      <h3><a class="card-link" href="{{ page_url('washington') }}">Washington</a></h3>
+    </div>
     <p>Name change in court, with a sealed option for gender-related changes. License and Washington birth certificate: a form, no court.</p>
   </li>
-  <li class="card">
-    <h3><a href="{{ page_url('utah') }}">Utah</a></h3>
+  <li class="card card-interactive">
+    <div class="card-head">
+      <span class="card-icon">{{ m.icon('state_ut', 'state-mark') }}</span>
+      <h3><a class="card-link" href="{{ page_url('utah') }}">Utah</a></h3>
+    </div>
     <p>Court for both. A sex designation change needs strong proof of six things. Filing fee: {{ fact('ut_fee_petition') }}, or ask to waive it.</p>
   </li>
-  <li class="card">
-    <h3><a href="{{ page_url('federal') }}">Passports and Social Security</a></h3>
+  <li class="card card-interactive">
+    <div class="card-head">
+      <span class="card-icon">{{ m.icon('federal', 'state-mark') }}</span>
+      <h3><a class="card-link" href="{{ page_url('federal') }}">Passports and Social Security</a></h3>
+    </div>
     <p>Both changed in 2025. Read this before you apply for any passport.</p>
   </li>
 </ul>
 
 {% call m.callout('why', 'Why it matters', 'why-it-matters') %}
-<ul>
-  <li>In the 2022 U.S. Trans Survey, {{ fact('usts_name_none') }} of people who had at least one ID said none of their IDs listed the name they wanted. {{ fact('usts_gender_none') }} said none listed the gender they wanted. {{ src('data-usts-2022') }}</li>
-  <li>{{ fact('usts_mistreated') }} said they had been harassed, assaulted, asked to leave, or denied service after showing an ID that did not match how they look.</li>
-  <li>Matching ID will not fix everything. It does remove one thing that can out you every time you show your ID.</li>
+<ul class="stat-bars">
+  <li class="stat-bar-item">
+    <span class="stat-bar-num">{{ fact('usts_name_none') }}</span>
+    <svg class="prop-bar" viewBox="0 0 100 10" width="100" height="10" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <rect class="bar-track" x="0" y="1" width="100" height="8" rx="4"/>
+      <rect class="bar-fill" x="0" y="1" width="48" height="8" rx="4"/>
+    </svg>
+    <span class="stat-bar-copy">of respondents with an ID had none with the name they wanted. {{ src('data-usts-2022') }}</span>
+  </li>
+  <li class="stat-bar-item">
+    <span class="stat-bar-num">{{ fact('usts_gender_none') }}</span>
+    <svg class="prop-bar" viewBox="0 0 100 10" width="100" height="10" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <rect class="bar-track" x="0" y="1" width="100" height="8" rx="4"/>
+      <rect class="bar-fill" x="0" y="1" width="59" height="8" rx="4"/>
+    </svg>
+    <span class="stat-bar-copy">had no ID with the gender they wanted.</span>
+  </li>
+  <li class="stat-bar-item">
+    <span class="stat-bar-num">{{ fact('usts_mistreated') }}</span>
+    <svg class="prop-bar" viewBox="0 0 100 10" width="100" height="10" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <rect class="bar-track" x="0" y="1" width="100" height="8" rx="4"/>
+      <rect class="bar-fill" x="0" y="1" width="22" height="8" rx="4"/>
+    </svg>
+    <span class="stat-bar-copy">were harassed, assaulted, asked to leave, or denied service after showing an ID that did not match how they look.</span>
+  </li>
 </ul>
-<p><a href="{{ page_url('why') }}">Why this site exists</a></p>
+<p>Matching ID will not fix everything. It does remove one thing that can out you every time you show your ID. <a href="{{ page_url('why') }}">Why this site exists</a></p>
 {% endcall %}
 
 {% call m.callout('changed', 'What changed in 2026', 'changed-2026') %}
-<ul>
-  <li><strong>Oregon:</strong> since July 1, 2026, court cases for a legal change of sex, including name and sex together, are confidential by law. Earlier cases can be made confidential if you ask the court. {{ src('or-2026-ch52') }}</li>
-  <li><strong>Utah:</strong> a 2026 bill to change the rules for sex designation changes, H.B. 183, stalled in a Senate committee and is listed as not passed. {{ src('ut-hb183-notice') }} {{ src('ut-hb183-legiscan') }}</li>
-  <li><strong>Federal:</strong> new and renewed U.S. passports show the sex assigned at birth, and X is gone. The court case continues into 2027. {{ src('us-hrc-passport') }} {{ src('us-aclu-orr') }}</li>
+<ul class="glyph-list">
+  <li><span class="glyph-icon">{{ m.icon('shield') }}</span><span><strong>Oregon:</strong> since July 1, 2026, court cases for a legal change of sex, including name and sex together, are confidential by law. Earlier cases can be made confidential if you ask the court. {{ src('or-2026-ch52') }}</span></li>
+  <li><span class="glyph-icon">{{ m.icon('gavel') }}</span><span><strong>Utah:</strong> a 2026 bill to change the rules for sex designation changes, H.B. 183, stalled in a Senate committee and is listed as not passed. {{ src('ut-hb183-notice') }} {{ src('ut-hb183-legiscan') }}</span></li>
+  <li><span class="glyph-icon">{{ m.icon('id_card') }}</span><span><strong>Federal:</strong> new and renewed U.S. passports show the sex assigned at birth, and X is gone. The court case continues into 2027. {{ src('us-hrc-passport') }} {{ src('us-aclu-orr') }}</span></li>
 </ul>
 {% endcall %}
 
 <h2 id="how">How it works, in 3 parts</h2>
-<ol>
-  <li><strong>Court, sometimes.</strong> A judge signs an order that changes your legal name, sex, or both. Some records do not need one. <a href="{{ page_url('compare') }}">See which</a>.</li>
-  <li><strong>Records.</strong> You take that order, or a form, to each office: Social Security, the DMV, and the office that holds your birth certificate.</li>
-  <li><strong>Everything else.</strong> Banks, work, school, and doctors. <a href="{{ page_url('after') }}">Use the checklist</a>.</li>
-</ol>
+<div class="stage-map">
+  <ol class="stage-list">
+    <li class="stage-item">
+      <div class="stage-card">
+        <span class="stage-head"><span class="stage-num">1</span><strong>Court, sometimes</strong></span>
+        <p class="stage-copy">A judge signs an order that changes your legal name, sex, or both. Some records do not need one. <a href="{{ page_url('compare') }}">See which</a>.</p>
+        <p class="stage-tag">Optional for some records</p>
+      </div>
+      <span class="stage-arrow" aria-hidden="true">{{ m.icon('arrow_right') }}</span>
+    </li>
+    <li class="stage-item">
+      <div class="stage-card">
+        <span class="stage-head"><span class="stage-num">2</span><strong>Core records</strong></span>
+        <p class="stage-copy">You take that order, or a form, to each office: Social Security, the DMV, and the office that holds your birth certificate.</p>
+      </div>
+      <span class="stage-arrow" aria-hidden="true">{{ m.icon('arrow_right') }}</span>
+    </li>
+    <li class="stage-item">
+      <div class="stage-card">
+        <span class="stage-head"><span class="stage-num">3</span><strong>Everything else</strong></span>
+        <p class="stage-copy">Banks, work, school, and doctors, at your own pace. <a href="{{ page_url('after') }}">Use the checklist</a>.</p>
+      </div>
+    </li>
+  </ol>
+  <p class="stage-bypass">{{ m.icon('check') }} <span><strong>Skip Part 1?</strong> If you only need a gender marker change on an Oregon or Washington license or birth certificate, you can start at Part 2 with a form.</span></p>
+</div>
 
 {% call m.callout('note', 'What this site is, and is not', 'what-this-is') %}
 <ul>

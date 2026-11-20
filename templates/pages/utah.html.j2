@@ -107,6 +107,12 @@
 {% endcall %}
 </ol>
 
+{{ m.after_filing('ut-after-filing', [
+  {'title': 'Go to your hearing', 'text': 'The court schedules a hearing. The judge may ask questions before signing the order.'},
+  {'title': 'Send order to Vital Records', 'text': 'Mail a certified copy of your order, form 902, and the fee. Processing can take several weeks.'},
+  {'title': 'Update every other record', 'text': 'Update Social Security first if your name changed, then your driver license and other accounts.'}
+]) }}
+
 {% call m.callout('cost', 'What it costs', 'cost') %}
 <ul>
   <li><strong>Court filing fee:</strong> {{ fact('ut_fee_petition') }}. {{ src('ut-courts-fees') }} Utah lists $375 as its general civil filing fee and links its fee page from the name and sex change page.</li>
@@ -121,6 +127,7 @@
 <p>The courts page says this only about sex change requests. We read that to mean a name-only case is public. {{ m.badge('inference') }} {{ src('ut-courts-sex-change') }}</p>
 
 <h2 id="birth-certificate">Utah birth certificate</h2>
+{{ m.bring_reminder('Utah birth certificate', 'Certified copy of the signed court order, form 902, and the Vital Records fee.') }}
 <ul>
   <li>For people born in Utah. Utah's law applies only to birth certificates the state issued. {{ src('ut-code-26b-8-111') }}</li>
   <li>After the court order, Vital Records issues a new birth certificate that does not show which parts were changed, unless you ask it to.</li>
@@ -131,6 +138,7 @@
 {% endcall %}
 
 <h2 id="license">Driver license or ID</h2>
+{{ m.bring_reminder('Utah Driver License Division', 'Court papers with the court seal (such as a certified copy of your order). Ask the office about sex marker updates first.') }}
 <p>For a name change, the Driver License Division asks for legal documentation of the change. Its list includes "Court papers showing the name change, sealed by the court." We read that as papers with the court's seal on them, like a certified copy of your order. {{ m.badge('inference') }} {{ src('ut-dld-name') }}</p>
 <p>We could not find an official Utah page about changing the sex on a license or ID. {{ m.badge('unconfirmed') }} Ask the {{ ext('ut-dld-name', 'Driver License Division') }} before you go.</p>
 

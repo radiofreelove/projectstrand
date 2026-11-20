@@ -100,6 +100,12 @@
 {% endcall %}
 </ol>
 
+{{ m.after_filing('or-after-filing', [
+  {'title': 'Judge reviews your forms', 'text': 'You usually do not go to court. You only go if the court sends a hearing notice.'},
+  {'title': 'Notice arrives by mail', 'text': 'The court mails a Notice of Entry of Judgment. Call the court to order certified copies.'},
+  {'title': 'You update each office', 'text': 'The court does not send your judgment out. Start with Social Security if your name changed, then the DMV.'}
+]) }}
+
 {% call m.callout('cost', 'What it costs', 'cost') %}
 <ul>
   <li><strong>Court filing fee:</strong> {{ fact('or_fee_petition') }} for a name change, a sex change, or both in one petition. {{ src('or-ojd-fees') }}</li>
@@ -123,6 +129,7 @@
 <p>If you are a certified participant in Oregon's Address Confidentiality Program, you can ask the court to seal a name-only case. The court must seal it unless it finds good cause not to. The form has a box for this. {{ src('or-ors-33') }}</p>
 
 <h2 id="birth-certificate">Oregon birth certificate</h2>
+{{ m.bring_reminder('Oregon birth certificate', 'Notarized form OHA 2673 (or a certified court judgment) and a photo ID copy. Fee: ' ~ birth_cost ~ '.') }}
 <p>This is for people born in Oregon. There are two ways to change it.</p>
 
 <h3 id="birth-form">Way 1: a notarized form, no court</h3>
@@ -152,6 +159,7 @@
 {% endcall %}
 
 <h2 id="license">Driver license or ID</h2>
+{{ m.bring_reminder('Oregon DMV', 'Your current card and the renewal or replacement fee. Update Social Security first if changing your name.') }}
 <ul>
   <li>Choose M, F, or X. On Oregon cards, X means "not specified." This works for standard and REAL ID cards. {{ src('or-dmv-gender') }}</li>
   <li>No proof of gender needed. Go in person, by appointment or walk-in, and bring your current card.</li>

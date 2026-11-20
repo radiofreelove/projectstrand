@@ -82,6 +82,12 @@
 {% endcall %}
 </ol>
 
+{{ m.after_filing('wa-after-filing', [
+  {'title': 'Court sets a hearing date', 'text': 'Every name change in Washington has a hearing in front of a judge.'},
+  {'title': 'Get certified copies', 'text': 'Certified copies are about $5 each. The legal aid guide suggests getting 7 or more.'},
+  {'title': 'Update your offices', 'text': 'Take a certified copy to Social Security and the Department of Licensing, then everyone else.'}
+]) }}
+
 {% call m.callout('cost', 'What it costs', 'cost') %}
 <ul>
   <li><strong>Sealed name change in superior court:</strong> usually {{ fact('wa_fee_sealed') }}. {{ src('wa-wlh-name') }}</li>
@@ -96,6 +102,7 @@
 <p>In Washington, you do not need a court order to change the gender marker on a Washington license or a Washington birth certificate. {{ src('wa-wlh-gender-order') }}</p>
 
 <h3 id="birth-certificate">Washington birth certificate</h3>
+{{ m.bring_reminder('Washington birth certificate', 'Notarized form DOH 422-143, certified name-change order if needed, and ' ~ fact('wa_doh_cert_fee') ~ ' for copies.') }}
 <p>This is for people born in Washington. {{ src('wa-doh-sex') }}</p>
 <ul>
   <li>Choose M, F, or X. X means a gender that is not exclusively male or female.</li>
@@ -107,6 +114,7 @@
 </ul>
 
 <h3 id="license">Driver license or ID</h3>
+{{ m.bring_reminder('Washington Department of Licensing', 'Your current card, plus form 520043 if using an enhanced card (EDL or EID) or updating by mail.') }}
 <ul>
   <li>Choose M, F, or X. {{ src('wa-dol-gender') }}</li>
   <li><strong>In person:</strong> make an appointment, bring your current card, and say which marker you want.</li>

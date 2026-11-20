@@ -109,6 +109,10 @@ jobs:
             echo
             echo "See docs/OPERATIONS.md, \"Weekly source check\", for what to do."
           } > body.md
+          gh label create "automated-source-check" \
+            --description "Opened by the weekly source check workflow" \
+            --color "1D4ED8" 2>/dev/null || true
           gh issue create \
             --title "Weekly source check needs attention ($(date -u +%Y-%m-%d))" \
+            --label "automated-source-check" \
             --body-file body.md

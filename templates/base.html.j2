@@ -10,7 +10,8 @@
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 <link rel="stylesheet" href="{{ asset('css/site.css') }}">
-{% if fonts_available %}<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">{% endif %}
+{% if fonts_available %}<link rel="stylesheet" href="{{ asset('css/fonts.css') }}">{% endif %}{% if site_theme == 'spacefast' %}
+<link rel="stylesheet" href="{{ asset('css/spacefast-theme.css') }}">{% endif %}
 <script src="{{ asset('js/prefs.js') }}"></script>
 <script src="{{ asset('js/site.js') }}" defer></script>
 {% block head %}{% endblock %}
@@ -111,7 +112,8 @@
         <li><a href="{{ page_url('privacy') }}">Privacy and safety</a></li>
         <li><a href="{{ repo_url }}" rel="noreferrer">How this site is made (source and audit trail)</a></li>
       </ul>
-    </nav>
+    </nav>{% if site_theme == 'spacefast' %}
+    <p>The colors come from Radix Colors, an open source color system by Radix. Copyright (c) 2021 Radix. Used under the <a href="{{ asset('licenses/radix-mit.txt') }}">MIT License</a>.</p>{% endif %}
     <p class="build-line">Version {{ site.version }}. Built from commit <code>{{ build_commit[:8] }}</code>. <a href="{{ base_path if page.slug == '404' else '' }}build-report.json">Build report</a>. Writing: <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noreferrer">CC BY 4.0<span class="vh"> (outside site)</span></a>. Code: MIT. <a href="{{ page_url('about#license') }}">Reuse this guide</a>.</p>
   </div>
 </footer>

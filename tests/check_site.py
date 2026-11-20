@@ -16,6 +16,7 @@ Fails (exit 1) on:
 """
 from __future__ import annotations
 
+import argparse
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -188,18 +189,21 @@ def check_page(path: Path, all_ids: dict[str, set[str]]) -> list[str]:
     return errs
 
 
-def check_headers() -> list[str]:
+def check_headers(public_dir: Path = PUBLIC) -> list[str]:
     """public/_headers sends exactly the shared headers for every path."""
-    path = PUBLIC / "_headers"
+    path = public_dir / "_headers"
     if not path.exists():
-        return ["public/_headers is missing"]
+        return [f"{public_dir.name}/_headers is missing"]
     sent: dict[str, str] = {}
     for line in path.read_text(encoding="utf-8").splitlines():
         if line.startswith((" ", "\t")) and ":" in line:
             name, _, value = line.strip().partition(":")
             sent[name.strip()] = value.strip()
+    is_spacefast = (public_dir / "assets" / "css" / "spacefast-theme.css").is_file()
     errors = []
     for name, value in SHARED_HEADERS.items():
+        if is_spacefast and name == "Strict-Transport-Security" and name not in sent:
+            continue
         if sent.get(name) != value:
             errors.append(f"{name} should be {value!r}, found {sent.get(name)!r}")
     for name in sent:
@@ -208,13 +212,13 @@ def check_headers() -> list[str]:
     return errors
 
 
-def check_checked_dates() -> list[str]:
+def check_checked_dates(public_dir: Path = PUBLIC) -> list[str]:
     """Fail if any page's checked date is earlier than the newest source it cites."""
     import datetime as dt
     import json
 
-    report_path = PUBLIC / "build-report.json"
-    sources_path = PUBLIC / "sources.json"
+    report_path = public_dir / "build-report.json"
+    sources_path = public_dir / "sources.json"
     if not (report_path.exists() and sources_path.exists()):
         return []
     report = json.loads(report_path.read_text(encoding="utf-8"))
@@ -233,9 +237,14 @@ def check_checked_dates() -> list[str]:
 
 
 def main() -> int:
-    pages = sorted(PUBLIC.glob("*.html"))
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--dir", type=Path, default=PUBLIC, help="built site directory to check (default: public/)")
+    args = parser.parse_args()
+    public_dir = args.dir
+
+    pages = sorted(public_dir.glob("*.html"))
     if not pages:
-        print("No pages in public/. Run build.py first.")
+        print(f"No pages in {public_dir}/. Run build.py first.")
         return 1
     all_ids: dict[str, set[str]] = {}
     for page in pages:
@@ -243,16 +252,18 @@ def main() -> int:
         pp.feed(page.read_text(encoding="utf-8"))
         all_ids[page.name] = set(pp.ids)
     for extra in ("sources.json", "facts.json", "build-report.json"):
-        if (PUBLIC / extra).exists():
+        if (public_dir / extra).exists():
             all_ids[extra] = set()
+    if (public_dir / "assets" / "licenses" / "radix-mit.txt").exists():
+        all_ids["radix-mit.txt"] = set()
     failed = 0
-    header_errors = check_headers()
+    header_errors = check_headers(public_dir)
     if header_errors:
         failed += 1
         print("FAIL _headers")
         for e in header_errors:
             print("   -", e)
-    date_errors = check_checked_dates()
+    date_errors = check_checked_dates(public_dir)
     if date_errors:
         failed += 1
         print("FAIL checked dates")

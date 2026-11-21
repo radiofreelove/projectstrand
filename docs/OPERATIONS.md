@@ -170,7 +170,8 @@ In GitHub, open Actions, select "Checks," and choose "Run workflow." For the ext
 - `.github/workflows/weekly.yml`: runs the weekly external link, freshness, and evidence audit checks.
 - `.github/workflows/deploy-spacefast.yml`: builds and publishes the Spacefast theme on pushes to `main` and on manual dispatch.
 - `.github/workflows/release.yml`: after Checks pass on a push to `main`, tags the commit and publishes a GitHub release if the version in `data/site.yml` has no tag yet (using that version's entry in `CHANGELOG.md`).
+- `.github/workflows/live.yml`: runs `tests/check_live.py` against the deployed site.
 
 ## Move hosts
 
-See [decisions/ADR-0004-hosting.md](decisions/ADR-0004-hosting.md).
+See [decisions/ADR-0004-hosting.md](decisions/ADR-0004-hosting.md) and [decisions/ADR-0011-spacefast-secondary-host.md](decisions/ADR-0011-spacefast-secondary-host.md).

@@ -66,12 +66,13 @@
 
 {% if page.slug not in ['sources', '404'] and used_sources() %}
     {% set source_list %}
-      <p>We read each of these on the date shown. <a href="{{ page_url('sources') }}">See every source and what each label means</a>.</p>
+      <p>Each source shows the date on it and the date we last checked it. <a href="{{ page_url('sources') }}">See every source and what each label means</a>, or read the <a href="{{ repo_url }}/blob/main/docs/claims.md" rel="noreferrer">public fact log</a>.</p>
       <ol>
       {% for s in used_sources() %}
         <li>
-          <a href="{{ s.url }}" rel="noreferrer">{{ s.title }}</a>, {{ s.publisher }}{% if s.get('date') %} ({{ s.date }}){% endif %}.
-          Checked {{ s.checked|human_date }}.
+          <a href="{{ s.url }}" rel="noreferrer">{{ s.title }}</a>, {{ s.publisher }}.
+          Date on it: {{ s.document_date }}.
+          Checked: <time datetime="{{ s.checked }}">{{ s.checked|human_date }}</time>.
           {% if s.status == 'unverified' %}<span class="badge badge-unconfirmed">Not confirmed</span>{% elif s.status == 'secondary' %}<span class="badge badge-secondary">Not official</span>{% endif %}
         </li>
       {% endfor %}

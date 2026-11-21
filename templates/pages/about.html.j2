@@ -18,11 +18,12 @@
   <li><strong>Official sources first.</strong> Laws, court forms, and agency pages come before anything else.</li>
   <li><strong>We open and read every source.</strong> Search results and summaries are only leads.</li>
   <li><strong>We check that it is current.</strong> For laws, we look for newer bills and effective dates, not just the printed code.</li>
-  <li><strong>We date everything.</strong> Each source shows when we read it. The build warns us when a source gets old.</li>
+  <li><strong>We date everything.</strong> Each source shows both the date printed on it and when we checked it. The build warns us when a source gets old.</li>
+  <li><strong>Automated checks, human edits.</strong> A computer checks every week whether links broke or official pages changed. A person reviews and updates the guide before anything changes here.</li>
   <li><strong>We label uncertainty.</strong> <span class="badge badge-unconfirmed">Not confirmed</span> and <span class="badge badge-inference">Our reading</span> mark anything we could not verify or had to interpret.</li>
   <li><strong>Every change is recorded.</strong> The project's history shows who changed what, when, and why.</li>
 </ol>
-<p><a href="{{ page_url('sources') }}">See every source</a>.</p>
+<p><a href="{{ page_url('sources') }}">See every source</a> or read the <a href="{{ repo_url }}/blob/main/docs/claims.md" rel="noreferrer">public fact log</a>.</p>
 
 <h2 id="report">Report a mistake</h2>
 <p>Open an issue in the project's public list of issues on GitHub: <a href="{{ issues_url }}" rel="noreferrer">report a mistake</a>. You will need a free GitHub account.</p>
@@ -33,7 +34,7 @@
   <li>Plain HTML pages built from templates by a short Python program. No tracking code and no outside services.</li>
   <li>Sources and facts like fees live in data files, so one update fixes every page that uses them.</li>
   <li>Every build checks for missing sources, broken links, color contrast, and reading level. <a href="build-report.json">See the latest build report</a>.</li>
-  <li>The research notes, decisions, and audit log are public: <a href="{{ repo_url }}" rel="noreferrer">source and audit trail</a>.</li>
+  <li>Everything is kept on GitHub, a public filing cabinet where every edit and source check is recorded: see the <a href="{{ repo_url }}/blob/main/docs/claims.md" rel="noreferrer">public fact log</a> and the <a href="{{ repo_url }}" rel="noreferrer">source and audit trail</a>.</li>
 </ul>
 
 <h2 id="license">Reuse this guide</h2>

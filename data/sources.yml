@@ -10,6 +10,9 @@
 #               for any fact.
 # official: false for non-government organizations.
 # docs_only: true when only the research log uses it.
+# document_date: the date printed on the source (or 'No date shown' / 'Live page, no date shown').
+# verified_by:   'human' (default) or 'tool_assisted'.
+# public_note / internal_note: optional split of 'notes' so repo-only notes stay off /sources.
 
 # ---------------------------------------------------------------- Oregon
 - id: or-ors-33
@@ -19,7 +22,7 @@
   url: https://www.oregonlegislature.gov/bills_laws/ors/ors033.html
   kind: statute
   jurisdiction: OR
-  date: "2025 edition"
+  document_date: "2025 edition"
   checked: 2026-11-03
   status: verified
   notes: "Name change (33.410), notice and ACP sealing (33.420), legal change of sex (33.460). The chapter notes point to 2026 amendments in 2026 Oregon Laws chapters 52 and 88, so read with those."
@@ -31,7 +34,7 @@
   url: https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2026orLaw0052.pdf
   kind: session-law
   jurisdiction: OR
-  date: "Effective March 31, 2026; sections 11 and 12 operative July 1, 2026"
+  document_date: "Effective March 31, 2026; sections 11 and 12 operative July 1, 2026"
   checked: 2026-11-03
   status: verified
   notes: "Section 12 adds ORS 33.460(4): legal change of sex cases, including combined name and sex cases, are confidential. Section 11 removes the old seal-on-request rule in 33.420(4). Section 17 applies the change to filings on or after July 1, 2026, and, on the applicant's motion, to earlier filings."
@@ -43,7 +46,7 @@
   url: https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2026orLaw0088.pdf
   kind: session-law
   jurisdiction: OR
-  date: "2026"
+  document_date: "2026"
   checked: 2026-11-03
   status: verified
   docs_only: true
@@ -57,7 +60,7 @@
   url: "https://www.courts.oregon.gov/forms/Documents/Name%20and%20Sex%20Change%20Packet%20(Adult).pdf"
   kind: court-form
   jurisdiction: OR
-  date: "Forms dated July 2026"
+  document_date: "Forms dated July 2026"
   checked: 2026-11-03
   status: verified
   notes: "Instructions, petition, and judgment. Petition options: male, female, nonbinary. Says sex change records are confidential and the court does not send your judgment to other agencies."
@@ -70,7 +73,7 @@
   url: "https://www.courts.oregon.gov/forms/Documents/Name-Sex%20Change-PACKET-Minor.pdf"
   kind: court-form
   jurisdiction: OR
-  date: "Current packet on the OJD site"
+  document_date: "Current packet on the OJD site"
   checked: 2026-11-03
   status: linked
   notes: "Linked for parents and guardians. We have not reviewed every page of this packet."
@@ -83,7 +86,7 @@
   url: https://www.courts.oregon.gov/programs/family/forms/Pages/name-sex-change.aspx
   kind: court-page
   jurisdiction: OR
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -94,7 +97,7 @@
   url: https://www.courts.oregon.gov/Documents/2026_CircuitFeeSchedule_public_eff-2026-01-01.pdf
   kind: court-page
   jurisdiction: OR
-  date: "Effective January 1, 2026"
+  document_date: "Effective January 1, 2026"
   checked: 2026-11-03
   status: verified
   notes: "Change of name or change of sex: $124 (ORS 21.145). Certified copy: $5, plus 25 cents per page for paper. Fee waiver or deferral application: no fee (ORS 21.682)."
@@ -107,7 +110,7 @@
   url: https://www.courts.oregon.gov/forms/Pages/fee-waiver.aspx
   kind: court-page
   jurisdiction: OR
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -119,7 +122,7 @@
   url: https://www.courts.oregon.gov/services/online/Pages/iforms.aspx
   kind: court-page
   jurisdiction: OR
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   notes: "Free. Includes a name or legal sex change interview. Answers must be in English. The tool was down for maintenance when we checked."
@@ -132,7 +135,7 @@
   url: https://www.courts.oregon.gov/help/Pages/default.aspx
   kind: court-page
   jurisdiction: OR
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -144,7 +147,7 @@
   url: https://www.courts.oregon.gov/courts/Pages/default.aspx
   kind: court-page
   jurisdiction: OR
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -156,7 +159,7 @@
   url: https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Pages/ChangeBirthSupportGenderIdentity.aspx
   kind: agency-page
   jurisdiction: OR
-  date: "Live page; form OHA 2673 rev. 03/26"
+  document_date: "Live page; form OHA 2673 rev. 03/26"
   checked: 2026-11-03
   status: verified
   notes: "Notarized application, no court order. Name and sex can each be changed once this way. M, F, or X. $35 amendment fee. A sex change leaves no footnote and removes existing footnotes."
@@ -169,7 +172,7 @@
   url: "https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Document%20Forms/OHA2673FormEnglish.pdf"
   kind: agency-form
   jurisdiction: OR
-  date: "Linked from the OHA page"
+  document_date: "Linked from the OHA page"
   checked: 2026-11-03
   status: linked
 
@@ -181,7 +184,7 @@
   url: "https://www.oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/Document%20Forms/OHA2673FormSpanish.pdf"
   kind: agency-form
   jurisdiction: OR
-  date: "Linked from the OHA page"
+  document_date: "Linked from the OHA page"
   checked: 2026-11-03
   status: linked
 
@@ -193,7 +196,7 @@
   url: https://oregon.gov/oha/PH/BIRTHDEATHCERTIFICATES/CHANGEVITALRECORDS/Pages/CourtOrderChangeSex.aspx
   kind: agency-page
   jurisdiction: OR
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   notes: "Certified court order plus $35 amendment fee. Accepts orders from other states. A court-ordered name change footnote shows the prior name unless the order is sealed."
@@ -206,7 +209,7 @@
   url: https://www.oregon.gov/odot/DMV/Pages/driverid/chg_gender_designation.aspx
   kind: agency-page
   jurisdiction: OR
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   notes: "Self-select M, F, or X. No gender documents. In person. Pay the replacement or renewal fee. Change your name with Social Security first. Says SSA stopped processing gender marker updates as of January 31, 2025."
@@ -219,7 +222,7 @@
   url: https://oregonlawhelp.org/
   kind: guide
   jurisdiction: OR
-  date: "Live site"
+  document_date: "Live site, no date shown"
   checked: 2026-11-03
   status: linked
   official: false
@@ -233,7 +236,7 @@
   url: "https://lawfilesext.leg.wa.gov/Law/RCWPDF/RCW%20%20%204%20%20TITLE/RCW%20%20%204%20.%2024%20%20CHAPTER/RCW%20%20%204%20.%2024%20.130.pdf"
   kind: statute
   jurisdiction: WA
-  date: "Official copy certified July 12, 2024"
+  document_date: "Official copy certified July 12, 2024"
   checked: 2026-11-03
   status: verified
   notes: "Public name change in district court. Court shall waive filing and recording fees on a hardship affidavit (subsection 4). Sealed name change in superior court for reasons including gender expression or identity (subsection 5)."
@@ -245,7 +248,7 @@
   url: "https://lawfilesext.leg.wa.gov/Law/CRO/SectionsAffected/2025%20RCW%20SL%20Sections%20Affected%20in%20Bill%20Order.pdf"
   kind: legislature
   jurisdiction: WA
-  date: "2025"
+  document_date: "2025"
   checked: 2026-11-03
   status: verified
   docs_only: true
@@ -259,7 +262,7 @@
   url: https://www.washingtonlawhelp.org/en/name-change-guide
   kind: guide
   jurisdiction: WA
-  date: "Reviewed May 8, 2025"
+  document_date: "Reviewed May 8, 2025"
   checked: 2026-11-03
   status: secondary
   official: false
@@ -273,7 +276,7 @@
   url: https://www.washingtonlawhelp.org/en/get-court-order-confirms-your-gender-change
   kind: guide
   jurisdiction: WA
-  date: "Reviewed July 18, 2025"
+  document_date: "Reviewed July 18, 2025"
   checked: 2026-11-03
   status: secondary
   official: false
@@ -287,7 +290,7 @@
   url: https://doh.wa.gov/licenses-permits-and-certificates/vital-records/sex-designation-change-birth-certificate
   kind: agency-page
   jurisdiction: WA
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   notes: "M, F, or X. Adult form notarized; minor form signed by parent or guardian and a licensed provider. A court order or a doctor's letter is not accepted. No fee to amend; $25 per certified copy."
@@ -300,7 +303,7 @@
   url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-143-SexDesignationChangeAdult.pdf
   kind: agency-form
   jurisdiction: WA
-  date: "Linked from the DOH page"
+  document_date: "Linked from the DOH page"
   checked: 2026-11-03
   status: linked
 
@@ -312,7 +315,7 @@
   url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-144-SexDesignationChangeMinor.pdf
   kind: agency-form
   jurisdiction: WA
-  date: "Linked from the DOH page"
+  document_date: "Linked from the DOH page"
   checked: 2026-11-03
   status: linked
 
@@ -324,7 +327,7 @@
   url: https://doh.wa.gov/sites/default/files/legacy/Documents/Pubs/422-126-LegalNameChangeRequest.pdf
   kind: agency-form
   jurisdiction: WA
-  date: "Linked from the DOH site"
+  document_date: "Linked from the DOH site"
   checked: 2026-11-03
   status: linked
 
@@ -336,7 +339,7 @@
   url: https://dol.wa.gov/driver-licenses-and-permits/update-driver-license-information/change-your-gender-designation
   kind: agency-page
   jurisdiction: WA
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-14
   status: verified
   notes: "M, F, or X. In person or by mail (form 520043). Free if you only change the gender designation. For a standard card in person, you confirm verbally. For an enhanced card (EDL/EID) in person, you must also bring the filled-out form 520043. The mail rule is the same for both. Enhanced-card rule read on the page on 2026-11-14 and added to the Washington page."
@@ -349,7 +352,7 @@
   url: https://www.courts.wa.gov/forms/
   kind: court-page
   jurisdiction: WA
-  date: "Live site"
+  document_date: "Live site, no date shown"
   checked: 2026-11-03
   status: verified
   notes: "Forms pages list the CLEAR legal referral line, (888) 201-1014, and the GR 34 motion to waive civil fees."
@@ -361,7 +364,7 @@
   url: "https://www.kitsap.gov/dc/NameChangeDocuments/Name%20Changes%20A%20Judge%20Pro%20Tempore%20Primer.pdf"
   kind: court-page
   jurisdiction: WA
-  date: "Undated"
+  document_date: "No date shown"
   checked: 2026-11-03
   status: unverified
   notes: "Search results quoted a $287.50 fee. We did not open the document itself."
@@ -374,7 +377,7 @@
   url: https://le.utah.gov/xcode/Title42/C42_1800010118000101.pdf
   kind: statute
   jurisdiction: UT
-  date: "42-1-1 as amended by 2025 chapters 291 and 299"
+  document_date: "42-1-1 as amended by 2025 chapters 291 and 299"
   checked: 2026-11-03
   status: verified
   notes: "File in the district court of the county where you live; one year as a resident of that county; offenders as defined in 64-13-1 may not file; disclose registry status. 42-1-2: proof in open court."
@@ -386,7 +389,7 @@
   url: https://le.utah.gov/xcode/Title26B/Chapter8/C26B-8-S111_2025050720250507.pdf
   kind: statute
   jurisdiction: UT
-  date: "Effective May 7, 2025"
+  document_date: "Effective May 7, 2025"
   checked: 2026-11-03
   status: verified
   notes: "Clear and convincing evidence of six things. Rules for minors. New certificate does not show which fields changed unless you ask, and the state also issues and keeps an amendment history."
@@ -398,7 +401,7 @@
   url: https://pf.utleg.gov/public-web/sessions/2026GS/comreport/HB0183S02.pdf
   kind: legislature
   jurisdiction: UT
-  date: "March 4, 2026"
+  document_date: "March 4, 2026"
   checked: 2026-11-03
   status: verified
 
@@ -409,7 +412,7 @@
   url: https://legiscan.com/UT/bill/HB0183/2026
   kind: secondary
   jurisdiction: UT
-  date: "Status as of March 6, 2026"
+  document_date: "Status as of March 6, 2026"
   checked: 2026-11-03
   status: secondary
   official: false
@@ -423,7 +426,7 @@
   url: https://www.utcourts.gov/en/self-help/case-categories/family/name-change/sex-change.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   notes: "Sex change cases are marked private: filed papers are not public, but the case history and public hearings are. Five steps. Forms 1158XX, 1730FA, 1731FA or MyPaperwork."
@@ -436,7 +439,7 @@
   url: https://www.utcourts.gov/en/self-help/case-categories/family/name-change/juvenile/instruct.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   notes: "For anyone under 18. File in the district court in the county where the minor has lived for the past year. The other parent signs a consent form (1721FA), or is served under Rule 4 if they do not agree. A hearing is scheduled and you must attend. Sex change cases for minors are private, including hearings; the page does not say whether name-only cases are. Does not say who files."
@@ -449,7 +452,7 @@
   url: https://www.utcourts.gov/en/self-help/legal-help/procedures/fees.html
   kind: court-page
   jurisdiction: UT
-  date: "Fees effective May 6, 2026"
+  document_date: "Fees effective May 6, 2026"
   checked: 2026-11-03
   status: verified
   notes: "$375 general civil filing fee (Utah Code 78A-2-301(1)(a)). Certified copy: $4 per document plus 50 cents per page."
@@ -462,7 +465,7 @@
   url: https://www.utcourts.gov/en/self-help/legal-help/procedures/waiver.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -474,7 +477,7 @@
   url: https://www.utcourts.gov/en/self-help/services/mycase/mypaperwork.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -486,7 +489,7 @@
   url: https://www.utcourts.gov/en/self-help/legal-help/finding-legal-help/legal-assist.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -498,7 +501,7 @@
   url: https://www.utcourts.gov/en/self-help/services/contact.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -510,7 +513,7 @@
   url: https://www.utcourts.gov/en/about/miscellaneous/directory.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -522,7 +525,7 @@
   url: https://www.utcourts.gov/en/self-help/legal-help/procedures/filing/non-public.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -534,7 +537,7 @@
   url: https://www.utcourts.gov/en/self-help/legal-help/procedures/pro-se/pronouns.html
   kind: court-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -546,7 +549,7 @@
   url: https://vitalrecords.utah.gov/wp-content/uploads/902-Affidavit-to-Amend-by-Court-Order.pdf
   kind: agency-form
   jurisdiction: UT
-  date: "Linked from Utah Courts"
+  document_date: "Linked from Utah Courts"
   checked: 2026-11-03
   status: linked
 
@@ -558,7 +561,7 @@
   url: https://vitalrecords.health.utah.gov/
   kind: agency-page
   jurisdiction: UT
-  date: "Live site"
+  document_date: "Live site, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -570,7 +573,7 @@
   url: https://dld.utah.gov/name-change-info/
   kind: agency-page
   jurisdiction: UT
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-14
   status: verified
   notes: "Asks for legal documentation of the name change; lists \"Court papers showing the name change, sealed by the court\" among accepted documents (we read this as papers bearing the court's seal, not sealed case files). Says nothing about changing the sex on a license."
@@ -583,7 +586,7 @@
   url: https://www.whitehouse.gov/presidential-actions/2025/01/defending-women-from-gender-ideology-extremism-and-restoring-biological-truth-to-the-federal-government/
   kind: executive-order
   jurisdiction: US
-  date: "January 20, 2025"
+  document_date: "January 20, 2025"
   checked: 2026-11-03
   status: verified
   notes: "Section 3(d) directs that passports, visas, and Global Entry cards reflect the holder's sex as the order defines it."
@@ -596,7 +599,7 @@
   url: https://travel.state.gov/content/travel/en/passports/passport-help/sex-marker.html
   kind: agency-page
   jurisdiction: US
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: unverified
   notes: "The page blocked our tools. Search results said the department issues only M or F matching sex at birth, and that existing passports stay valid until they expire."
@@ -609,7 +612,7 @@
   url: https://travel.state.gov/content/travel/en/passports/have-passport/change-correct.html
   kind: agency-page
   jurisdiction: US
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: linked
 
@@ -621,7 +624,7 @@
   url: https://www.aclu.org/cases/orr-v-trump
   kind: secondary
   jurisdiction: US
-  date: "Last update October 2, 2026"
+  document_date: "Last update October 2, 2026"
   checked: 2026-11-03
   status: secondary
   official: false
@@ -635,7 +638,7 @@
   url: https://www.hrc.org/resources/travel-passport-rights-for-transgender-people
   kind: secondary
   jurisdiction: US
-  date: "Reflects the law as of April 2026"
+  document_date: "Reflects the law as of April 2026"
   checked: 2026-11-03
   status: secondary
   official: false
@@ -649,7 +652,7 @@
   url: https://www.ssa.gov/personal-record/change-name
   kind: agency-page
   jurisdiction: US
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   notes: "Update after you legally change your name, by requesting a replacement card. You may be able to start online."
@@ -661,7 +664,7 @@
   url: https://www.ssa.gov/personal-record/change-sex-identification
   kind: agency-page
   jurisdiction: US
-  date: "Checked November 3, 2026"
+  document_date: "Checked November 3, 2026"
   checked: 2026-11-03
   status: verified
   docs_only: true
@@ -675,7 +678,7 @@
   url: https://www.cdc.gov/nchs/w2w/index.htm
   kind: agency-page
   jurisdiction: US
-  date: "Last reviewed August 15, 2022"
+  document_date: "Last reviewed August 15, 2022"
   checked: 2026-11-03
   status: verified
 
@@ -687,7 +690,7 @@
   url: https://lambdalegal.org/helpdesk/
   kind: guide
   jurisdiction: US
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   official: false
@@ -701,7 +704,7 @@
   url: https://www.translifeline.org/hotline
   kind: guide
   jurisdiction: US
-  date: "Live page"
+  document_date: "Live page, no date shown"
   checked: 2026-11-03
   status: verified
   official: false
@@ -715,7 +718,7 @@
   url: https://ustranssurvey.org/wp-content/uploads/2023/11/2022-USTS-Early-Insights-Report_FINAL.pdf
   kind: data
   jurisdiction: US
-  date: "February 2024"
+  document_date: "February 2024"
   checked: 2026-11-03
   status: verified
   official: false
@@ -729,7 +732,7 @@
   url: https://www.w3.org/TR/WCAG22/
   kind: standard
   jurisdiction: standards
-  date: "W3C Recommendation, December 12, 2024"
+  document_date: "W3C Recommendation, December 12, 2024"
   checked: 2026-11-03
   status: verified
   official: false
@@ -742,7 +745,7 @@
   url: https://www.w3.org/TR/coga-usable/
   kind: standard
   jurisdiction: standards
-  date: "W3C Working Group Note, April 29, 2021"
+  document_date: "W3C Working Group Note, April 29, 2021"
   checked: 2026-11-03
   status: verified
   official: false
@@ -754,7 +757,7 @@
   url: https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/dhs2022.pdf
   kind: standard
   jurisdiction: OR
-  date: "July 2025"
+  document_date: "July 2025"
   checked: 2026-11-03
   status: verified
   docs_only: true

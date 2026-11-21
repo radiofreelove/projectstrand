@@ -38,7 +38,7 @@ Each entry in `data/sources.yml` has a `status`:
 | `secondary` | Opened and read, but not an official government source | "Not official" |
 | `unverified` | Could not be opened, or the detail was not found in an official source | "Not confirmed" |
 | `linked` | A form or directory linked for convenience; no fact depends on it | No label |
-
+| `inference` | Interpretation that goes beyond what a source says | "Our reading" |
 Interpretation that goes beyond what a source says is marked "Our reading" on the site and "(inference)" in the research memos.
 
 ## 5. Facts that change

@@ -37,7 +37,7 @@
 | 3.3.1 and 3.3.2 Error identification, labels | The path finder lists unanswered questions by name and moves focus. |
 | 4.1.2 Name, role, value | Native HTML controls and a native dialog element. |
 
-## Contrast results (from `tests/contrast.py`, November 3, 2026)
+## Contrast results (from `tests/contrast.py`, November 17, 2026)
 
 Light theme, selected pairs:
 
@@ -62,6 +62,8 @@ Automated, on every push to GitHub (the fast checks also run in the Cloudflare b
 - `tests/readability.py`: grade level per page and a list of sentences over 25 words.
 - `tests/browser_checks.py`: Chromium at 1280px and 320px, text-spacing override, target sizes, focus visibility, the path finder, Reading settings, Short version mode, the "Quick facts" strip (present, complete, kept in Short version mode and in print), checklists, Leave quickly, and JavaScript turned off.
 - `tests/axe_check.mjs`: axe-core on every page in all three themes. Warning-only until the first baseline is reviewed.
+
+On every push to `main` (and on manual dispatch), `.github/workflows/deploy-spacefast.yml` also builds the Spacefast theme (`python3 build.py --theme spacefast --out public-spacefast`) and runs `contrast.py` and `check_site.py` against `public-spacefast` before publishing.
 
 Manual, before each release (see [REVIEW-CHECKLIST.md](REVIEW-CHECKLIST.md)):
 

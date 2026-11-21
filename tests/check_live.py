@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from dataclasses import dataclass
 import fnmatch
+import json
 from http.client import HTTPResponse
 from pathlib import Path
 import sys
@@ -159,7 +160,18 @@ def run(base: str, public_dir: Path, report_path: Path | None) -> int:
             failures.append(f"{url_path}: expected 200, got {resp.status}")
             continue
         want_bytes = path.read_bytes()
-        if resp.body != want_bytes:
+        if rel == "build-report.json":
+            try:
+                live_report = json.loads(resp.body)
+                local_report = json.loads(want_bytes)
+            except ValueError as exc:
+                failures.append(f"{url_path}: invalid JSON: {exc}")
+            else:
+                live_report.pop("built_at", None)
+                local_report.pop("built_at", None)
+                if live_report != local_report:
+                    failures.append(f"{url_path}: report mismatch (excluding built_at)")
+            elif resp.body != want_bytes:
             failures.append(f"{url_path}: body mismatch (live {len(resp.body)} B vs local {len(want_bytes)} B)")
         for problem in check_headers(resp.headers, headers_for(rules, url_path)):
             failures.append(f"{url_path}: {problem}")

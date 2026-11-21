@@ -150,6 +150,8 @@ First-time setup in the Cloudflare dashboard ([Cloudflare Docs](https://develope
 
 After setup, leave Web Analytics off for this project (ADR-0002).
 
+Spacefast is an active secondary publishing target alongside Cloudflare Pages. On every push to `main` (and on manual workflow dispatch), `.github/workflows/deploy-spacefast.yml` builds the Spacefast theme with `python3 build.py --theme spacefast --out public-spacefast`, runs `contrast.py` and `check_site.py`, and publishes with `sf publish` using the `SPACEFAST_TOKEN` and `SPACEFAST_SPACE` repository secrets.
+
 ## Update the fonts
 
 `fonts.lock.json` pins the font package version and each file's SHA-256. To update: change `version`, set each `sha256` to `null`, push, copy the new values from the build log, and push again with an audit log entry.
@@ -161,6 +163,13 @@ A Playwright update is always one commit that changes `test-tools/requirements.t
 ## Run checks by hand
 
 In GitHub, open Actions, select "Checks," and choose "Run workflow." For the external link report, the freshness report, and the evidence audit, run "Weekly source check" the same way.
+
+## Automated workflows
+
+- `.github/workflows/checks.yml`: builds and checks the site on pushes and pull requests.
+- `.github/workflows/weekly.yml`: runs the weekly external link, freshness, and evidence audit checks.
+- `.github/workflows/deploy-spacefast.yml`: builds and publishes the Spacefast theme on pushes to `main` and on manual dispatch.
+- `.github/workflows/release.yml`: after Checks pass on a push to `main`, tags the commit and publishes a GitHub release if the version in `data/site.yml` has no tag yet (using that version's entry in `CHANGELOG.md`).
 
 ## Move hosts
 

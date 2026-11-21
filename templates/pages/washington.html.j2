@@ -112,6 +112,11 @@
   <li>No fee to make the change. New certified copies are {{ fact('wa_doh_cert_fee') }}.</li>
   <li>Send by mail or bring it in person by appointment. The department reported processing in about 3 business days, plus up to 2 weeks for mail.</li>
 </ul>
+{% call m.box('watch', 'Birth certificate form change') %}
+<p>On November 4, 2026, Washington DOH retired the old Affidavit for Correction (DOH 422-034). Separate amendment forms replaced it.</p>
+<p>Do not use the general birth amendment form for a sex-designation change or court-ordered name change. Use the dedicated form instead.</p>
+<p>Processing takes 4 to 6 weeks. Mailing your request is faster than waiting for a Tumwater appointment. You can exchange certificates issued within the past year for free in the same envelope.</p>
+{% endcall %}
 
 <h3 id="license">Driver license or ID</h3>
 {{ m.bring_reminder('Washington Department of Licensing', 'Your current card, plus form 520043 if using an enhanced card (EDL or EID) or updating by mail.') }}

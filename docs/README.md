@@ -16,6 +16,7 @@ Start with the [project README](../README.md). These files show how the site is 
 - [VISION.md](VISION.md) — What this site is for and who it serves.
 - [ROADMAP.md](ROADMAP.md) — Planned improvements and open ideas.
 - [decisions/](decisions/) — Short notes on why key design and product choices were made.
+  - [ADR-0011-spacefast-secondary-host.md](decisions/ADR-0011-spacefast-secondary-host.md) — Spacefast as an active secondary host alongside Cloudflare Pages.
 
 ## Access and privacy
 

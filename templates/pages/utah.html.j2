@@ -92,6 +92,7 @@
     <li><strong>Or</strong> use the PDF forms on the {{ ext('ut-courts-sex-change', 'Utah Courts name and sex change page') }}.</li>
     <li>File in the district court for the county where you live. {{ ext('ut-courts-directory') }}. Filing PDF forms in Utah County? File with the Provo courthouse.</li>
     <li>Pay {{ fact('ut_fee_petition') }} or ask for a fee waiver. {{ ext('ut-courts-waiver') }}.</li>
+<li>Utah Courts' MyPaperwork tool lets you fill out and file your petition online. Utah County PDF filers file at the Provo Courthouse.</li>
   </ul>
 {% endcall %}
 {% call m.step(page.slug, 3, 'ut-step-hearing', 'Go to the hearing') %}
@@ -120,7 +121,10 @@
   <li><strong>Certified copy of the order:</strong> {{ fact('ut_fee_cert_copy') }}. {{ src('ut-courts-fees') }}</li>
   <li><strong>Vital Records:</strong> {{ birth_cost }} {{ src('ut-courts-sex-change') }}</li>
 </ul>
+{% endcall %}{% call m.box('watch', 'Watch out for court payment text scams') %}
+  <p>Utah courts do not send text messages with links or QR codes asking for payment. Ignore those texts and pay only through official court channels.</p>
 {% endcall %}
+
 
 <h2 id="privacy">Who can see your case</h2>
 <p>When you ask for a sex designation change, including a name and sex change together, the court marks the case private. The papers you file are not public. The case history, public hearings, and records of public hearings still are. {{ src('ut-courts-sex-change') }} {{ ext('ut-courts-nonpublic') }}.</p>

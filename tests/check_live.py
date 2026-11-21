@@ -171,7 +171,7 @@ def run(base: str, public_dir: Path, report_path: Path | None) -> int:
                 local_report.pop("built_at", None)
                 if live_report != local_report:
                     failures.append(f"{url_path}: report mismatch (excluding built_at)")
-            elif resp.body != want_bytes:
+        elif resp.body != want_bytes:
             failures.append(f"{url_path}: body mismatch (live {len(resp.body)} B vs local {len(want_bytes)} B)")
         for problem in check_headers(resp.headers, headers_for(rules, url_path)):
             failures.append(f"{url_path}: {problem}")

@@ -17,7 +17,7 @@
   <dd>Our interpretation of what a law or page means, where it does not say so directly. It is not legal advice.</dd>
 </dl>
 
-<p>Researchers and developers: this list is also available as <a href="sources.json">sources.json</a>, and the numbers that change, like fees, are in <a href="facts.json">facts.json</a>. Our research notes, with what we checked and what we could not confirm, are in the project's <a href="{{ repo_url }}" rel="noreferrer">source and audit trail</a>.</p>
+<p>Researchers and developers: this list is also available as <a href="sources.json">sources.json</a>, the numbers that change are in <a href="facts.json">facts.json</a>, and every build writes <a href="build-report.json">build-report.json</a>. Everything is kept on GitHub, a public filing cabinet where every edit and source check is recorded: see the <a href="{{ repo_url }}/blob/main/docs/claims.md" rel="noreferrer">public fact log</a> and the <a href="{{ repo_url }}" rel="noreferrer">source and audit trail</a>.</p>
 
 {% set groups = [('OR', 'Oregon'), ('WA', 'Washington'), ('UT', 'Utah'), ('US', 'Federal and national'), ('standards', 'Standards')] %}
 {% for code, label in groups %}
@@ -27,8 +27,8 @@
   <li class="source-item" id="{{ s.id }}">
     <h3><a href="{{ s.url }}" rel="noreferrer">{{ s.title }}</a>
       {% if s.status == 'unverified' %}<span class="badge badge-unconfirmed">Not confirmed</span>{% elif s.status == 'secondary' %}<span class="badge badge-secondary">Not official</span>{% endif %}</h3>
-    <p class="source-meta">{{ s.publisher }}. {{ s.date }}. Checked {{ s.checked|human_date }}.{% if s.status == 'linked' %} Linked for convenience; we do not rely on it for facts.{% endif %}</p>
-    {% if s.get('notes') %}<p class="source-meta">{{ s.notes }}</p>{% endif %}
+    <p class="source-meta">{{ s.publisher }}. Date on it: {{ s.document_date }}. Checked: <time datetime="{{ s.checked }}">{{ s.checked|human_date }}</time>.{% if s.status == 'linked' %} Linked for convenience; we do not rely on it for facts.{% endif %}</p>
+    {% set note_text = s.get('public_note') or s.get('notes') %}{% if note_text %}<p class="source-meta">{{ note_text }}</p>{% endif %}
   </li>
 {% endfor %}
 </ul>

@@ -33,15 +33,17 @@ jobs:
       - name: Fetch the optional font (exit 2 = no network, keep going)
         run: python3 scripts/fetch_fonts.py || [ $? -eq 2 ]
       - run: python3 build.py
+      - run: python3 build.py --check-docs
       - run: python3 tests/check_site.py
       - run: python3 tests/contrast.py
       - run: python3 tests/readability.py
       - run: python3 tests/path_rules.py
       - run: python3 tests/check_versions.py
-      - name: Tool tests (evidence audit and date updater, against local fixtures)
+      - name: Tool tests (evidence audit, date updater, and provenance)
         run: |
           python3 tests/test_evidence_audit.py
           python3 tests/test_mechanical_update.py
+          python3 tests/test_provenance.py
       - name: Clean-URL build, as Cloudflare serves it
         run: |
           CLEAN_URLS=1 python3 build.py

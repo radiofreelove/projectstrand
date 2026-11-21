@@ -480,6 +480,23 @@ details.sources-toggle > summary { cursor: pointer; padding: 0.8rem 1rem; min-he
 details.sources-toggle[open] > summary { border-bottom: 1px solid var(--rule); }
 details.sources-toggle > p, details.sources-toggle > ol { margin-left: 1rem; margin-right: 1rem; }
 
+/* Inline collapsible confidence-label key on badged pages. Not ".deeper",
+   so "Short version" mode keeps it available. */
+details.label-key {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+  margin: 0.75rem 0 1.25rem; font-size: 0.95rem;
+}
+details.label-key > summary {
+  cursor: pointer; padding: 0.65rem 1rem; min-height: 44px; font-weight: 700; color: var(--link);
+}
+details.label-key[open] > summary { border-bottom: 1px solid var(--rule); }
+.label-key-body { padding: 0.75rem 1rem 0.65rem; }
+.label-key-list { margin: 0 0 0.65rem; }
+.label-key-list dt { font-weight: 700; color: var(--heading); margin-top: 0.5rem; }
+.label-key-list dt:first-child { margin-top: 0; }
+.label-key-list dd { margin: 0.15rem 0 0; }
+.label-key-more { margin: 0; }
+
 /* Footer */
 .site-footer { background: var(--surface); border-top: 4px solid var(--do-edge); padding: 1.5rem 0 2rem; font-size: 0.95rem; }
 .footer-links { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.2rem 1.2rem; }
@@ -610,7 +627,8 @@ html[data-theme="contrast"] .bring-strip,
 html[data-theme="contrast"] .after-strip,
 html[data-theme="contrast"] .stage-card,
 html[data-theme="contrast"] .stage-bypass,
-html[data-theme="contrast"] .stat-bar-item { border: 3px solid #000000; }
+html[data-theme="contrast"] .stat-bar-item,
+html[data-theme="contrast"] details.label-key { border: 3px solid #000000; }
 
 /* ---------- Motion and forced colors ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -618,7 +636,7 @@ html[data-theme="contrast"] .stat-bar-item { border: 3px solid #000000; }
 }
 html { scroll-behavior: auto; scroll-padding-top: 7.5rem; }  /* keeps focused items clear of the sticky Leave quickly bar (WCAG 2.4.11) */
 @media (forced-colors: active) {
-  .callout, .step, details.deeper, details.sources-toggle, .card, .stat, .toc, .brief-strip,
+  .callout, .step, details.deeper, details.sources-toggle, details.label-key, .card, .stat, .toc, .brief-strip,
   .stat-bar-item, .stage-card, .stage-bypass, .bring-strip, .after-strip, .after-item, .card-icon { border: 2px solid CanvasText; }
   .badge, .stage-tag, .stage-num, .after-num { border: 2px solid CanvasText; }
   .bar-track { fill: Canvas; stroke: CanvasText; }
@@ -637,7 +655,7 @@ html { scroll-behavior: auto; scroll-padding-top: 7.5rem; }  /* keeps focused it
   .exit-bar, .site-nav, .settings-btn, .beta-bar, .brief-strip, dialog, .skip-link, .btn-row, .copy-btn, .footer-links, .no-print { display: none !important; }
   .site-header { background: #FFFFFF; color: #000000; border-bottom: 2px solid #000000; }
   .site-header a, .mission, .mission strong, .brand-mark { color: #000000; }
-  .callout, .step, details.deeper, .card, .stat-bar-item, .stage-card, .stage-bypass, .bring-strip, .after-strip, .after-item { break-inside: avoid; border: 1px solid #000000; background: #FFFFFF; }
+  .callout, .step, details.deeper, details.label-key, .card, .stat-bar-item, .stage-card, .stage-bypass, .bring-strip, .after-strip, .after-item { break-inside: avoid; border: 1px solid #000000; background: #FFFFFF; }
   .stage-num, .after-num { background: #FFFFFF; color: #000000; border: 1px solid #000000; }
   .bar-track { fill: #FFFFFF; stroke: #000000; }
   .bar-fill { fill: #000000; }

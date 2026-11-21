@@ -20,6 +20,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -31,10 +32,16 @@ from markupsafe import Markup, escape
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
+DOCS = ROOT / "docs"
 OUT = ROOT / "public"
 STATIC = ROOT / "static"
 SITE_ROOT = ROOT / "site-root"
 SPACEFAST_DIR = ROOT / "spacefast"
+
+VALID_VERIFIED_BY = {"human", "tool_assisted"}
+BADGE_RE = re.compile(r"\bbadge-(secondary|unconfirmed|inference)\b")
+CHECKED_P_RE = re.compile(r'(<p class="checked">.*?</p>)', re.S)
+LEDE_P_RE = re.compile(r'(<p class="lede">.*?</p>)', re.S)
 
 
 class BuildError(Exception):
@@ -57,6 +64,105 @@ def human_date(value) -> str:
     return f"{d.strftime('%B')} {d.day}, {d.year}"
 
 
+def source_document_date(s: dict) -> str:
+    return str(s.get("document_date") or s.get("date") or "No date shown")
+
+
+def detect_body_badges(html: str) -> list[str]:
+    """Return sorted confidence badge kinds used in <main> before the page source list."""
+    main = html.split("<main", 1)[-1].split("</main>", 1)[0]
+    body = main.split('<section class="page-sources"', 1)[0]
+    return sorted(set(BADGE_RE.findall(body)))
+
+
+def render_label_key(sources_labels_url: str) -> str:
+    """Compact collapsible key explaining confidence pills inline on badged pages."""
+    return (
+        '<details class="label-key">\n'
+        '  <summary>What these labels mean</summary>\n'
+        '  <div class="label-key-body">\n'
+        '    <dl class="label-key-list">\n'
+        '      <dt>No label</dt>\n'
+        '      <dd>An official law, court form, or government page that we opened and read.</dd>\n'
+        '      <dt><span class="badge badge-secondary">Not official</span></dt>\n'
+        '      <dd>Read by us, from a legal aid group, advocacy group, or bill tracker, not the government.</dd>\n'
+        '      <dt><span class="badge badge-unconfirmed">Not confirmed</span></dt>\n'
+        '      <dd>We could not open the source or find the detail in an official source. Check it yourself first.</dd>\n'
+        '      <dt><span class="badge badge-inference">Our reading</span></dt>\n'
+        '      <dd>Our plain-language reading where the law or page does not say so directly. Not legal advice.</dd>\n'
+        '    </dl>\n'
+        f'    <p class="label-key-more"><a href="{escape(sources_labels_url)}">See every source and label</a>.</p>\n'
+        '  </div>\n'
+        '</details>'
+    )
+
+
+def insert_label_key(html: str, sources_labels_url: str) -> str:
+    """Place the collapsible label key right after the checked line (or lede)."""
+    key = render_label_key(sources_labels_url)
+    if CHECKED_P_RE.search(html):
+        return CHECKED_P_RE.sub(r"\1\n" + key, html, count=1)
+    if LEDE_P_RE.search(html):
+        return LEDE_P_RE.sub(r"\1\n" + key, html, count=1)
+    return html
+
+
+def md_escape(text: str) -> str:
+    return str(text).replace("|", "\\|").replace("\n", " ")
+
+
+def render_claims_md(facts: dict, sources: dict, page_reports: list[dict]) -> str:
+    """Auto-generated human-readable fact log (mirrors Stasis's docs/claims.md)."""
+    usage: dict[str, list[str]] = {}
+    for report in page_reports:
+        for fid in report.get("facts", []):
+            usage.setdefault(fid, []).append(report["slug"])
+
+    lines = [
+        "# Fact log (claims summary)",
+        "",
+        "Generated from `data/facts.yml` and `data/sources.yml` by `build.py`. Do not edit by hand.",
+        "",
+        "Every number, fee, and key rule rendered via `fact()` or `fact_src()` lives in `data/facts.yml` and cites one or more entries in `data/sources.yml`. The build fails if any page cites an unknown fact or source.",
+        "",
+        "Labels:",
+        "",
+        "- **Official (no label)**: Stated directly in an official law, court form, or government page we opened and read.",
+        "- **Not official**: Backed by a legal aid group, advocacy group, or bill tracker rather than a government source.",
+        "- **Not confirmed**: Could not be opened or confirmed in an official source.",
+        "- **Our reading**: Our plain-language interpretation where the law or agency page does not state the point directly. Not legal advice.",
+        "",
+        "| ID | Value | Label | Sources (Date on it / Checked) | Pages | Notes |",
+        "|---|---|---|---|---|---|",
+    ]
+    for fid, fact_entry in facts.items():
+        labels = []
+        if fact_entry.get("reading"):
+            labels.append("Our reading")
+        src_parts = []
+        for sid in fact_entry.get("sources", []):
+            s = sources[sid]
+            if s["status"] == "secondary" and "Not official" not in labels:
+                labels.append("Not official")
+            elif s["status"] == "unverified" and "Not confirmed" not in labels:
+                labels.append("Not confirmed")
+            short = s.get("short") or s["title"]
+            doc_date = source_document_date(s)
+            checked = as_date(s["checked"]).isoformat()
+            src_parts.append(
+                f"[{md_escape(short)}]({s['url']}) (`{sid}`, {md_escape(doc_date)}, checked {checked})"
+            )
+        label_str = ", ".join(labels) if labels else "Official"
+        pages_str = ", ".join(sorted(usage.get(fid, []))) or "Not used"
+        note = fact_entry.get("note", "")
+        lines.append(
+            f"| `{fid}` | {md_escape(fact_entry['value'])} | {label_str} | "
+            f"{'; '.join(src_parts) or 'None'} | {pages_str} | {md_escape(note)} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
 def main() -> int:
     env_theme = os.environ.get("SITE_THEME", "default").strip() or "default"
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -71,6 +177,11 @@ def main() -> int:
         type=Path,
         default=None,
         help="output directory (default: public/, or public-spacefast/ when --theme spacefast is used)",
+    )
+    parser.add_argument(
+        "--check-docs",
+        action="store_true",
+        help="fail if generated docs/claims.md is out of date instead of rewriting it",
     )
     args = parser.parse_args()
     out_dir = args.out if args.out is not None else (ROOT / "public-spacefast" if args.theme == "spacefast" else OUT)
@@ -97,6 +208,11 @@ def main() -> int:
             errors.append(f"duplicate source id: {s['id']}")
         if s["status"] not in {"verified", "secondary", "unverified", "linked"}:
             errors.append(f"source {s['id']}: unknown status {s['status']}")
+        verified_by = s.get("verified_by", "human")
+        if verified_by not in VALID_VERIFIED_BY:
+            errors.append(f"source {s['id']}: unknown verified_by {verified_by}")
+        s["verified_by"] = verified_by
+        s["document_date"] = source_document_date(s)
         sources[s["id"]] = s
 
     # ---- Facts: every fact must cite known sources --------------------------
@@ -276,11 +392,19 @@ def main() -> int:
             errors.append(str(exc))
             continue
         effective_checked_by_slug[p["slug"]] = effective_date
+        body_badges = detect_body_badges(html)
+        if body_badges and p["slug"] not in {"sources", "about", "404"}:
+            html = insert_label_key(html, page_url("sources#labels"))
         (out_dir / f"{p['slug']}.html").write_text(html, encoding="utf-8")
         # "facts" lists every fact the page rendered, so tests/evidence_audit.py
         # can name the pages that show a fact whose source changed.
-        page_reports.append({"slug": p["slug"], "sources": list(state["used"]),
-                             "facts": list(state["facts"]), "checked": effective_date.isoformat()})
+        page_reports.append({
+            "slug": p["slug"],
+            "sources": list(state["used"]),
+            "facts": list(state["facts"]),
+            "badges": body_badges,
+            "checked": effective_date.isoformat(),
+        })
 
     if errors:
         print("BUILD FAILED", file=sys.stderr)
@@ -323,7 +447,11 @@ def main() -> int:
             return obj.isoformat()
         raise TypeError(type(obj))
 
-    public_sources = [s for s in sources_list if not s.get("docs_only")]
+    public_sources = [
+        {k: v for k, v in s.items() if k != "internal_note"}
+        for s in sources_list
+        if not s.get("docs_only")
+    ]
     (out_dir / "sources.json").write_text(json.dumps(public_sources, indent=2, default=jsonable), encoding="utf-8")
     (out_dir / "facts.json").write_text(json.dumps(facts, indent=2, default=jsonable), encoding="utf-8")
     (out_dir / "robots.txt").write_text("User-agent: *\nAllow: /\n", encoding="utf-8")
@@ -359,6 +487,16 @@ def main() -> int:
         "clean_urls": clean_urls,
     }
     (out_dir / "build-report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    if args.theme == "default" and args.out is None:
+        claims_md = render_claims_md(facts, sources, page_reports)
+        claims_path = DOCS / "claims.md"
+        if args.check_docs:
+            if not claims_path.exists() or claims_path.read_text(encoding="utf-8") != claims_md:
+                print("docs/claims.md is out of date. Run python3 build.py and commit.", file=sys.stderr)
+                return 1
+        else:
+            claims_path.write_text(claims_md, encoding="utf-8")
 
     print(f"Built {len(page_reports)} pages, {len(sources)} sources, {len(facts)} facts -> {out_dir}")
     for w in warnings:

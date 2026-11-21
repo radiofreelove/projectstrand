@@ -16,7 +16,7 @@
 - **Printable packets**: one-page PDFs per state for court self-help centers and clinics.
 - **"What to bring" lists** for each office visit.
 - **Change alerts**: a public changelog page and an optional feed when a rule changes.
-- **Live-site check parity**: add `check_live.py` and `live.yml` matching `projectstasis`.
+- **Live-site check parity**: add `check_live.py` and `live.yml` matching `projectstasis`. (Done.)
 ## Later
 
 - More states, starting with neighbors and high-need states, one research memo at a time.

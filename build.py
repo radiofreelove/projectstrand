@@ -16,6 +16,7 @@ No network access. No tracking code. Output is plain HTML, CSS and JS.
 """
 from __future__ import annotations
 
+import argparse
 import datetime as dt
 import json
 import os
@@ -33,6 +34,7 @@ DATA = ROOT / "data"
 OUT = ROOT / "public"
 STATIC = ROOT / "static"
 SITE_ROOT = ROOT / "site-root"
+SPACEFAST_DIR = ROOT / "spacefast"
 
 
 class BuildError(Exception):
@@ -56,6 +58,25 @@ def human_date(value) -> str:
 
 
 def main() -> int:
+    env_theme = os.environ.get("SITE_THEME", "default").strip() or "default"
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument(
+        "--theme",
+        choices=["default", "spacefast"],
+        default=env_theme if env_theme in ("default", "spacefast") else "default",
+        help="color theme to build (default: ODHS palette; spacefast: Radix palette override)",
+    )
+    parser.add_argument(
+        "--out",
+        type=Path,
+        default=None,
+        help="output directory (default: public/, or public-spacefast/ when --theme spacefast is used)",
+    )
+    args = parser.parse_args()
+    out_dir = args.out if args.out is not None else (ROOT / "public-spacefast" if args.theme == "spacefast" else OUT)
+    if not out_dir.is_absolute():
+        out_dir = ROOT / out_dir
+
     site = load_yaml("site.yml")
     pages = load_yaml("pages.yml")
     sources_list = load_yaml("sources.yml")
@@ -190,8 +211,16 @@ def main() -> int:
             path = f"{prefix()}{name}.html"
         return path + (f"#{anchor}" if anchor else "")
 
+    spacefast_assets = {
+        "css/spacefast-theme.css": SPACEFAST_DIR / "theme.css",
+        "licenses/radix-mit.txt": SPACEFAST_DIR / "radix-mit.txt",
+    }
+
     def asset(path: str) -> str:
-        if not (STATIC / path).exists():
+        exists = (STATIC / path).exists() or (
+            args.theme == "spacefast" and path in spacefast_assets and spacefast_assets[path].exists()
+        )
+        if not exists:
             raise BuildError(f"page {state['page']}: missing asset '{path}'")
         return f"{prefix()}assets/{path}"
 
@@ -211,15 +240,16 @@ def main() -> int:
         issues_url=issues_url,
         base_path=base_path,
         fonts_available=fonts_available,
+        site_theme=args.theme,
         build_commit=commit,
         build_time=build_time,
         used_sources=lambda: [sources[i] for i in state["used"]],
     )
 
     # ---- Render -------------------------------------------------------------
-    if OUT.exists():
-        shutil.rmtree(OUT)
-    OUT.mkdir(parents=True)
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    out_dir.mkdir(parents=True)
 
     page_reports = []
     effective_checked_by_slug: dict[str, dt.date] = {}
@@ -246,7 +276,7 @@ def main() -> int:
             errors.append(str(exc))
             continue
         effective_checked_by_slug[p["slug"]] = effective_date
-        (OUT / f"{p['slug']}.html").write_text(html, encoding="utf-8")
+        (out_dir / f"{p['slug']}.html").write_text(html, encoding="utf-8")
         # "facts" lists every fact the page rendered, so tests/evidence_audit.py
         # can name the pages that show a fact whose source changed.
         page_reports.append({"slug": p["slug"], "sources": list(state["used"]),
@@ -259,10 +289,23 @@ def main() -> int:
         return 1
 
     # ---- Static files -------------------------------------------------------
-    shutil.copytree(STATIC, OUT / "assets", dirs_exist_ok=True)
+    shutil.copytree(STATIC, out_dir / "assets", dirs_exist_ok=True)
+    if args.theme == "spacefast":
+        shutil.copyfile(SPACEFAST_DIR / "theme.css", out_dir / "assets" / "css" / "spacefast-theme.css")
+        shutil.copyfile(SPACEFAST_DIR / "favicon.svg", out_dir / "assets" / "favicon.svg")
+        licenses_dir = out_dir / "assets" / "licenses"
+        licenses_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(SPACEFAST_DIR / "radix-mit.txt", licenses_dir / "radix-mit.txt")
     # Files that must sit at the site root, like Cloudflare's _headers.
     if SITE_ROOT.exists():
-        shutil.copytree(SITE_ROOT, OUT, dirs_exist_ok=True)
+        shutil.copytree(SITE_ROOT, out_dir, dirs_exist_ok=True)
+    if args.theme == "spacefast" and (out_dir / "_headers").exists():
+        # Spacefast manages HSTS at the platform edge and rejects it in _headers.
+        headers_lines = [
+            line for line in (out_dir / "_headers").read_text(encoding="utf-8").splitlines()
+            if not line.strip().startswith("Strict-Transport-Security:")
+        ]
+        (out_dir / "_headers").write_text("\n".join(headers_lines) + "\n", encoding="utf-8")
 
     # ---- Audit outputs ------------------------------------------------------
     today = dt.date.today()
@@ -281,9 +324,9 @@ def main() -> int:
         raise TypeError(type(obj))
 
     public_sources = [s for s in sources_list if not s.get("docs_only")]
-    (OUT / "sources.json").write_text(json.dumps(public_sources, indent=2, default=jsonable), encoding="utf-8")
-    (OUT / "facts.json").write_text(json.dumps(facts, indent=2, default=jsonable), encoding="utf-8")
-    (OUT / "robots.txt").write_text("User-agent: *\nAllow: /\n", encoding="utf-8")
+    (out_dir / "sources.json").write_text(json.dumps(public_sources, indent=2, default=jsonable), encoding="utf-8")
+    (out_dir / "facts.json").write_text(json.dumps(facts, indent=2, default=jsonable), encoding="utf-8")
+    (out_dir / "robots.txt").write_text("User-agent: *\nAllow: /\n", encoding="utf-8")
 
     if pages_url:
         base = pages_url.rstrip("/") + "/"
@@ -297,7 +340,7 @@ def main() -> int:
             for p in pages
             if p["slug"] != "404"
         )
-        (OUT / "sitemap.xml").write_text(
+        (out_dir / "sitemap.xml").write_text(
             '<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             f"{urls}\n</urlset>\n",
@@ -315,9 +358,9 @@ def main() -> int:
         "fonts_bundled": fonts_available,
         "clean_urls": clean_urls,
     }
-    (OUT / "build-report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
+    (out_dir / "build-report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
 
-    print(f"Built {len(page_reports)} pages, {len(sources)} sources, {len(facts)} facts -> {OUT}")
+    print(f"Built {len(page_reports)} pages, {len(sources)} sources, {len(facts)} facts -> {out_dir}")
     for w in warnings:
         print("  warning:", w)
     return 0

@@ -1,0 +1,59 @@
+name: Deploy to Spacefast
+
+# On every push to main (and on manual runs), fetch the locked fonts, build a
+# Spacefast-themed static copy in public-spacefast/, check its color contrast
+# and structure, and publish it to the project's Spacefast Space as a full
+# snapshot replacement. The Cloudflare Pages build (public/) is untouched.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-spacefast
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build and publish Spacefast copy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - run: python3 -m pip install -r requirements.txt
+
+      - name: Fetch the optional font (exit 2 = no network, keep going)
+        run: python3 scripts/fetch_fonts.py || [ $? -eq 2 ]
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Build Spacefast-themed static site
+        run: python3 build.py --theme spacefast --out public-spacefast
+
+      - name: Verify contrast and site checks on Spacefast build
+        run: |
+          python3 tests/contrast.py --dir public-spacefast
+          python3 tests/check_site.py --dir public-spacefast
+
+      - name: Install Spacefast CLI
+        run: npm install -g spacefast@0.10.0
+
+      - name: Publish prebuilt site to Spacefast (full atomic replacement)
+        env:
+          SPACEFAST_TOKEN: ${{ secrets.SPACEFAST_TOKEN }}
+          SPACEFAST_SPACE: ${{ secrets.SPACEFAST_SPACE }}
+        run: |
+          sf publish ./public-spacefast --prebuilt --json > receipt.json
+          jq -e '.data.space.liveUrl' receipt.json >/dev/null
+          echo "Live URL: $(jq -r '.data.space.liveUrl' receipt.json)"
+          echo "Version: $(jq -r '.data.version.ref // "noop_publish (unchanged)"' receipt.json)"

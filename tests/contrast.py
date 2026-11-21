@@ -12,11 +12,14 @@ Targets:
 """
 from __future__ import annotations
 
+import argparse
 import re
 import sys
 from pathlib import Path
 
-CSS = Path(__file__).resolve().parent.parent / "static" / "css" / "site.css"
+ROOT = Path(__file__).resolve().parent.parent
+CSS = ROOT / "static" / "css" / "site.css"
+SPACEFAST_CSS = ROOT / "spacefast" / "theme.css"
 
 TEXT_PAIRS = [
     ("text", "bg"), ("text", "surface"), ("heading", "bg"), ("heading", "surface"),
@@ -57,7 +60,22 @@ def tokens(block: str) -> dict[str, str]:
 
 
 def main() -> int:
-    css = CSS.read_text(encoding="utf-8")
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--theme", choices=["default", "spacefast"], default="default")
+    parser.add_argument("--css", type=Path, help="stylesheet to inspect")
+    parser.add_argument("--dir", type=Path, help="built site directory to inspect")
+    args = parser.parse_args()
+
+    css_path = CSS
+    if args.css is not None:
+        css_path = args.css
+    elif args.dir is not None:
+        sf_built = args.dir / "assets" / "css" / "spacefast-theme.css"
+        css_path = sf_built if sf_built.is_file() else (args.dir / "assets" / "css" / "site.css")
+    elif args.theme == "spacefast":
+        css_path = SPACEFAST_CSS
+
+    css = css_path.read_text(encoding="utf-8")
 
     def block_after(selector_regex: str) -> str:
         m = re.search(selector_regex + r"\s*\{(.*?)\n\}", css, flags=re.S)

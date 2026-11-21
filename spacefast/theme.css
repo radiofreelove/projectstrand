@@ -1,0 +1,148 @@
+/* The Strand Project: Spacefast copy color theme.
+   Used only by `python3 build.py --theme spacefast`. The Cloudflare Pages
+   build (public/) never loads this file.
+
+   It loads after assets/css/site.css and only redefines color tokens, so
+   layout, type, and every Reading setting work the same as on the main site.
+   Each block below matches a theme block in site.css and sets the same tokens.
+
+   The colors are Radix Colors (https://www.radix-ui.com/colors),
+   Copyright (c) 2021 Radix, used under the MIT License. The license text
+   ships with the site at assets/licenses/radix-mit.txt.
+   Every text color below meets 7:1 against its background unless a comment
+   says otherwise. Run `python3 tests/contrast.py --theme spacefast` after
+   changing a color. */
+
+/* ---------- Color tokens ---------- */
+:root,
+html[data-theme="warm"] {
+  --bg: #F9F9FB;            /* slate 2 */
+  --surface: #FFFFFF;
+  --text: #1C2024;          /* slate 12: 15.5:1 on slate 2, 16.3:1 on white */
+  --heading: #113264;       /* blue 12: 12.0:1 on slate 2 */
+  --link: #113264;
+  --border: #8B8D98;        /* slate 9, UI borders: at least 3:1 */
+  --rule: #D9D9E0;          /* slate 6, decorative lines only */
+  --header-bg: #113264;
+  --header-text: #FFFFFF;   /* 12.6:1 */
+  --header-accent: #E6F4FE; /* blue 3 on blue 12: 11.3:1 */
+  --nav-current: #FFC53D;   /* amber 9 underline */
+  --brand-thread: #65BA74;  /* grass 8, logo only */
+  --why-bg: #E6F4FE;        /* blue 3 */
+  --why-edge: #113264;
+  --watch-bg: #FFF7C2;      /* amber 3 */
+  --watch-edge: #CE2C31;    /* red 11 */
+  --watch-title: #641723;   /* red 12, large bold text: 11.5:1 */
+  --changed-bg: #FFF7C2;    /* amber 3 */
+  --changed-edge: #4F3422;  /* amber 12 */
+  --cost-bg: #F0F0F3;       /* slate 3 */
+  --cost-edge: #008573;     /* teal 11 */
+  --good-edge: #008573;
+  --do-edge: #113264;
+  --btn-bg: #113264;
+  --btn-text: #FFFFFF;
+  --exit-bg: #641723;       /* red 12 */
+  --exit-text: #FFFFFF;     /* 12.4:1 */
+  --focus-bg: #FFC53D;      /* amber 9 */
+  --focus-text: #000000;    /* 13.3:1 */
+  --focus-ring: #000000;
+  --badge-bg: #FFFFFF;
+  --code-bg: #E8E8EC;       /* slate 4 */
+}
+
+html[data-theme="light"] {
+  --bg: #FFFFFF;
+  --surface: #F9F9FB;
+}
+
+html[data-theme="dark"] {
+  --bg: #18191B;
+  --surface: #212225;
+  --text: #EDEEF0;
+  --heading: #C2E6FF;
+  --link: #70B8FF;
+  --border: #696E77;
+  --rule: #363A3F;
+  --header-bg: #111113;
+  --header-text: #FFFFFF;
+  --header-accent: #C2E6FF;
+  --nav-current: #FFC53D;
+  --brand-thread: #65BA74;
+  --why-bg: #0D2847;
+  --why-edge: #70B8FF;
+  --watch-bg: #302008;
+  --watch-edge: #FF9592;
+  --watch-title: #FF9592;
+  --changed-bg: #302008;
+  --changed-edge: #FFC53D;
+  --cost-bg: #111C1B;        /* teal dark 2: links on it 8.3:1 */
+  --cost-edge: #12A594;
+  --good-edge: #12A594;
+  --do-edge: #70B8FF;
+  --btn-bg: #70B8FF;         /* blue dark 11 */
+  --btn-text: #111113;       /* slate dark 1: 9.0:1 */
+  --exit-bg: #641723;
+  --exit-text: #FFFFFF;
+  --focus-bg: #FFC53D;
+  --focus-text: #000000;
+  --focus-ring: #FFC53D;
+  --badge-bg: #18191B;
+  --code-bg: #2E3135;
+}
+
+html[data-theme="contrast"] {
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --text: #000000;
+  --heading: #000000;
+  --link: #113264;
+  --border: #000000;
+  --rule: #000000;
+  --header-bg: #000000;
+  --header-text: #FFFFFF;
+  --header-accent: #FFC53D;
+  --nav-current: #FFC53D;
+  --brand-thread: #65BA74;
+  --why-bg: #FFFFFF;
+  --why-edge: #000000;
+  --watch-bg: #FFFFFF;
+  --watch-edge: #000000;
+  --watch-title: #000000;
+  --changed-bg: #FFFFFF;
+  --changed-edge: #000000;
+  --cost-bg: #FFFFFF;
+  --cost-edge: #000000;
+  --good-edge: #000000;
+  --do-edge: #000000;
+  --btn-bg: #000000;
+  --btn-text: #FFFFFF;
+  --exit-bg: #000000;
+  --exit-text: #FFFFFF;
+  --focus-bg: #FFC53D;
+  --focus-text: #000000;
+  --focus-ring: #000000;
+  --badge-bg: #FFFFFF;
+  --code-bg: #FFFFFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] {
+    --bg: #18191B; --surface: #212225; --text: #EDEEF0; --heading: #C2E6FF;
+    --link: #70B8FF; --border: #696E77; --rule: #363A3F;
+    --header-bg: #111113; --header-text: #FFFFFF; --header-accent: #C2E6FF; --nav-current: #FFC53D; --brand-thread: #65BA74;
+    --why-bg: #0D2847; --why-edge: #70B8FF; --watch-bg: #302008; --watch-edge: #FF9592; --watch-title: #FF9592;
+    --changed-bg: #302008; --changed-edge: #FFC53D; --cost-bg: #111C1B; --cost-edge: #12A594;
+    --good-edge: #12A594; --do-edge: #70B8FF; --btn-bg: #70B8FF; --btn-text: #111113;
+    --exit-bg: #641723; --exit-text: #FFFFFF; --focus-bg: #FFC53D; --focus-text: #000000;
+    --focus-ring: #FFC53D; --badge-bg: #18191B; --code-bg: #2E3135;
+  }
+}
+
+@media (prefers-contrast: more) {
+  html[data-theme="auto"] {
+    --bg: #FFFFFF; --surface: #FFFFFF; --text: #000000; --heading: #000000;
+    --link: #113264; --border: #000000; --rule: #000000;
+    --why-bg: #FFFFFF; --watch-bg: #FFFFFF; --changed-bg: #FFFFFF; --cost-bg: #FFFFFF;
+    --why-edge: #000000; --watch-edge: #000000; --watch-title: #000000; --changed-edge: #000000; --cost-edge: #000000;
+  }
+}

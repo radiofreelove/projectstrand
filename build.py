@@ -98,12 +98,12 @@ def render_label_key(sources_labels_url: str) -> str:
 
 
 def insert_label_key(html: str, sources_labels_url: str) -> str:
-    """Place the collapsible label key right after the checked line (or lede)."""
+    """Place the collapsible label key right after the lede (before checked/Quick facts)."""
     key = render_label_key(sources_labels_url)
-    if CHECKED_P_RE.search(html):
-        return CHECKED_P_RE.sub(r"\1\n" + key, html, count=1)
     if LEDE_P_RE.search(html):
         return LEDE_P_RE.sub(r"\1\n" + key, html, count=1)
+    if CHECKED_P_RE.search(html):
+        return CHECKED_P_RE.sub(r"\1\n" + key, html, count=1)
     return html
 
 

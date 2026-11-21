@@ -22,3 +22,7 @@
 - More states, starting with neighbors and high-need states, one research memo at a time.
 - Partnerships with legal aid groups to review and share content.
 - A custom domain.
+## Watch
+
+- **Utah 2027 General Session (opens January 19, 2027):** watch for bills affecting name or sex-marker changes (2026 H.B. 183 failed on March 6, 2026).
+  

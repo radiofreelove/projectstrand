@@ -23,5 +23,6 @@ jobs:
         with:
           python-version: "3.13"
       - run: python3 -m pip install -r requirements.txt
+      - run: python3 scripts/fetch_fonts.py
       - run: CLEAN_URLS=1 python3 build.py
       - run: python3 tests/check_live.py --wait 900

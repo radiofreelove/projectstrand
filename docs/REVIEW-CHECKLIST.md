@@ -23,6 +23,7 @@ Copy this into every pull request that changes content. The pull request templat
 
 - [ ] `python3 build.py` passes with no new warnings.
 - [ ] `python3 tests/check_site.py`, `tests/contrast.py`, and `tests/browser_checks.py` pass.
+- [ ] Spacefast build (`python3 build.py --theme spacefast --out public-spacefast`) and checks (`tests/contrast.py` and `tests/check_site.py`) pass.
 - [ ] I tried the changed page with a keyboard only and on a phone-sized screen.
 
 ## Records

@@ -20,7 +20,7 @@
 
 ## What the host can see
 
-The hosting service (Cloudflare Pages today) can see standard request data such as IP addresses, as nearly any web host can (inference: we have not reviewed Cloudflare's log retention for Pages). Cloudflare Web Analytics stays off; the Content Security Policy would also block its script. The project does not run analytics and does not ask the host for visitor data. If the site moves hosts, this file and the privacy page must be updated, and any host analytics must stay off (see ADR-0002 and ADR-0004).
+The hosting services (Cloudflare Pages today, with Spacefast as an active secondary host) can see standard request data such as IP addresses, as nearly any web host can (inference: we have not reviewed Cloudflare's log retention for Pages or Spacefast's log retention). Cloudflare Web Analytics and any Spacefast host analytics stay off; the Content Security Policy would also block their scripts. The project does not run analytics and does not ask either host for visitor data. If the site moves hosts, this file and the privacy page must be updated, and any host analytics must stay off (see ADR-0002 and ADR-0004).
 
 ## Leave quickly: honest limits
 

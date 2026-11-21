@@ -1,0 +1,27 @@
+name: Live site check
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-check
+  cancel-in-progress: true
+
+jobs:
+  live:
+    name: Verify live site
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: python3 -m pip install -r requirements.txt
+      - run: CLEAN_URLS=1 python3 build.py
+      - run: python3 tests/check_live.py --wait 900

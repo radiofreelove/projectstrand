@@ -72,13 +72,22 @@ jobs:
         continue-on-error: true
         run: python3 tests/evidence_audit.py --report evidence-report.md > /dev/null
 
+      - name: Check the live site (pages, headers, and the 404 page match this repository)
+        id: live
+        continue-on-error: true
+        run: |
+          python3 scripts/fetch_fonts.py
+          CLEAN_URLS=1 python3 build.py
+          python3 tests/check_live.py --report live-report.md
+
       - name: Open an issue if a person is needed
-        if: steps.links.outcome == 'failure' || steps.freshness.outcome == 'failure' || steps.evidence.outcome == 'failure'
+        if: steps.links.outcome == 'failure' || steps.freshness.outcome == 'failure' || steps.evidence.outcome == 'failure' || steps.live.outcome == 'failure'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINKS: ${{ steps.links.outcome }}
           FRESHNESS: ${{ steps.freshness.outcome }}
           EVIDENCE: ${{ steps.evidence.outcome }}
+          LIVE: ${{ steps.live.outcome }}
         run: |
           verdict() { [ "$1" = "failure" ] && echo "needs a person" || echo "nothing to do"; }
           {
@@ -89,6 +98,7 @@ jobs:
             echo "| External links | $(verdict "$LINKS") |"
             echo "| Freshness | $(verdict "$FRESHNESS") |"
             echo "| Evidence audit | $(verdict "$EVIDENCE") |"
+            echo "| Live site | $(verdict "$LIVE") |"
             echo
             echo "A link the link check lists, or a source the evidence audit calls checker-blocked, is not a dead link: some sites refuse automated tools. Open it in a browser before you call it broken."
             echo
@@ -106,6 +116,8 @@ jobs:
             echo
             # GitHub's limit for an issue body is 65,536 characters.
             head -c 50000 evidence-report.md 2>/dev/null || echo "(no evidence audit report)"
+            echo
+            head -c 4000 live-report.md 2>/dev/null || echo "(no live-site report)"
             echo
             echo "See docs/OPERATIONS.md, \"Weekly source check\", for what to do."
           } > body.md

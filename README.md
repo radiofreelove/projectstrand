@@ -6,10 +6,10 @@ The Strand Project is a free, plain-language guide to changing your legal name a
 
 It is independent. It is not run by, or connected to, any court or government agency.
 
-- **Site:** https://projectstrand.pages.dev (Cloudflare Pages)
+- **Site:** https://projectstrand.pages.dev (Cloudflare Pages), with Spacefast as an active secondary hosting target (`.github/workflows/deploy-spacefast.yml`, `spacefast/`, `public-spacefast/`)
 - **Source and audit trail:** https://github.com/radiofreelove/projectstrand
 
-> Status: **beta** (current version in [CHANGELOG.md](CHANGELOG.md)). Content was checked against official sources on November 3, 2026. It has not yet been reviewed by a lawyer licensed in each state. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> Status: **beta** (current version in [CHANGELOG.md](CHANGELOG.md)). Content and automated checks were last verified on November 17, 2026 (see [docs/AUDIT-LOG.md](docs/AUDIT-LOG.md)). It has not yet been reviewed by a lawyer licensed in each state. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Why this exists
 
@@ -22,62 +22,74 @@ The process to fix that is split across courts and agencies that each explain on
 | Path | What it is |
 |---|---|
 | `templates/` | Page templates (Jinja2). The words on the site live here. |
-| `data/sources.yml` | Every source: URL, publisher, version date, the date we checked it, and its status. |
-| `data/facts.yml` | Numbers that change, like fees, each tied to its source. |
-| `data/evidence_baseline.yml` | A hash of what each source said, so the weekly evidence audit can tell when it changes. |
-| `data/pages.yml`, `data/site.yml` | Page list and site settings. |
-| `static/` | CSS, JavaScript, and the favicon. No third-party code. |
-| `scripts/make_mark.py` | Draws the mark (the header logo and the favicon). |
-| `build.py` | Builds the site into `public/`. Fails if a page cites a source or fact that does not exist. |
-| `tests/` | Structure, contrast, reading level, browser, axe-core, freshness, and link checks, plus the evidence audit and its tests. |
-| `docs/` | Vision, methodology, research memos, decisions, accessibility, privacy, and the audit log. |
-| `.github/` | GitHub Actions checks, issue and pull request templates, and Dependabot settings. |
-| `scripts/cloudflare_build.sh` | The build command Cloudflare Pages runs before each deploy. |
-| `site-root/_headers` | HTTP security headers for Cloudflare Pages. |
+| `data/` | Step data, state rules, fees, and official links in JSON. |
+| `static/` | Stylesheets, scripts, icons, and fonts. |
+| `site-root/` | Static files copied directly to the site root (`_headers`, `robots.txt`). |
+| `spacefast/` | Configuration and build files for the secondary Spacefast hosting target (outputs to `public-spacefast/`). |
+| `build.py` | Builds the static site into `public/`. |
+| `scripts/` | Checks for links, contrast, readability, path logic, fonts, and freshness. |
+| `tools/` | Helper scripts for repository maintenance, such as release-note checks. |
+| `test-tools/` | Pinned browser test dependencies (Playwright and axe-core) used by CI and local browser checks. |
+| `tests/` | Automated tests for the build, path logic, and site output. |
+| `docs/` | Plain-language documentation, methodology, audit log, and decision records. |
+| `fonts.lock.json` | Pinned font file versions and checksums fetched by `scripts/fetch_fonts.py`. |
+| `requirements.txt` | Python package dependencies needed to build and test the site. |
+| `.python-version` | Pinned Python version (`3.13`) for local and CI environments. |
 
-## Build it yourself
+## Building and checking the site locally
 
-```sh
+You need Python 3.13+ (exact versions in [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md)):
+
+```bash
 pip install -r requirements.txt
-python3 build.py                  # writes public/
-python3 tests/check_site.py       # structure, links, labels, CSP safety
-python3 tests/contrast.py         # every color pair in every theme
-python3 tests/readability.py      # reading level and long sentences
-python3 tests/path_rules.py       # every path finder answer combination
-python3 tests/check_versions.py   # test tools pinned to one Playwright version
-pip install -r test-tools/requirements.txt && python3 -m playwright install chromium
-python3 tests/browser_checks.py   # real browser
+python3 scripts/fetch_fonts.py
+python3 build.py
 ```
 
-Open `public/index.html` in a browser, or run `python3 -m http.server -d public`.
+The built site is written to `public/`. Serve it locally to test:
 
-Optional: `python3 scripts/fetch_fonts.py` downloads the Atkinson Hyperlegible Next font so the "easy-to-read font" setting appears.
+```bash
+python3 -m http.server --directory public 8000
+```
 
-Publishing: Cloudflare Pages runs `bash scripts/cloudflare_build.sh` on every push to `main` and serves the `public` folder. Setup steps are in [docs/OPERATIONS.md](docs/OPERATIONS.md).
+Run the full check suite:
 
-## How the sausage is made
+```bash
+python3 scripts/check_site.py
+python3 scripts/contrast.py
+python3 scripts/readability.py
+python3 scripts/path_rules.py
+python3 -m pytest
+```
 
-Everything behind the site is public on purpose, so anyone can check the work.
+Browser tests (Playwright + axe-core) also run in GitHub Actions on every push and pull request.
 
-- **Research memos:** [Oregon](docs/research/oregon.md), [Washington](docs/research/washington.md), [Utah](docs/research/utah.md), [federal](docs/research/federal.md). Each one lists the issue, the short answer, the authority, what is uncertain, and a research log of what we opened and what we could not.
-- **Method:** [docs/METHODOLOGY.md](docs/METHODOLOGY.md) explains how sources are chosen, checked, dated, and labeled.
-- **Path finder rules:** [docs/PATH-LOGIC.md](docs/PATH-LOGIC.md) lists every question and which steps each answer shows.
-- **Decisions:** [docs/decisions/](docs/decisions/) records why the site is built the way it is.
-- **Audit log:** [docs/AUDIT-LOG.md](docs/AUDIT-LOG.md) records every research pass, check, and release.
-- **Accessibility:** [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md). **Privacy:** [docs/PRIVACY.md](docs/PRIVACY.md). **Writing style:** [docs/CONTENT-STYLE.md](docs/CONTENT-STYLE.md).
-- **Running it:** [docs/OPERATIONS.md](docs/OPERATIONS.md) covers publishing, updating a fee, re-checking sources, the weekly source check and evidence audit, and moving hosts. [docs/dated-language.md](docs/dated-language.md) lists wording that goes out of date on a known date.
+Publishing: Cloudflare Pages (`https://projectstrand.pages.dev`) runs `bash scripts/cloudflare_build.sh` on every push to `main` and serves the `public` folder. Spacefast is an active secondary hosting target, built and deployed by `.github/workflows/deploy-spacefast.yml` using `spacefast/` and `public-spacefast/`. Setup steps are in [docs/OPERATIONS.md](docs/OPERATIONS.md).
 
-## Report a mistake or help
+## How it is checked and documented
 
-Open an issue on GitHub and pick a template. Issues are public, and so is your GitHub account name. Please do not include personal details about your own case. See [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md).
+- **Documentation index:** [docs/README.md](docs/README.md) lists every guide and decision record in `docs/`.
+- **Evidence:** [docs/METHODOLOGY.md](docs/METHODOLOGY.md) explains how we check official rules, how we label facts and claims, and when dates update.
+- **Claims table:** [docs/claims.md](docs/claims.md) lists every site claim paired with its source (auto-generated by `build.py`).
+- **Audit trail:** [docs/AUDIT-LOG.md](docs/AUDIT-LOG.md) keeps a dated record of every review and check run.
+- **Review checklist:** [docs/REVIEW-CHECKLIST.md](docs/REVIEW-CHECKLIST.md) covers manual and automated checks before releasing changes.
+- **Writing style:** [docs/CONTENT-STYLE.md](docs/CONTENT-STYLE.md).
+- **Privacy and accessibility:** [docs/PRIVACY.md](docs/PRIVACY.md) and [docs/ACCESSIBILITY.md](docs/ACCESSIBILITY.md).
+- **Operations and path logic:** [docs/OPERATIONS.md](docs/OPERATIONS.md) and [docs/PATH-LOGIC.md](docs/PATH-LOGIC.md).
 
-## License
+## Contributing
 
-- **Writing** (the words on the site and in this repository's documents): [Creative Commons Attribution 4.0 International (CC BY 4.0)](LICENSE).
-- **Code** (build scripts, tests, CSS, JavaScript, and template markup): [MIT License](LICENSE-CODE).
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
-You can copy, share, and adapt the guide. Credit us like this: "The Strand Project (https://projectstrand.pages.dev), CC BY 4.0." [docs/REUSING.md](docs/REUSING.md) explains what each license covers, how to credit us, and what neither one covers. Third-party tools and fonts are listed in [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
+Found an outdated fee, a broken official link, or a confusing step? Open an issue or pull request. Every factual change requires a link to the official source and an update to the verification date.
 
-## Not legal advice
+## Reusing this
 
-We explain the process. We are not your lawyer. For advice about a specific situation, see the help page on the site.
+Content is dedicated to the public domain under CC0 1.0 ([LICENSE](LICENSE)). Code and build scripts are under the MIT License ([LICENSE-CODE](LICENSE-CODE)).
+
+Want to adapt this for another state? Start with [docs/REUSING.md](docs/REUSING.md). The dependency list is in [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md).
+
+## Contact
+
+- Email: projectstrand@proton.me
+- Security issues: [SECURITY.md](SECURITY.md)
